@@ -1,0 +1,9 @@
+
+[default]
+
+[default.console]
+key = "comma"
+shift = true
+
+[default.move_n]
+key = "up"

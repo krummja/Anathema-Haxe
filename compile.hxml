@@ -1,0 +1,7 @@
+-cp src
+-lib heaps
+-lib domkit
+-lib hldx
+-lib bits
+-hl build/hl/anathema.hl
+-main Main
