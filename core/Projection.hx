@@ -1,5 +1,7 @@
 package core;
 
+import common.struct.Coordinate;
+
 
 class Projection
 {

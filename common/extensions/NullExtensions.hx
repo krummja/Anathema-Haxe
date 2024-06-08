@@ -1,4 +1,4 @@
-package extensions;
+package common.extensions;
 
 class NullExtensions
 {

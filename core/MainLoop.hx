@@ -1,5 +1,7 @@
 package core;
 
+import domain.World;
+
 
 class MainLoop
 {
@@ -24,6 +26,9 @@ class MainLoop
     public var input(default, null): InputManager;
     public var commands(default, null): CommandManager;
     public var layers(default, null): RenderLayerManager;
+    public var world(default, null): World;
+
+    public var ecs(default, null): core.ecs.Engine;
 
     public function new(app: hxd.App)
     {
@@ -38,6 +43,9 @@ class MainLoop
         this.layers = new RenderLayerManager();
         this.camera = new Camera();
 
+        this.world = new World();
+        this.ecs = new core.ecs.Engine();
+
         this.app.s2d.scaleMode = Fixed(800, 600, 1, Left, Top);
         this.app.s2d.addChild(this.layers.root);
     }
@@ -45,6 +53,12 @@ class MainLoop
     public inline function update(): Void
     {
         this.frame.update();
+        this.scenes.current.update(this.frame);
+    }
+
+    public inline function render(layer: RenderLayerType, ob: h2d.Object): Void
+    {
+        return this.layers.render(layer, ob);
     }
 
     private function get_window(): hxd.Window

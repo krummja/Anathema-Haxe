@@ -1,5 +1,8 @@
 package core;
 
+import common.struct.Queue;
+import common.struct.Coordinate;
+
 
 class InputManager
 {

@@ -3,5 +3,6 @@
 -lib domkit
 -lib hldx
 -lib bits
+-lib hlopenal
 -hl build/hl/anathema.hl
 -main Main

@@ -1,4 +1,4 @@
-package extensions.heaps;
+package common.extensions.heaps;
 
 import h2d.Tile;
 

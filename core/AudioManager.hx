@@ -1,25 +1,20 @@
 package core;
 
+import data.AudioResources;
+import data.AudioKey;
+
 
 class AudioManager
 {
-    public var current(default, set): Dynamic;
-
     public function new()
     {
         var manager = hxd.snd.Manager.get();
-        manager.masterVolume = 0.1;
+        manager.masterVolume = 0.9;
     }
 
-    public function play(key: Null<String>)
+    public function play(key: Null<AudioKey>, once: Bool = false): Void
     {
-        var sound = this.current;
-        if (sound.isNull()) return;
-        sound.play();
-    }
-
-    public function set_current(value: Dynamic): Dynamic
-    {
-        return this.current = value;
+        var sound = AudioResources.Get(key);
+        if (sound != null) sound.play(!once);
     }
 }

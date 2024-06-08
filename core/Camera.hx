@@ -1,6 +1,7 @@
 package core;
 
 import h2d.Object;
+import common.struct.Coordinate;
 
 
 class Camera

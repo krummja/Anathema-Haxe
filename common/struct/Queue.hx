@@ -1,4 +1,5 @@
-package core;
+package common.struct;
+
 
 @:generic class Queue<T>
 {
@@ -8,7 +9,7 @@ package core;
     public var isEmpty(get, never): Bool;
     public var length(get, never): Int;
 
-    public function new(maxLength: Int)
+    public function new(?maxLength: Int = 256)
     {
         this.items = new Array<T>();
         this.maxLength = maxLength;
