@@ -13,7 +13,7 @@ class AudioResources
         return audio.get(type);
     }
 
-    public static function Init()
+    public static function Init(): Void
     {
         if (hxd.res.Sound.supportedFormat(OggVorbis))
         {

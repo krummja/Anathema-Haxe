@@ -6,6 +6,8 @@ enum CoordinateSpace
     SCREEN;
     PIXEL;
     WORLD;
+    CHUNK;
+    ZONE;
 }
 
 
@@ -20,6 +22,16 @@ class Coordinate
         this.x = x;
         this.y = y;
         this.space = space;
+    }
+
+    public inline function toIntPoint(): IntPoint
+    {
+        return new IntPoint(this.x.floor(), this.y.floor());
+    }
+
+    public inline function toFloatPoint(): FloatPoint
+    {
+        return new FloatPoint(this.x, this.y);
     }
 
     public function toString(): String

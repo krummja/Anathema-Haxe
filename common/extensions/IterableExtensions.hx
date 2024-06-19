@@ -3,6 +3,42 @@ package common.extensions;
 
 class IterableExtensions
 {
+    public static function max<T>(it: Iterable<T>, fn: (value: T) -> Float): T
+    {
+        var cur: Null<T> = null;
+        var curWeight = Math.NEGATIVE_INFINITY;
+
+        for (value in it)
+        {
+            var weight = fn(value);
+            if (cur.isNull() || weight > curWeight)
+            {
+                curWeight = weight;
+                cur = value;
+            }
+        }
+
+        return cur;
+    }
+
+    public static function min<T>(it: Iterable<T>, fn: (value: T) -> Float): T
+    {
+        var cur: Null<T> = null;
+        var curWeight = Math.POSITIVE_INFINITY;
+
+        for (value in it)
+        {
+            var weight = fn(value);
+            if (cur.isNull() || weight < curWeight)
+            {
+                curWeight = weight;
+                cur = value;
+            }
+        }
+
+        return cur;
+    }
+
     public static overload extern inline function each<A>(it: Iterable<A>, fn: (item: A, idx: Int) -> Void)
     {
         var i = 0;

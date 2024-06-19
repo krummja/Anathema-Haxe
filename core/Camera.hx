@@ -17,7 +17,7 @@ class Camera
 
     public function new()
     {
-        this.zoom = 1;
+        this.zoom = 2;
     }
 
     private inline function get_width(): Float
@@ -56,13 +56,13 @@ class Camera
 
     private function get_x(): Float
     {
-        var c = Projection.pxToWorld(-scroller.x / zoom, -scroller.y / zoom);
+        var c = Projection.pixelToWorld(-scroller.x / zoom, -scroller.y / zoom);
         return c.x;
     }
 
     private function set_x(value: Float): Float
     {
-        var p = Projection.worldToPx(value, y);
+        var p = Projection.worldToPixel(value, y);
         scroller.x = -(p.x * zoom).floor();
         scroller.y = -(p.y * zoom).floor();
         return value;
@@ -70,13 +70,13 @@ class Camera
 
     private function get_y(): Float
     {
-        var c = Projection.pxToWorld(-scroller.x / zoom, -scroller.y / zoom);
+        var c = Projection.pixelToWorld(-scroller.x / zoom, -scroller.y / zoom);
         return c.y;
     }
 
     private function set_y(value: Float): Float
     {
-        var p = Projection.worldToPx(x, value);
+        var p = Projection.worldToPixel(x, value);
         scroller.x = -(p.x * zoom).floor();
         scroller.y = -(p.y * zoom).floor();
         return value;

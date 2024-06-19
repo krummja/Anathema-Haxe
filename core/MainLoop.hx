@@ -1,5 +1,8 @@
 package core;
 
+import data.ColorKey;
+import data.ColorPaletteKey;
+import data.ColorPaletteResources;
 import domain.World;
 
 
@@ -13,12 +16,15 @@ class MainLoop
         return new MainLoop(app);
     }
 
+    public var PALETTE_KEY: ColorPaletteKey = PALETTE_ANATHEMA;
+    public var CLEAR_COLOR: ColorKey = C_CLEAR;
     public var UNIT_X: Int = 16;
     public var UNIT_Y: Int = 16;
 
     public var app(default, null): hxd.App;
     public var window(get, never): hxd.Window;
 
+    public var palette(get, null): ColorPalette;
     public var frame(default, null): Frame;
     public var camera(default, null): Camera;
     public var scenes(default, null): SceneManager;
@@ -64,5 +70,10 @@ class MainLoop
     private function get_window(): hxd.Window
     {
         return hxd.Window.getInstance();
+    }
+
+    private function get_palette(): ColorPalette
+    {
+        return ColorPaletteResources.Get(PALETTE_KEY);
     }
 }

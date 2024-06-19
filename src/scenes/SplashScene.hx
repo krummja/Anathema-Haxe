@@ -1,5 +1,8 @@
 package scenes;
 
+import h3d.Vector4;
+import h2d.Bitmap;
+import data.TileResources;
 import data.AudioResources;
 import common.util.Timeout;
 import common.struct.Coordinate;
@@ -45,12 +48,12 @@ class SplashScene extends Scene
         this.duration -= frame.dt;
 
         this.title.textAlign = Center;
-        this.title.x = this.camera.width / 2;
-        this.title.y = this.camera.height / 2;
+        this.title.x = (this.camera.width / 2) / this.camera.zoom;
+        this.title.y = (this.camera.height / 2) / this.camera.zoom;
 
         this.next.textAlign = Center;
-        this.next.x = this.camera.width / 2;
-        this.next.y = this.camera.height / 2 + 128;
+        this.next.x = (this.camera.width / 2) / this.camera.zoom;
+        this.next.y = (this.camera.height / 2 + 128) / this.camera.zoom;
     }
 
     private override function onMouseUp(pos: Coordinate): Void
@@ -74,4 +77,3 @@ class SplashScene extends Scene
         this.next.remove();
     }
 }
-

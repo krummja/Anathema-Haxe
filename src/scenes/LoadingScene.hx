@@ -24,14 +24,26 @@ class LoadingScene extends Scene
     private override function update(frame: Frame): Void
     {
         this.loading.textAlign = Center;
-        this.loading.x = this.camera.width / 2;
-        this.loading.y = this.camera.height * 0.9;
+        this.loading.x = (this.camera.width / 2) / 2;
+        this.loading.y = (this.camera.height / 2) * 0.9;
     }
 
     private override function onKeyDown(key: KeyCode): Void
     {
-
+        if (key == KEY_N)
+        {
+            this.loop.world.start();
+            this.start();
+        }
     }
 
-    private function start(): Void {}
+    private override function onDestroy(): Void
+    {
+        this.loading.remove();
+    }
+
+    private function start(): Void
+    {
+        this.loop.scenes.set(new TestScene());
+    }
 }

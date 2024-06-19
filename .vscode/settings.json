@@ -1,0 +1,11 @@
+{
+    "haxe.renameSourceFolders": [
+        "src",
+        "source",
+        "Source",
+        "test",
+        "tests",
+        "common",
+        "core",
+      ]
+}

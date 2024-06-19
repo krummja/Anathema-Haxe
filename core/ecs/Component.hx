@@ -13,14 +13,22 @@ class Component
 
     private var handlers: Map<String, (event: EntityEvent) -> Void> = new Map();
 
+    public function onEvent(event: EntityEvent): Null<EntityEvent>
+    {
+        return event;
+    }
+
     private function onRemove(): Void {}
 
     @:allow(core.ecs.Entity)
-    private function onEvent(event: EntityEvent): Void
+    private function handleEvent(event: EntityEvent): Void
     {
-        var className = Type.getClassName(Type.getClass(event));
-        var handler = this.handlers.get(className);
-        if (handler != null && this.isAttached) handler(event);
+        this.onEvent(event);
+        var handler = Reflect.field(this, 'on_${event.name}');
+        if (handler != null && this.isAttached)
+        {
+            Reflect.callMethod(this, handler, [event]);
+        }
     }
 
     @:allow(core.ecs.Entity)

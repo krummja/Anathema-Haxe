@@ -1,12 +1,14 @@
+import hxd.Res;
+
 import common.util.MathLib;
 import core.Frame;
 import core.MainLoop;
 import core.RenderLayerManager;
 import data.AudioResources;
+import data.ColorPaletteResources;
 import data.Commands;
 import data.TileResources;
 import domain.World;
-import hxd.Res;
 import scenes.SplashScene;
 
 
@@ -43,32 +45,43 @@ class Main extends hxd.App
     }
 
     public var layers(default, null): RenderLayerManager;
-    public var world(default, null): domain.World;
 
-    private var loop: core.MainLoop;
-    private var debug: Debug;
+    private var loop(get, null): core.MainLoop;
+
+    #if debug
+        private var debug: Debug;
+    #end
 
     public override function init(): Void
     {
         TileResources.Init();
+        ColorPaletteResources.Init();
         AudioResources.Init();
         Commands.Init();
 
         hxd.Window.getInstance().title = "Anathema";
 
         this.loop = core.MainLoop.Create(this);
-        this.world = new World();
-        this.world.initialize();
+        this.loop.world.initialize();
         this.loop.scenes.set(new SplashScene());
 
-        this.debug = new Debug(this.loop);
+        #if debug
+            this.debug = new Debug(this.loop);
+        #end
     }
 
     public override function update(dt: Float): Void
     {
         this.loop.update();
-        this.world.update();
+        this.loop.world.update();
 
-        this.debug.update();
+        #if debug
+            this.debug.update();
+        #end
+    }
+
+    private function get_loop(): MainLoop
+    {
+        return MainLoop.instance;
     }
 }

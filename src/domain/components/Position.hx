@@ -9,8 +9,7 @@ class Position extends Component
     public var x(get, null): Float;
     public var y(get, null): Float;
     public var space(get, null): CoordinateSpace;
-
-    private var coordinate: Coordinate;
+    public var coordinate(default, null): Coordinate;
 
     public function new(x: Float, y: Float)
     {
@@ -27,6 +26,10 @@ class Position extends Component
         var newX = this.x + 1;
         var newY = this.y + 1;
         this.coordinate = new Coordinate(newX, newY, WORLD);
+        if (this.entity.has(Sprite))
+        {
+            this.entity.get(Sprite).updatePosition(newX, newY);
+        }
     }
 
     private inline function get_x(): Float

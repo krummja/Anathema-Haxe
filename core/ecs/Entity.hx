@@ -1,5 +1,6 @@
 package core.ecs;
 
+import core.ecs.EntityEvent.EventData;
 import bits.Bits;
 
 
@@ -53,15 +54,21 @@ class Entity
         this.registry.unregisterEntity(this);
     }
 
-    public function fireEvent<T: EntityEvent>(event: T): T
+    public overload extern inline function fireEvent<T: EntityEvent>(event: T): T
     {
         this.components.each((a) -> {
             a.each((c) -> {
-                c.onEvent(event);
+                c.handleEvent(event);
             });
         });
 
         return event;
+    }
+
+    public overload extern inline function fireEvent(eventName: String, ?data: EventData): EntityEvent
+    {
+        var event = new EntityEvent(eventName, data);
+        return this.fireEvent(event);
     }
 
     public function add(component: Component): Void

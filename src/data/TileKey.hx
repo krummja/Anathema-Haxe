@@ -25,4 +25,6 @@ enum TileKey
     TK_TREE_8;
 
     TK_ROCKS_1;
+
+    TK_LIL_GUY_1;
 }
