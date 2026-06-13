@@ -1,13 +1,14 @@
 import common.util.MathLib;
-import core.Frame;
+import hxd.Res;
+
 import core.MainLoop;
 import core.RenderLayerManager;
 import data.AudioResources;
 import data.Commands;
 import data.TileResources;
 import domain.World;
-import hxd.Res;
 import scenes.SplashScene;
+import scenes.TestScene;
 
 
 class Debug
@@ -59,7 +60,7 @@ class Main extends hxd.App
         this.loop = core.MainLoop.Create(this);
         this.world = new World();
         this.world.initialize();
-        this.loop.scenes.set(new SplashScene());
+        this.loop.scenes.set(new TestScene());
 
         this.debug = new Debug(this.loop);
     }
