@@ -1,6 +1,6 @@
 {
     "lineEnds": {
-        "leftCurly": "both",
+        "leftCurly": "after",
         "emptyCurly": "noBreak",
         "objectLiteralCurly": {
             "leftCurly": "after"
@@ -10,7 +10,8 @@
         "anonFunctionBody": "next",
         "doWhile": "next",
         "tryBody": "keep",
-        "tryCatch": "keep"
+        "tryCatch": "keep",
+        "ifBody": "keep"
     },
     "whitespace": {
         "colonPolicy": "after",
@@ -26,6 +27,12 @@
         "lineCommentsBetweenFunctions": "keep"
     },
     "wrapping": {
+        "arrayWrap": {
+            "defaultWrap": "keep"
+        },
+        "functionSignature": {
+            "defaultWrap": "keep"
+        },
         "callParameter": {
             "defaultWrap": "keep",
             "rules": [

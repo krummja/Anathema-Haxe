@@ -1,0 +1,57 @@
+@startuml Anathema
+
+participant MainLoop
+participant Frame
+participant SceneManager
+participant Scene
+participant RenderLayerManager
+participant InputManager
+participant CommandManager
+
+activate MainLoop
+
+    MainLoop-->Frame : update()
+    activate Frame
+        Frame-->MainLoop
+    deactivate Frame
+
+    MainLoop-->SceneManager : update()
+    activate SceneManager
+        SceneManager-->Scene : handleInput()
+        activate Scene
+            Scene-->SceneManager
+        deactivate Scene
+
+        SceneManager-->Scene : update()
+        activate Scene
+
+            Scene-->MainLoop : commands.next()
+            activate MainLoop
+
+                MainLoop-->CommandManager : next()
+                activate MainLoop
+
+                    activate CommandManager
+                        CommandManager-->InputManager : peek()
+
+                        activate InputManager
+                            InputManager-->CommandManager : event
+                        deactivate InputManager
+
+                        CommandManager-->MainLoop : input
+                    deactivate CommandManager
+
+                deactivate MainLoop
+
+                MainLoop-->Scene : input
+            deactivate MainLoop
+
+            Scene-->SceneManager
+        deactivate Scene
+
+        SceneManager-->MainLoop
+    deactivate SceneManager
+
+deactivate MainLoop
+
+@enduml

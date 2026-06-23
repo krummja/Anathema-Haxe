@@ -1,41 +1,28 @@
 package scenes;
 
-import core.Frame;
-import common.struct.Coordinate;
-import core.KeyCode;
-import core.Scene;
+import engine.MainLoop;
+import engine.KeyCode;
+import engine.Frame;
+import engine.Scene;
 
+class TestScene extends Scene {
+	public function new() {}
 
-class TestScene extends Scene
-{
-    public function new() {}
+	private override function onEnter(): Void {
+		MainLoop.getInstance().world.initialize();
+		MainLoop.getInstance().world.start();
+	}
 
-    private override function onEnter(): Void
-    {
-        trace("Entered TestScene");
-        trace(this.loop);
-    }
+	private override function onDestroy(): Void {}
 
-    private override function onDestroy(): Void {}
+	private override function update(?frame: Frame): Void {
+		MainLoop.getInstance().world.update();
+	}
 
-    private override function onKeyDown(key: KeyCode): Void
-    {
-        switch (key)
-        {
-            case KEY_W:
-            case KEY_A:
-            case KEY_S:
-            case KEY_D:
-            case _:
-        }
-    }
-
-    private override function onMouseMove(pos: Coordinate, prev: Coordinate): Void
-    {
-        trace(pos.toString());
-    }
-
-    private override function update(frame: Frame): Void
-    {
-    }
+	// private function updateCamera(): Void {
+	// 	var cfocus = loop.camera.focus.toWorld().toFloatPoint();
+	// 	var ctarget = loop.world.player.pos.toFloatPoint();
+	// 	loop.camera.focus = ctarget.asWorld();
+	// 	// loop.camera.focus = cfocus.lerp(ctarget, 0.2).asWorld();
+	// }
 }

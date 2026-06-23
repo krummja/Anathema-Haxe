@@ -4,5 +4,10 @@
 -lib hldx
 -lib bits
 -lib hlopenal
+-lib json2object
+-lib haxeui-core
+-lib haxeui-heaps
+-lib echoes
 -hl build/hl/anathema.hl
+-D echoes_profiling
 -main Main

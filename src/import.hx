@@ -1,5 +1,5 @@
 #if !macro
-using common.extensions.IterableExtensions;
-using common.extensions.NullExtensions;
-using common.extensions.heaps.TileExtensions;
+using common.extensions.FloatExtensions;
+using common.extensions.IntExtensions;
+using common.extensions.CoordinateExtensions;
 #end
