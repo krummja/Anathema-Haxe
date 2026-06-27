@@ -45,7 +45,7 @@ class MainLoop {
 		this.world = new World();
 		this.scenes = new SceneManager(this);
 
-		// this.app.s2d.scaleMode = Fixed(800, 600, 1, Left, Top);
+		this.camera.zoom = SettingsManager.settings.display.zoomLevel;
 		this.app.s2d.addChild(this.layers.root);
 	}
 

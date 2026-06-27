@@ -1,15 +1,16 @@
 package engine;
 
+import prefabs.Spawner;
 import echoes.Entity;
 import common.struct.IntPoint;
 import common.struct.Coordinate;
 import systems.RenderSystem;
-import prefabs.Floor;
+import prefabs.FloorPrefab;
 import components.Position;
 
 class World {
 	public var loop(get, null): MainLoop;
-	// public var player(default, null): PlayerManager;
+	public var player(default, null): PlayerManager;
 	public var chunks(default, null): ChunkManager;
 	public var zones(default, null): ZoneManager;
 
@@ -28,34 +29,37 @@ class World {
 	public var systems(default, null): SystemManager;
 	public var started(get, null): Bool = false;
 
+	public var spawner: Spawner;
+
 	public function new() {
 		this.systems = new SystemManager();
-		// this.player = new PlayerManager(this);
+		this.player = new PlayerManager(this);
 		this.chunks = new ChunkManager();
 		this.zones = new ZoneManager();
+		this.spawner = new Spawner();
 	}
 
 	public function initialize(): Void {
+		this.spawner.initialize();
+
 		// this.systems.addSystem(ON_UPDATE, new MovementSystem());
 		this.systems.addSystem(POST_UPDATE, new RenderSystem());
 		this.systems.activateAll();
 	}
 
 	public function start(): Void {
-		// TODO Figure out why this isn't working...
-		for (x in 0...40) {
-			for (y in 0...40) {
+		for (x in 0...3) {
+			for (y in 0...3) {
 				var pos = new Coordinate(x, y, WORLD);
-				pos = Projection.worldToPixel(pos.x, pos.y);
-				var floor = new Floor(new Position(pos.x, pos.y));
+				var floor = new FloorPrefab(new Position(pos.x, pos.y));
 				floor.sprite.drawable.setPosition(pos.x, pos.y);
 			}
 		}
 
-		// var pos = new Coordinate(2, 2, WORLD);
-		// this.player.create(pos);
+		var pos = new Coordinate(2, 2, WORLD);
+		this.spawner.spawn(PLAYER, pos);
 
-		started = true;
+		this.started = true;
 	}
 
 	public function update(): Void {

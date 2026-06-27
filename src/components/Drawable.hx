@@ -4,7 +4,7 @@ import shaders.SpriteShader;
 import engine.RenderLayerManager;
 import engine.ColorKey;
 
-abstract class Drawable {
+abstract class Drawable extends Component {
 	public var primary(default, set): ColorKey;
 	public var secondary(default, set): ColorKey;
 	public var outline(default, set): ColorKey;
@@ -23,11 +23,13 @@ abstract class Drawable {
 	public function new(
 		primary: ColorKey = C_WHITE,
 		secondary: ColorKey = C_CLEAR,
+		background: ColorKey = C_SLATE,
 		layer: RenderLayerType = OBJECT,
 	) {
 		this.shader = new SpriteShader();
 		this.layer = layer;
 		this.primary = primary;
+		this.background = background;
 		this.secondary = secondary;
 	}
 

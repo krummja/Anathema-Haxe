@@ -1,0 +1,15 @@
+package engine;
+
+enum SpawnableType {
+	PLAYER;
+	CACTUS;
+	BALD_CYPRESS;
+	PINE_TREE;
+	OAK_TREE;
+	TALL_GRASS;
+	CHEST;
+	LOCKBOX;
+	RIFLE;
+	WOLF;
+	DOG;
+}

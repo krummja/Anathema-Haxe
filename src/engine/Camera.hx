@@ -15,7 +15,7 @@ class Camera {
 	public var scroller(get, null): h2d.Object;
 
 	public function new() {
-		zoom = 4;
+		zoom = 1.0;
 	}
 
 	private inline function get_width(): Float {

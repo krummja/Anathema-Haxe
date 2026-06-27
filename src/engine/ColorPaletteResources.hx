@@ -65,6 +65,8 @@ class ColorPaletteResources {
 		p.setColor(C_RED_4, image.getPixel(4, 5));
 		p.setColor(C_RED_5, image.getPixel(5, 5));
 
+		p.setColor(C_SLATE, 0x212121);
+
 		return p;
 	}
 }

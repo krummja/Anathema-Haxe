@@ -6,7 +6,7 @@ import components.Sprite;
 
 @:build(echoes.Entity.build())
 @:arguments(Position)
-abstract Floor(Entity) {
-	public var sprite: Sprite = new Sprite(TK_PLAYER, C_GREEN_1, C_GREEN_2, GROUND);
+abstract FloorPrefab(Entity) {
+	public var sprite: Sprite = new Sprite(TK_TILES_01, C_GREEN_1, C_CLEAR, GROUND);
 	public var position: Position;
 }

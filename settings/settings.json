@@ -1,0 +1,23 @@
+{
+	"application": {
+		"title": "Anathema"
+	},
+	"audio": {
+		"ambientVolume": 100,
+		"effectsVolume": 100,
+		"masterVolume": 100,
+		"musicVolume": 100,
+		"voiceVolume": 100
+	},
+	"display": {
+		"fullScreen": false,
+		"resolutionWidth": 1440,
+		"resolutionHeight": 900,
+		"scanlines": false,
+		"zoomLevel": 5.0
+	},
+	"graphics": {
+		"vsyncEnabled": true
+	},
+	"input": {}
+}

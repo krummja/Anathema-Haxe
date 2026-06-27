@@ -41,7 +41,8 @@ class SpriteShader extends hxsl.Shader {
 
             // Source pixel is magenta
             if (color.r == 1.0 && color.g == 0.0 && color.b == 1.0) {
-                alpha = 0;
+                color = background;
+                alpha = 1;
             }
 
             pixelColor.rgb = color;

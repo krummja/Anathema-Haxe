@@ -3,6 +3,7 @@ package engine;
 enum abstract ColorKey(String) to String from String {
 	var C_WHITE = 'C_WHITE';
 	var C_BLACK = 'C_BLACK';
+	var C_SLATE = 'C_SLATE';
 	var C_GRAY_1 = 'C_GRAY_1';
 	var C_GRAY_2 = 'C_GRAY_2';
 	var C_GRAY_3 = 'C_GRAY_3';
