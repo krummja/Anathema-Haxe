@@ -1,5 +1,5 @@
 package components;
 
-class IsMovable {
+class Moved {
 	public function new() {}
 }

@@ -2,15 +2,13 @@ package components;
 
 import events.ConsumeEnergyEvent;
 
-class Energy extends Component {
+class Energy {
 	public var value(default, null): Int = 5;
 
 	public var hasEnergy(get, never): Bool;
 
 	public function new(value: Int = 0) {
 		this.value = value;
-
-		addHandler(ConsumeEnergyEvent, onConsumeEnergy);
 	}
 
 	public function addEnergy(value: Int) {
@@ -22,10 +20,6 @@ class Energy extends Component {
 
 	public function consumeEnergy(value: Int) {
 		addEnergy(-1 * value);
-	}
-
-	private function onConsumeEnergy(evt: ConsumeEnergyEvent) {
-		consumeEnergy(evt.value);
 	}
 
 	private inline function get_hasEnergy(): Bool {

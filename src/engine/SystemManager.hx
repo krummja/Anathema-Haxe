@@ -43,6 +43,19 @@ class SystemManager {
 		}
 	}
 
+	public function getSystem<T: System>(key: SystemKey, system: Class<T>): T {
+		switch (key) {
+			case PRE_UPDATE:
+				return preUpdate.find(system);
+			case ON_UPDATE:
+				return onUpdate.find(system);
+			case POST_UPDATE:
+				return postUpdate.find(system);
+			case FIXED_UPDATE:
+				return fixedUpdate.find(system);
+		}
+	}
+
 	public function update() {
 		Echoes.update();
 	}

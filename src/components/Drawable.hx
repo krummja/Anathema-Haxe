@@ -4,7 +4,7 @@ import shaders.SpriteShader;
 import engine.RenderLayerManager;
 import engine.ColorKey;
 
-abstract class Drawable extends Component {
+abstract class Drawable {
 	public var primary(default, set): ColorKey;
 	public var secondary(default, set): ColorKey;
 	public var outline(default, set): ColorKey;

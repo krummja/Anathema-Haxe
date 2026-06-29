@@ -12,4 +12,16 @@ class FloatExtensions {
 	public static inline function lerp(from: Float, to: Float, rate: Float): Float {
 		return from + rate * (to - from);
 	}
+
+	public static inline function clamp(n: Float, min: Float, max: Float): Float {
+		if (n > max) {
+			return max;
+		}
+
+		if (n < min) {
+			return min;
+		}
+
+		return n;
+	}
 }

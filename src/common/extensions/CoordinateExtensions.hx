@@ -1,5 +1,7 @@
 package common.extensions;
 
+import common.util.Easing;
+import common.util.Easing.EasingType;
 import engine.MainLoop;
 import engine.Projection;
 import common.algorithm.Distance;
@@ -127,5 +129,14 @@ class CoordinateExtensions {
 		var pxa = a.toPixel();
 		var pxb = b.toPixel();
 		return Math.atan2(pxb.y - pxa.y, pxb.x - pxa.x);
+	}
+
+	public static inline function ease(a: Coordinate, b: Coordinate, x: Float, easing: EasingType): Coordinate {
+		var progress = Easing.apply(x, easing);
+		var direction = a.direction(b);
+		var distance = a.toWorld().distance(b.toWorld(), EUCLIDEAN);
+
+		var newPx = direction.multiply(progress * distance);
+		return newPx.asWorld().add(a);
 	}
 }

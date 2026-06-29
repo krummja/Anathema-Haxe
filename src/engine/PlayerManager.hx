@@ -1,12 +1,12 @@
 package engine;
 
+import echoes.Entity;
 import engine.World;
 import common.struct.Coordinate;
 import components.*;
-import prefabs.*;
 
 class PlayerManager {
-	public var entity(default, null): PlayerPrefab;
+	public var entity(default, null): Entity;
 
 	public var x(get, null): Float;
 
@@ -21,15 +21,16 @@ class PlayerManager {
 	}
 
 	public function create(pos: Coordinate) {
-		// entity = new PlayerPrefab(new Position(pos.x, pos.y));
+		this.entity = world.spawner.spawn(PLAYER, pos);
+		trace(this.entity);
 	}
 
 	private inline function get_x(): Float {
-		return entity.position.x;
+		return entity.get(Position).x;
 	}
 
 	private inline function get_y(): Float {
-		return entity.position.y;
+		return entity.get(Position).y;
 	}
 
 	private inline function get_pos(): Coordinate {

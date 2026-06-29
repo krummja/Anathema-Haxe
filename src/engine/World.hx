@@ -1,5 +1,7 @@
 package engine;
 
+import systems.MovementSystem;
+import systems.EnergySystem;
 import prefabs.Spawner;
 import echoes.Entity;
 import common.struct.IntPoint;
@@ -27,23 +29,30 @@ class World {
 	public var worldHeight(get, null): Int;
 
 	public var systems(default, null): SystemManager;
+	public var clock(default, null): Clock;
 	public var started(get, null): Bool = false;
 
 	public var spawner: Spawner;
 
 	public function new() {
 		this.systems = new SystemManager();
+		this.clock = new Clock();
+
 		this.player = new PlayerManager(this);
 		this.chunks = new ChunkManager();
 		this.zones = new ZoneManager();
+
 		this.spawner = new Spawner();
 	}
 
 	public function initialize(): Void {
 		this.spawner.initialize();
 
-		// this.systems.addSystem(ON_UPDATE, new MovementSystem());
+		this.systems.addSystem(ON_UPDATE, new EnergySystem());
+		this.systems.addSystem(ON_UPDATE, new MovementSystem());
+
 		this.systems.addSystem(POST_UPDATE, new RenderSystem());
+
 		this.systems.activateAll();
 	}
 
@@ -57,7 +66,7 @@ class World {
 		}
 
 		var pos = new Coordinate(2, 2, WORLD);
-		this.spawner.spawn(PLAYER, pos);
+		this.player.create(pos);
 
 		this.started = true;
 	}

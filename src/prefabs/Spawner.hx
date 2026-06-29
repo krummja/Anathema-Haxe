@@ -19,7 +19,6 @@ class Spawner {
 	public function spawn(type: SpawnableType, ?pos: Coordinate, ?options: Dynamic, ?isDetachable: Bool): Entity {
 		var p = pos == null ? new Coordinate(0, 0, WORLD) : pos.toWorld().floor();
 		var o = options == null ? {} : options;
-		var d = isDetachable == null ? false : isDetachable;
 
 		var spawnFunction = prefabs.get(type);
 		return spawnFunction(p, o);

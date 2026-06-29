@@ -30,6 +30,7 @@ class MainLoop {
 	public var input(default, null): InputManager;
 	public var commands(default, null): CommandManager;
 	public var layers(default, null): RenderLayerManager;
+	public var timeout(default, null): TimeoutManager;
 	public var world(default, null): World;
 	public var palette(get, null): ColorPalette;
 
@@ -44,6 +45,7 @@ class MainLoop {
 		this.camera = new Camera();
 		this.world = new World();
 		this.scenes = new SceneManager(this);
+		this.timeout = new TimeoutManager();
 
 		this.camera.zoom = SettingsManager.settings.display.zoomLevel;
 		this.app.s2d.addChild(this.layers.root);

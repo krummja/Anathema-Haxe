@@ -2,7 +2,7 @@ package components;
 
 import common.struct.Coordinate;
 
-class Position extends Component {
+class Position {
 	public var x: Float = 0.0;
 	public var y: Float = 0.0;
 

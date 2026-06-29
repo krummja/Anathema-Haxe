@@ -1,8 +1,6 @@
 package events;
 
-import engine.EntityEvent;
-
-class ConsumeEnergyEvent extends EntityEvent {
+class ConsumeEnergyEvent {
 	public var value: Int;
 
 	public function new(value: Int) {

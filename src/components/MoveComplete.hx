@@ -1,5 +1,5 @@
 package components;
 
-class IsMovable {
+class MoveComplete {
 	public function new() {}
 }

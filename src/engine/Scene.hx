@@ -39,10 +39,10 @@ abstract class Scene {
 
 	@:allow(engine.SceneManager)
 	private function handleInput(): Void {
-		var cmd = MainLoop.getInstance().commands.next();
-		if (cmd != null) {
-			trace(cmd);
-		}
+		// var cmd = MainLoop.getInstance().commands.next();
+		// if (cmd != null) {
+		// 	trace(cmd);
+		// }
 	}
 
 	private function get_loop(): MainLoop {
