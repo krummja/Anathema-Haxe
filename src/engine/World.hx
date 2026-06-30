@@ -1,18 +1,20 @@
 package engine;
 
-import systems.MovementSystem;
-import systems.EnergySystem;
-import prefabs.Spawner;
+import events.ConsumeEnergyEvent;
 import echoes.Entity;
+import prefabs.Spawner;
 import common.struct.IntPoint;
 import common.struct.Coordinate;
 import systems.RenderSystem;
-import prefabs.FloorPrefab;
+import systems.MovementSystem;
+import systems.EnergySystem;
 import components.Position;
+import prefabs.FloorPrefab;
 
 class World {
 	public var loop(get, null): MainLoop;
 	public var player(default, null): PlayerManager;
+	public var behavior(default, null): BehaviorManager;
 	public var chunks(default, null): ChunkManager;
 	public var zones(default, null): ZoneManager;
 
@@ -39,6 +41,8 @@ class World {
 		this.clock = new Clock();
 
 		this.player = new PlayerManager(this);
+		this.behavior = new BehaviorManager();
+
 		this.chunks = new ChunkManager();
 		this.zones = new ZoneManager();
 
@@ -47,12 +51,9 @@ class World {
 
 	public function initialize(): Void {
 		this.spawner.initialize();
-
-		this.systems.addSystem(ON_UPDATE, new EnergySystem());
 		this.systems.addSystem(ON_UPDATE, new MovementSystem());
-
+		this.systems.addSystem(ON_UPDATE, new EnergySystem());
 		this.systems.addSystem(POST_UPDATE, new RenderSystem());
-
 		this.systems.activateAll();
 	}
 
@@ -65,8 +66,8 @@ class World {
 			}
 		}
 
-		var pos = new Coordinate(2, 2, WORLD);
-		this.player.create(pos);
+		// spawner.spawn(BAT, new Coordinate(4, 4, WORLD));
+		this.player.create(new Coordinate(2, 2, WORLD));
 
 		this.started = true;
 	}

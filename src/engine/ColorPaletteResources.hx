@@ -15,6 +15,7 @@ class ColorPaletteResources {
 	public static function init(): Void {
 		var anathema = hxd.Res.tiles.palettes.anathema.getPixels(BGRA);
 		palettes.set(PALETTE_ANATHEMA, parse(anathema));
+		trace("ColorPaletteResources initialized");
 	}
 
 	private static function parse(image: Pixels): ColorPalette {

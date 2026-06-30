@@ -3,12 +3,13 @@ package components;
 import common.util.Easing.EasingType;
 import common.struct.Coordinate;
 
-class Move {
+class Move extends Component {
 	public var start: Coordinate;
 	public var goal: Coordinate;
 	public var duration: Float;
 	public var epsilon: Float;
 	public var ease: EasingType;
+	public var isMoveFired: Bool;
 
 	public var startTime: Float;
 
@@ -17,5 +18,6 @@ class Move {
 		this.duration = duration;
 		this.epsilon = epsilon;
 		this.ease = ease;
+		this.isMoveFired = false;
 	}
 }

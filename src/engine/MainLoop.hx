@@ -1,5 +1,6 @@
 package engine;
 
+import h2d.Console;
 import engine.RenderLayerManager;
 
 class MainLoop {
@@ -30,6 +31,7 @@ class MainLoop {
 	public var input(default, null): InputManager;
 	public var commands(default, null): CommandManager;
 	public var layers(default, null): RenderLayerManager;
+	public var console(default, null): Console;
 	public var timeout(default, null): TimeoutManager;
 	public var world(default, null): World;
 	public var palette(get, null): ColorPalette;
@@ -47,7 +49,18 @@ class MainLoop {
 		this.scenes = new SceneManager(this);
 		this.timeout = new TimeoutManager();
 
-		this.camera.zoom = SettingsManager.settings.display.zoomLevel;
+		this.console = new Console(TextResources.BIZCAT);
+		ConsoleConfig.config(this.console);
+
+		var zoom = SettingsManager.settings.display.zoomLevel;
+		var width = SettingsManager.settings.display.resolutionWidth;
+		var height = SettingsManager.settings.display.resolutionHeight;
+
+		var columns = Math.floor(width / this.UNIT_X);
+		var rows = Math.floor(height / this.UNIT_Y);
+		this.camera.zoom = zoom;
+
+		window.resize(columns * UNIT_X, rows * UNIT_Y);
 		this.app.s2d.addChild(this.layers.root);
 	}
 

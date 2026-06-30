@@ -58,6 +58,8 @@ class SettingsManager {
 		}
 
 		SettingsManager.readSettings('${fileName}.json');
+
+		trace("SettingsManager initialized");
 	}
 
 	private static function readSettings(name: String) {

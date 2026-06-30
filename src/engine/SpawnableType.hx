@@ -12,4 +12,5 @@ enum SpawnableType {
 	RIFLE;
 	WOLF;
 	DOG;
+	BAT;
 }

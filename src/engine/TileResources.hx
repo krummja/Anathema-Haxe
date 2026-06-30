@@ -51,7 +51,10 @@ class TileResources {
 		tiles.set(TK_PALM_01, 			t[2][7]);
 
 		tiles.set(TK_PLAYER_01, 		t[0][25]);
+
+		tiles.set(TK_BAT_01,			t[8][26]);
 		// @formatter:on
+		trace("TileResources initialized");
 	}
 
 	private static function divideTilesheet(tile: Tile, sizeX: Int, sizeY: Int): Array<Array<Tile>> {

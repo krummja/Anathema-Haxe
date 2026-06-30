@@ -30,7 +30,6 @@ class TestScene extends Scene {
 		if (energySystem.isPlayerTurn) {
 			var cmd = loop.commands.peek();
 			if (cmd != null) {
-				trace(cmd);
 				if (world.player.entity.exists(Move)) {
 					var movement: MovementSystem = cast world.systems.getSystem(ON_UPDATE, MovementSystem);
 					movement.finishMoveFast(world.player.entity);
@@ -67,7 +66,7 @@ class TestScene extends Scene {
 				case CMD_MOVE_NW:
 					move(NORTH_WEST);
 				case CMD_WAIT:
-					trace("Wait");
+					EnergySystem.consumeEnergy(world.player.entity, ACT_WAIT);
 				case _:
 			}
 		}
@@ -82,7 +81,7 @@ class TestScene extends Scene {
 		world.player.entity.add(move);
 
 		var cost = EnergySystem.getEnergyCost(world.player.entity, ACT_MOVE);
-		world.player.entity.add(new ConsumeEnergyEvent(cost));
+		world.player.entity.fireEvent(new ConsumeEnergyEvent(cost));
 	}
 
 	private function get_energySystem(): EnergySystem {

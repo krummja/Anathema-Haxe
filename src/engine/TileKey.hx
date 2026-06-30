@@ -26,6 +26,7 @@ enum TileKey {
 	TK_ROCKS_01;
 	TK_DEAD_TREE_01;
 	TK_PALM_01;
+	TK_BAT_01;
 
 	TK_PLAYER_01; // 0,26
 }

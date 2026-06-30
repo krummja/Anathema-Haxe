@@ -1,5 +1,5 @@
 package components;
 
-class MoveComplete {
+class MoveComplete extends Component {
 	public function new() {}
 }

@@ -21,26 +21,39 @@ class EnergySystem extends System {
 		}
 	}
 
+	public static function consumeEnergy(entity: Entity, type: EnergyActionType): Int {
+		var cost = getEnergyCost(entity, type);
+		entity.fireEvent(new ConsumeEnergyEvent(cost));
+		return cost;
+	}
+
 	public var isPlayerTurn(default, null): Bool;
 
-	private var _query: View<Energy> = getLinkedView(Energy);
+	public var energized(get, never): Iterable<Entity>;
+
+	private var _energized: View<Energy> = getLinkedView(Energy);
 
 	private function getNext(): Entity {
-		var entity = query.max((e) -> e.get(Energy).value);
+		var entity = energized.max((e) -> e.get(Energy).value);
 		var energy = entity.get(Energy);
 
 		if (!energy.hasEnergy) {
 			var tickAmount = -energy.value;
 			world.clock.incrementTick(tickAmount);
-			query.each((e) -> e.get(Energy).addEnergy(tickAmount));
+			energized.each((e) -> e.get(Energy).addEnergy(tickAmount));
 		}
 
 		return entity;
 	}
 
-	@:update private function update(time: Float): Void {
+	@:update
+	private function update(time: Float): Void {
 		var frame = loop.frame;
 		world.clock.clearDeltas();
+
+		if (isPlayerTurn && world.player.entity.get(Energy).hasEnergy) {
+			return;
+		}
 
 		while (true) {
 			var entity = getNext();
@@ -50,17 +63,13 @@ class EnergySystem extends System {
 				break;
 			} else {
 				isPlayerTurn = false;
+				world.behavior.takeAction(entity);
 			}
 		}
 	}
 
-	@:update private function processEnergy(entity: Entity, event: ConsumeEnergyEvent, energy: Energy) {
-		energy.consumeEnergy(event.value);
-		entity.remove(event);
-	}
-
-	private override function get_query(): Query {
-		return _query.entities.filter((e) -> {
+	private function get_energized(): Iterable<Entity> {
+		return _energized.entities.filter((e) -> {
 			return !e.exists(IsDestroyed);
 		});
 	}

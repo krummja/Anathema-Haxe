@@ -1,5 +1,5 @@
 package components;
 
-class Moved {
+class Moved extends Component {
 	public function new() {}
 }

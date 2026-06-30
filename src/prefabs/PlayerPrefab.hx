@@ -1,6 +1,5 @@
 package prefabs;
 
-import common.struct.Coordinate;
 import echoes.Entity;
 import components.Position;
 import components.IsPlayer;

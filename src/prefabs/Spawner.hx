@@ -1,7 +1,7 @@
 package prefabs;
 
-import components.Position;
 import echoes.Entity;
+import components.Position;
 import common.struct.Coordinate;
 import engine.SpawnableType;
 
@@ -14,6 +14,7 @@ class Spawner {
 
 	public function initialize() {
 		prefabs.set(PLAYER, (pos: Coordinate, ?options: Dynamic) -> new PlayerPrefab(new Position(pos.x, pos.y)));
+		prefabs.set(BAT, (pos: Coordinate, ?options: Dynamic) -> new BatPrefab(new Position(pos.x, pos.y)));
 	}
 
 	public function spawn(type: SpawnableType, ?pos: Coordinate, ?options: Dynamic, ?isDetachable: Bool): Entity {

@@ -1,5 +1,5 @@
 package components;
 
-class IsPlayer {
+class IsPlayer extends Component {
 	public function new() {}
 }

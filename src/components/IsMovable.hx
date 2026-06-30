@@ -1,5 +1,5 @@
 package components;
 
-class IsMovable {
+class IsMovable extends Component {
 	public function new() {}
 }

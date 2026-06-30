@@ -1,0 +1,39 @@
+package engine;
+
+import events.ConsumeEnergyEvent;
+import systems.EnergySystem;
+import echoes.Entity;
+import common.struct.DataRegistry;
+import components.Actor;
+import data.BehaviorType;
+import data.behaviors.BehaviorBasic;
+
+class Behaviors {
+	public static var behaviors: DataRegistry<BehaviorType, Behavior>;
+
+	public static function init() {
+		behaviors = new DataRegistry();
+
+		behaviors.register(BHV_BASIC, new BehaviorBasic());
+	}
+
+	public static function get(type: BehaviorType): Behavior {
+		return behaviors.get(type);
+	}
+}
+
+class BehaviorManager {
+	public function new() {}
+
+	public function takeAction(entity: Entity): Void {
+		var actor = entity.get(Actor);
+
+		if (actor == null) {
+			var cost = EnergySystem.getEnergyCost(entity, ACT_WAIT);
+			entity.add(new ConsumeEnergyEvent(cost));
+		}
+
+		var behavior = Behaviors.get(actor.behavior);
+		behavior.takeAction(entity);
+	}
+}

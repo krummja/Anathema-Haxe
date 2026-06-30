@@ -96,7 +96,7 @@ class CoordinateExtensions {
 
 	public static inline function distance(a: Coordinate, b: Coordinate, space: CoordinateSpace = WORLD, formula: DistanceFormula = EUCLIDEAN): Float {
 		var pa = a.lift(space).toFloatPoint();
-		var pb = a.lift(space).toFloatPoint();
+		var pb = b.lift(space).toFloatPoint();
 		return Distance.Get(pa, pb, formula);
 	}
 

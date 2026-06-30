@@ -1,5 +1,5 @@
 package components;
 
-class IsDestroyed {
+class IsDestroyed extends Component {
 	public function new() {}
 }

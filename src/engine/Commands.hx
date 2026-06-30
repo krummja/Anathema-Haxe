@@ -32,6 +32,7 @@ class Commands {
         cmd(INPUT_DOMAIN_DEFAULT,   CMD_MOVE_NW,                KEY_Q,      false,  false,  false);
         cmd(INPUT_DOMAIN_DEFAULT,   CMD_WAIT,                   KEY_S,      false,  false,  false);
         // @formatter:on
+		trace("Commands initialized");
 	}
 
 	public static function getForDomain(domains: Array<InputDomainType>): Array<Command> {

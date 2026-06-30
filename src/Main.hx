@@ -1,3 +1,5 @@
+import engine.BehaviorManager.Behaviors;
+import engine.TextResources;
 import engine.SettingsManager;
 import engine.ColorPaletteResources;
 import engine.TileResources;
@@ -20,8 +22,10 @@ class Main extends hxd.App {
 		var window = hxd.Window.getInstance();
 
 		ColorPaletteResources.init();
+		TextResources.init();
 		TileResources.init();
 		Commands.init();
+		Behaviors.init();
 
 		var window = hxd.Window.getInstance();
 		s2d.renderer.globals.set("screenH", window.height);
@@ -32,12 +36,10 @@ class Main extends hxd.App {
 			s2d.renderer.globals.set("screenH", window.height);
 		});
 
-		var width = SettingsManager.settings.display.resolutionWidth;
-		var height = SettingsManager.settings.display.resolutionHeight;
-		window.resize(width, height);
-
 		this.loop = MainLoop.create(this);
 		this.loop.scenes.set(new TestScene());
+
+		trace("App initialized - launching");
 	}
 
 	public override function update(dt: Float): Void {
