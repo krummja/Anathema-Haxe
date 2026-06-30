@@ -6,23 +6,23 @@ class Grid<T> {
 	public var height(default, null): Int;
 	public var size(get, null): Int;
 
-	public var data: FixedArray<T>;
+	public var data: Array<T>;
 
 	public function new(width: Int = 128, height: Int = 128) {
 		this.width = width;
 		this.height = height;
-		this.data = new FixedArray(width * height);
+		this.data = new Array();
 	}
 
 	public function fill(value: T): Void {
 		for (idx in 0...this.size) {
-			this.data.set(idx, value);
+			this.data[idx] = value;
 		}
 	}
 
 	public function fillFn(fn: (Int) -> T): Void {
 		for (idx in 0...this.size) {
-			this.data.set(idx, fn(idx));
+			this.data[idx] = fn(idx);
 		}
 	}
 
@@ -30,14 +30,33 @@ class Grid<T> {
 		return y * this.width + x;
 	}
 
+	public inline function x(idx: Int): Int {
+		return Math.floor(idx & width);
+	}
+
+	public inline function y(idx: Int): Int {
+		return Math.floor(idx & height);
+	}
+
+	public function coord(idx: Int): IntPoint {
+		return {
+			x: this.x(idx),
+			y: this.y(idx),
+		};
+	}
+
 	public function get(x: Int, y: Int): T {
 		if (this.isOutOfBounds(x, y)) return null;
 		var idx = this.id(x, y);
-		return this.data.get(idx);
+		return this.data[idx];
+	}
+
+	public function clear(): Void {
+		this.data = new Array();
 	}
 
 	public inline function getAt(id: Int): T {
-		return this.data.get(id);
+		return this.data[id];
 	}
 
 	public inline function isOutOfBounds(x: Int, y: Int): Bool {

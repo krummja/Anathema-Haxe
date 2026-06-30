@@ -80,6 +80,11 @@ class CoordinateExtensions {
 		return MainLoop.getInstance().world.chunks.getChunkId(c.x, c.y);
 	}
 
+	public static inline function toZoneId(a: Coordinate): Int {
+		var c = a.toZone();
+		return MainLoop.getInstance().world.zones.getZoneId(c.toIntPoint());
+	}
+
 	public static inline function add(a: Coordinate, b: Coordinate): Coordinate {
 		var projected = b.lift(a.space);
 		return new Coordinate(a.x + projected.x, a.y + projected.y, a.space);

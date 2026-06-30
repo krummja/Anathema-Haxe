@@ -47,4 +47,8 @@ class IterableExtensions {
 	public static inline function filter<A>(it: Iterable<A>, fn: (item: A) -> Bool) {
 		return Lambda.filter(it, fn);
 	}
+
+	public static inline function first<T>(it: Iterable<T>): T {
+		return it.iterator().next();
+	}
 }

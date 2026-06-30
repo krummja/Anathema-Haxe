@@ -1,5 +1,6 @@
 package engine;
 
+import common.struct.IntPoint;
 import common.struct.Grid;
 
 class ChunkManager {
@@ -13,6 +14,7 @@ class ChunkManager {
 
 	public function initialize() {
 		this.chunks = new Grid<Chunk>(this.chunkCountX, this.chunkCountY);
+		this.chunks.fillFn((idx) -> new Chunk(idx, chunkSize));
 	}
 
 	public inline function getChunkId(cx: Float, cy: Float) {
@@ -21,6 +23,18 @@ class ChunkManager {
 
 	public inline function getChunkById(chunkId: Int): Chunk {
 		return this.chunks.getAt(chunkId);
+	}
+
+	public overload extern inline function getChunk(cx: Float, cy: Float): Chunk {
+		return getChunk(Math.floor(cx), Math.floor(cy));
+	}
+
+	public overload extern inline function getChunk(cx: Int, cy: Int): Chunk {
+		return chunks.get(cx, cy);
+	}
+
+	public inline function getChunkPos(idx: Int): IntPoint {
+		return chunks.coord(idx);
 	}
 
 	private function get_chunkCountX(): Int {

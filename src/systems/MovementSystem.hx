@@ -59,19 +59,6 @@ class MovementSystem extends System {
 
 			entity.get(Position).set(target.x, target.y);
 			entity.remove(move);
-
-			// var current = entity.get(Position).asCoordinate().toWorld();
-			// var distanceSq = current.distance(move.goal, WORLD, EUCLIDEAN_SQ);
-			// var currentDuration = frame.elapsed - move.startTime;
-			// var progress = (currentDuration / move.duration).clamp(0, 1);
-
-			// var newPos = move.start.ease(move.goal, progress, move.ease);
-			// entity.get(Position).set(newPos.x, newPos.y);
-
-			// if (distanceSq < move.epsilon * move.epsilon) {
-			// 	entity.remove(move);
-			// 	entity.add(new MoveComplete());
-			// }
 		}
 	}
 

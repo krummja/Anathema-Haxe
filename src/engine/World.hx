@@ -1,5 +1,7 @@
 package engine;
 
+import components.Ident;
+import echoes.Echoes;
 import events.ConsumeEnergyEvent;
 import echoes.Entity;
 import prefabs.Spawner;
@@ -50,7 +52,11 @@ class World {
 	}
 
 	public function initialize(): Void {
+		this.zones.initialize();
+		this.chunks.initialize();
 		this.spawner.initialize();
+		// this.map.initialize();
+
 		this.systems.addSystem(ON_UPDATE, new MovementSystem());
 		this.systems.addSystem(ON_UPDATE, new EnergySystem());
 		this.systems.addSystem(POST_UPDATE, new RenderSystem());
@@ -58,16 +64,21 @@ class World {
 	}
 
 	public function start(): Void {
-		for (x in 0...3) {
-			for (y in 0...3) {
+		for (x in -50...50) {
+			for (y in -50...50) {
 				var pos = new Coordinate(x, y, WORLD);
-				var floor = new FloorPrefab(new Position(pos.x, pos.y));
-				floor.sprite.drawable.setPosition(pos.x, pos.y);
+				var floor = new FloorPrefab(new Ident('floor_${x}_${y}'), new Position(pos.x, pos.y));
+				floor.setPosition(pos);
 			}
 		}
 
-		// spawner.spawn(BAT, new Coordinate(4, 4, WORLD));
-		this.player.create(new Coordinate(2, 2, WORLD));
+		var pos = new Coordinate(2, 2, WORLD);
+		this.player.create(pos);
+		this.player.entity.setPosition(pos);
+
+		var pos = new Coordinate(4, 4, WORLD);
+		var bat = spawner.spawn(BAT, pos);
+		bat.setPosition(pos);
 
 		this.started = true;
 	}
@@ -77,16 +88,28 @@ class World {
 	}
 
 	public overload extern inline function getEntitiesAt(pos: IntPoint): Array<Entity> {
-		// var w = pos.asWorld();
-		// var idx = pos.asWorld().toChunkId();
-		// var chunk = this.chunks.getChunkById(idx);
+		var w = pos.asWorld();
+		var idx = pos.asWorld().toChunkId();
+		var chunk = chunks.getChunkById(idx);
 
-		// if (chunk.isNull()) return new Array<Entity>();
+		if (chunk == null) {
+			return new Array<Entity>();
+		}
 
-		// var local = w.toChunkLocal();
-		// var ids = chunk.getEntityIdsAt(local.x, local.y);
-		// return ids.map((id: String) -> this.loop.ecs.registry.getEntity(id));
-		return [];
+		var local = w.toChunkLocal();
+		var ids = chunk.getEntityIdsAt(local.x, local.y);
+
+		var result = new Array<Entity>();
+		var registry = Echoes.activeEntities;
+
+		for (id in ids) {
+			var entities = registry.filter((e) -> e.id == id);
+			if (entities.length > 0) {
+				result.concat(entities);
+			}
+		}
+
+		return result;
 	}
 
 	private function get_loop(): MainLoop {

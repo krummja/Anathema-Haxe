@@ -15,7 +15,7 @@ class EnergySystem extends System {
 			case ACT_MOVE:
 				return 50;
 			case ACT_WAIT:
-				return 500;
+				return 100;
 			case _:
 				return 50;
 		}

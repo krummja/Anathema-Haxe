@@ -50,9 +50,13 @@ class IntPoint {
 		return new IntPoint(this.x * value, this.y * value);
 	}
 
-	public overload extern inline function divide(value: Int): FloatPoint {
+	public overload extern inline function divide(value: Float): FloatPoint {
 		return new FloatPoint(this.x / value, this.y / value);
 	}
+
+	// public overload extern inline function divide(value: Int): IntPoint {
+	// 	return new IntPoint(this.x / value, this.y / value);
+	// }
 
 	public inline function dot(other: IntPoint): Int {
 		return (this.x + other.x) * (this.y + other.y);

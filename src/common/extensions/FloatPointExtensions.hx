@@ -1,5 +1,6 @@
 package common.extensions;
 
+import common.struct.IntPoint;
 import common.struct.Coordinate;
 import common.struct.FloatPoint;
 
@@ -23,6 +24,13 @@ class FloatPointExtensions {
 		return {
 			x: p.x * v,
 			y: p.y * v,
+		};
+	}
+
+	public static inline function floor(p: FloatPoint): IntPoint {
+		return {
+			x: Math.floor(p.x),
+			y: Math.floor(p.y),
 		};
 	}
 }

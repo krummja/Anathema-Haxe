@@ -1,0 +1,203 @@
+digraph graphname {
+	node [shape=plaintext];
+n514551[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514551) BKConditional</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514550[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514550) BKConditional</td></tr>
+	<tr><td port="e0" align="left">graphCost = 0</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514549[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514549) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var next = neighbors[`]</td></tr>
+	<tr><td port="e1" align="left">` = ` + 1</td></tr>
+	<tr><td port="e2" align="left">var nextKey = \"\" + next.x</td></tr>
+	<tr><td port="e3" align="left">var nextKey = nextKey + \",\"</td></tr>
+	<tr><td port="e4" align="left">var nextKey = nextKey + next.y</td></tr>
+	<tr><td port="e5" align="left">var graphCost</td></tr>
+	<tr><td port="e6" align="left">var graphCost = nextKey == goalKey</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514548[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514548) BKConditional</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514547[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514547) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var tmp = ! ((` &lt; neighbors.length))</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514546[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514546) BKLoopHead</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514545[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514545) BKSub</td></tr>
+	<tr><td port="e0" align="left">var ` = 0</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514544[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514544) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var neighbors = _neighbors</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514543[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514543) BKConditional</td></tr>
+	<tr><td port="e0" align="left">var tmp = x - 1</td></tr>
+	<tr><td port="e1" align="left">var tmp = y - 1</td></tr>
+	<tr><td port="e2" align="left">_neighbors.push(new common.struct.IntPoint(tmp, tmp))</td></tr>
+	<tr><td port="e3" align="left">var tmp = x + 1</td></tr>
+	<tr><td port="e4" align="left">var tmp = y - 1</td></tr>
+	<tr><td port="e5" align="left">_neighbors.push(new common.struct.IntPoint(tmp, tmp))</td></tr>
+	<tr><td port="e6" align="left">var tmp = x - 1</td></tr>
+	<tr><td port="e7" align="left">var tmp = y + 1</td></tr>
+	<tr><td port="e8" align="left">_neighbors.push(new common.struct.IntPoint(tmp, tmp))</td></tr>
+	<tr><td port="e9" align="left">var tmp = x + 1</td></tr>
+	<tr><td port="e10" align="left">var tmp = y + 1</td></tr>
+	<tr><td port="e11" align="left">_neighbors.push(new common.struct.IntPoint(tmp, tmp))</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514542[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514542) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var allowDiagnonals = settings.allowDiagonals</td></tr>
+	<tr><td port="e1" align="left">var x = current.x</td></tr>
+	<tr><td port="e2" align="left">var y = current.y</td></tr>
+	<tr><td port="e3" align="left">var _neighbors = y - 1</td></tr>
+	<tr><td port="e4" align="left">var _neighbors = new common.struct.IntPoint(x, _neighbors)</td></tr>
+	<tr><td port="e5" align="left">var _neighbors = y + 1</td></tr>
+	<tr><td port="e6" align="left">var _neighbors = new common.struct.IntPoint(x, _neighbors)</td></tr>
+	<tr><td port="e7" align="left">var _neighbors = x - 1</td></tr>
+	<tr><td port="e8" align="left">var _neighbors = new common.struct.IntPoint(_neighbors, y)</td></tr>
+	<tr><td port="e9" align="left">var _neighbors = x + 1</td></tr>
+	<tr><td port="e10" align="left">var _neighbors = [_neighbors, _neighbors, _neighbors, new common.struct.IntPoint(_neighbors, y)]</td></tr>
+	<tr><td port="e11" align="left">var allowDiagnonals = allowDiagnonals</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514541[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514541) BKConditional</td></tr>
+	<tr><td port="e0" align="left">result.success = true</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514540[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514540) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var d = open.pop()</td></tr>
+	<tr><td port="e1" align="left">var current = d.pos</td></tr>
+	<tr><td port="e2" align="left">var currentKey = d.key</td></tr>
+	<tr><td port="e3" align="left">var tmp = currentKey == goalKey</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514539[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514539) BKConditional</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514538[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514538) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var tmp = depth &gt;= maxDepth</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514537[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514537) BKSub</td></tr>
+	<tr><td port="e0" align="left">depth = depth + 1</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514536[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514536) BKNormal</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514535[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514535) BKConditional</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514534[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514534) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var tmp = ! ((! open.get_isEmpty()))</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514533[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514533) BKLoopHead</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514532[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514532) BKNormal</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514531[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514531) BKSub</td></tr>
+	<tr><td port="e0" align="left">costs.set(startKey, cast 0)</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514530[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514530) BKNormal</td></tr>
+	<tr><td port="e0" align="left">open.put({key : startKey, pos : start}, 0)</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514529[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514529) BKConditional</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514528[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514528) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var depth = 0</td></tr>
+	<tr><td port="e1" align="left">var open = new common.struct.PriorityQueue_anon_pos_common_struct_IntPoint_key_String()</td></tr>
+	<tr><td port="e2" align="left">var from = new haxe.ds.StringMap()</td></tr>
+	<tr><td port="e3" align="left">var costs = new haxe.ds.StringMap()</td></tr>
+	<tr><td port="e4" align="left">var startKey = \"\" + start.x</td></tr>
+	<tr><td port="e5" align="left">var startKey = startKey + \",\"</td></tr>
+	<tr><td port="e6" align="left">var startKey = startKey + start.y</td></tr>
+	<tr><td port="e7" align="left">var goalKey = \"\" + goal.x</td></tr>
+	<tr><td port="e8" align="left">var goalKey = goalKey + \",\"</td></tr>
+	<tr><td port="e9" align="left">var goalKey = goalKey + goal.y</td></tr>
+	<tr><td port="e10" align="left">var result = new Array()</td></tr>
+	<tr><td port="e11" align="left">var result = {success : false, path : result, costs : new Array(), cost : Math.POSITIVE_INFINITY, start : start, goal : goal}</td></tr>
+	<tr><td port="e12" align="left">var tmp = cost(start, goal)</td></tr>
+	<tr><td port="e13" align="left">var tmp = tmp == Math.POSITIVE_INFINITY</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514527[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514527) BKConditional</td></tr>
+	<tr><td port="e0" align="left">maxDepth = nullable</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514526[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514526) BKConditional</td></tr>
+	<tr><td port="e0" align="left">maxDepth = 10000</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514525[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514525) BKNormal</td></tr>
+	<tr><td port="e0" align="left">var start = settings.start</td></tr>
+	<tr><td port="e1" align="left">var goal = settings.goal</td></tr>
+	<tr><td port="e2" align="left">var cost = settings.cost</td></tr>
+	<tr><td port="e3" align="left">var nullable = settings.maxDepth</td></tr>
+	<tr><td port="e4" align="left">var maxDepth</td></tr>
+	<tr><td port="e5" align="left">var maxDepth = nullable == null</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514524[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514524) BKConditional</td></tr>
+	<tr><td port="e0" align="left">heuristic = common.algorithm.DistanceFormula.MANHATTAN</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514523[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514523) BKConditional</td></tr>
+	<tr><td port="e0" align="left">heuristic = common.algorithm.DistanceFormula.DIAGONAL</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514522[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514522) BKFunctionEnd</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n514521[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(514521) BKFunctionBegin</td></tr>
+	<tr><td port="e0" align="left">var heuristic</td></tr>
+	<tr><td port="e1" align="left">var settings = settings.allowDiagonals</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n1[label=<<table BORDER="0" CELLBORDER="1" CELLSPACING="0">
+	<tr><td port="in" bgcolor="lightgray">(1) BKRoot</td></tr>
+	<tr><td port="out"></td></tr>
+</table>>];
+n1:out -> n514521:in[label="CFGFunction"];
+}

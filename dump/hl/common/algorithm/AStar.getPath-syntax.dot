@@ -1,0 +1,63 @@
+digraph graphname {
+n514551 [shape=box,label="(514551)"];
+n514550 [shape=box,label="(514550)\ngraphCost = 0"];
+n514549 [shape=box,label="(514549)\nvar next = neighbors[`]\n` = ` + 1\nvar nextKey = \"\" + next.x\nvar nextKey = nextKey + \",\"\nvar nextKey = nextKey + next.y\nvar graphCost\nvar graphCost = nextKey == goalKey"];
+n514548 [shape=box,label="(514548)"];
+n514547 [shape=box,label="(514547)\nvar tmp = ! ((` < neighbors.length))"];
+n514547 -> n514548[style="dashed",color="gray",label="then"];
+n514547 -> n514549[style="dashed",color="gray",label="next"];
+n514546 [shape=box,label="<loop-head>
+(514546)"];
+n514545 [shape=box,label="(514545)\nvar ` = 0"];
+n514545 -> n514546[style="dashed",color="gray",label="merge"];
+n514544 [shape=box,label="(514544)\nvar neighbors = _neighbors"];
+n514543 [shape=box,label="(514543)\nvar tmp = x - 1\nvar tmp = y - 1\n_neighbors.push(new common.struct.IntPoint(tmp, tmp))\nvar tmp = x + 1\nvar tmp = y - 1\n_neighbors.push(new common.struct.IntPoint(tmp, tmp))\nvar tmp = x - 1\nvar tmp = y + 1\n_neighbors.push(new common.struct.IntPoint(tmp, tmp))\nvar tmp = x + 1\nvar tmp = y + 1\n_neighbors.push(new common.struct.IntPoint(tmp, tmp))"];
+n514542 [shape=box,label="(514542)\nvar allowDiagnonals = settings.allowDiagonals\nvar x = current.x\nvar y = current.y\nvar _neighbors = y - 1\nvar _neighbors = new common.struct.IntPoint(x, _neighbors)\nvar _neighbors = y + 1\nvar _neighbors = new common.struct.IntPoint(x, _neighbors)\nvar _neighbors = x - 1\nvar _neighbors = new common.struct.IntPoint(_neighbors, y)\nvar _neighbors = x + 1\nvar _neighbors = [_neighbors, _neighbors, _neighbors, new common.struct.IntPoint(_neighbors, y)]\nvar allowDiagnonals = allowDiagnonals"];
+n514542 -> n514543[style="dashed",color="gray",label="then"];
+n514542 -> n514544[style="dashed",color="gray",label="next"];
+n514541 [shape=box,label="(514541)\nresult.success = true"];
+n514540 [shape=box,label="(514540)\nvar d = open.pop()\nvar current = d.pos\nvar currentKey = d.key\nvar tmp = currentKey == goalKey"];
+n514540 -> n514541[style="dashed",color="gray",label="then"];
+n514540 -> n514542[style="dashed",color="gray",label="next"];
+n514539 [shape=box,label="(514539)"];
+n514538 [shape=box,label="(514538)\nvar tmp = depth >= maxDepth"];
+n514538 -> n514539[style="dashed",color="gray",label="then"];
+n514538 -> n514540[style="dashed",color="gray",label="next"];
+n514537 [shape=box,label="(514537)\ndepth = depth + 1"];
+n514536 [shape=box,label="(514536)"];
+n514536 -> n514537[style="dashed",color="gray",label="sub"];
+n514536 -> n514538[style="dashed",color="gray",label="next"];
+n514535 [shape=box,label="(514535)"];
+n514534 [shape=box,label="(514534)\nvar tmp = ! ((! open.get_isEmpty()))"];
+n514534 -> n514535[style="dashed",color="gray",label="then"];
+n514534 -> n514536[style="dashed",color="gray",label="next"];
+n514533 [shape=box,label="<loop-head>
+(514533)"];
+n514532 [shape=box,label="(514532)"];
+n514532 -> n514533[style="dashed",color="gray",label="merge"];
+n514531 [shape=box,label="(514531)\ncosts.set(startKey, cast 0)"];
+n514530 [shape=box,label="(514530)\nopen.put({key : startKey, pos : start}, 0)"];
+n514530 -> n514531[style="dashed",color="gray",label="sub"];
+n514530 -> n514532[style="dashed",color="gray",label="next"];
+n514529 [shape=box,label="(514529)"];
+n514528 [shape=box,label="(514528)\nvar depth = 0\nvar open = new common.struct.PriorityQueue_anon_pos_common_struct_IntPoint_key_String()\nvar from = new haxe.ds.StringMap()\nvar costs = new haxe.ds.StringMap()\nvar startKey = \"\" + start.x\nvar startKey = startKey + \",\"\nvar startKey = startKey + start.y\nvar goalKey = \"\" + goal.x\nvar goalKey = goalKey + \",\"\nvar goalKey = goalKey + goal.y\nvar result = new Array()\nvar result = {success : false, path : result, costs : new Array(), cost : Math.POSITIVE_INFINITY, start : start, goal : goal}\nvar tmp = cost(start, goal)\nvar tmp = tmp == Math.POSITIVE_INFINITY"];
+n514528 -> n514529[style="dashed",color="gray",label="then"];
+n514528 -> n514530[style="dashed",color="gray",label="next"];
+n514527 [shape=box,label="(514527)\nmaxDepth = nullable"];
+n514526 [shape=box,label="(514526)\nmaxDepth = 10000"];
+n514525 [shape=box,label="(514525)\nvar start = settings.start\nvar goal = settings.goal\nvar cost = settings.cost\nvar nullable = settings.maxDepth\nvar maxDepth\nvar maxDepth = nullable == null"];
+n514525 -> n514526[style="dashed",color="gray",label="then"];
+n514525 -> n514527[style="dashed",color="gray",label="else"];
+n514525 -> n514528[style="dashed",color="gray",label="next"];
+n514524 [shape=box,label="(514524)\nheuristic = common.algorithm.DistanceFormula.MANHATTAN"];
+n514523 [shape=box,label="(514523)\nheuristic = common.algorithm.DistanceFormula.DIAGONAL"];
+n514522 [shape=box,label="<function-end>
+(514522)"];
+n514521 [shape=box,label="<function-begin>
+(514521)\nvar heuristic\nvar settings = settings.allowDiagonals"];
+n514521 -> n514523[style="dashed",color="gray",label="then"];
+n514521 -> n514524[style="dashed",color="gray",label="else"];
+n514521 -> n514525[style="dashed",color="gray",label="next"];
+n1 [shape=box,label="<root>
+(1)"];
+}

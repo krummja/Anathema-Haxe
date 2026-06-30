@@ -6,4 +6,5 @@ using common.extensions.FloatPointExtensions;
 using common.extensions.IterableExtensions;
 using common.extensions.CardinalExtensions;
 using common.extensions.EntityExtensions;
+using common.extensions.NullExtensions;
 #end

@@ -29,8 +29,8 @@ class BehaviorManager {
 		var actor = entity.get(Actor);
 
 		if (actor == null) {
-			var cost = EnergySystem.getEnergyCost(entity, ACT_WAIT);
-			entity.add(new ConsumeEnergyEvent(cost));
+			trace("Energy without Actor component!");
+			EnergySystem.consumeEnergy(entity, ACT_WAIT);
 		}
 
 		var behavior = Behaviors.get(actor.behavior);
