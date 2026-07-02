@@ -85,10 +85,18 @@ class Chunk {
 	}
 
 	public function getEntityIdsAt(x: Float, y: Float): Array<Int> {
+		if (!isLoaded) {
+			return [];
+		}
+
 		return this.entities.get(Math.floor(x), Math.floor(y));
 	}
 
 	public function setEntityPosition(entity: Entity): Void {
+		if (!isLoaded) {
+			return;
+		}
+
 		var local = entity.get(Position).asCoordinate().toChunkLocal().toWorld();
 		entities.set(Math.floor(local.x), Math.floor(local.y), entity.id);
 	}
@@ -114,7 +122,7 @@ class Chunk {
 		var background = cell.background;
 
 		var bm = new h2d.Bitmap();
-		var shader = new SpriteShader(primary, secondary);
+		var shader = new SpriteShader(primary, secondary, background);
 
 		if (tileKey != null) {
 			bm.tile = TileResources.get(tileKey);

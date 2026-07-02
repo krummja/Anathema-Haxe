@@ -7,8 +7,6 @@ import engine.MainLoop;
 import engine.Frame;
 import engine.Scene;
 import components.Move;
-import components.Visible;
-import components.Explored;
 import systems.MovementSystem;
 import systems.EnergySystem;
 
@@ -47,7 +45,6 @@ class TestScene extends Scene {
 	private function updateCamera(): Void {
 		var cfocus = loop.camera.focus.toWorld().toFloatPoint();
 		var ctarget = loop.world.player.pos.toFloatPoint();
-		// loop.camera.focus = ctarget.asWorld();
 		loop.camera.focus = cfocus.lerp(ctarget, 0.2).asWorld();
 	}
 

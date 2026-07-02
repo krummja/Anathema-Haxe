@@ -15,4 +15,5 @@ enum SpawnableType {
 	BAT;
 	LIGHT;
 	WALL;
+	FLOOR;
 }

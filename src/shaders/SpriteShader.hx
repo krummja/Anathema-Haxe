@@ -114,15 +114,15 @@ class SpriteShader extends hxsl.Shader {
         primary: Int = 0x000000,
         secondary: Int = 0xffffff,
         outline: Int = 0x000000,
-        background: Int = 0xff00ff,
+        background: Int = 0x212121,
     ) {
         super();
 		this.primary = primary.toHxdColor().toVector();
 		this.secondary = secondary.toHxdColor().toVector();
         this.shroudColor = ColorKey.C_SHROUD.toHxdColor().toVector();
         this.isShrouded = 0;
-        this.isLit = 0;
-        this.ignoreLighting = 0;
+        this.isLit = 1;
+        this.ignoreLighting = 1;
         this.lightColor = ColorKey.C_BRIGHT_WHITE.toHxdColor().toVector();
         this.lightIntensity = 1;
         this.seed = MainLoop.getInstance().world.rand.integer(0, 10000);

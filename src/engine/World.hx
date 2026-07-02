@@ -1,10 +1,9 @@
 package engine;
 
+import hxd.Rand;
 import events.EntitySpawnedEvent;
 import echoes.Echoes;
 import echoes.Entity;
-import hxd.Rand;
-import events.ConsumeEnergyEvent;
 import common.struct.IntPoint;
 import common.struct.Coordinate;
 import prefabs.*;
@@ -61,37 +60,21 @@ class World {
 
 		this.systems.addSystem(ON_UPDATE, new EnergySystem());
 		this.systems.addSystem(ON_UPDATE, new MovementSystem());
-		this.systems.addSystem(ON_UPDATE, new ChunkSystem());
-		this.systems.addSystem(ON_UPDATE, new LightSystem());
-		this.systems.addSystem(ON_UPDATE, new VisionSystem());
 		this.systems.addSystem(POST_UPDATE, new RenderSystem());
 		this.systems.activateAll();
 	}
 
 	public function start(seed: Int): Void {
-		this.seed = seed;
-		this.rand = new Rand(seed);
-		this.visible = new Array();
+		for (x in -10...10) {
+			for (y in -10...10) {
+				spawner.spawn(FLOOR, new Coordinate(x, y, WORLD));
+			}
+		}
 
-		var pos = new Coordinate(Math.floor(worldWidth / 2), Math.floor(worldHeight / 2), WORLD);
-		this.chunks.loadChunks(pos.toChunkId());
-		this.chunks.loadChunk(pos.toChunkId());
-
-		this.player.create(new Coordinate(100, 100, WORLD));
+		this.player.create(new Coordinate(0, 0, WORLD));
 		this.player.entity.fireEvent(new EntitySpawnedEvent());
 
-		// var bat = spawner.spawn(BAT, new Coordinate(4, 4, WORLD));
-		// bat.add(new Visible());
-
-		// var bat2 = spawner.spawn(BAT, new Coordinate(-4, -3, WORLD));
-		// bat2.add(new Explored());
-
-		var wall = spawner.spawn(WALL, new Coordinate(100, 104, WORLD));
-		wall.fireEvent(new EntitySpawnedEvent());
-
-		var light = spawner.spawn(LIGHT, new Coordinate(101, 101, WORLD));
-		light.fireEvent(new EntitySpawnedEvent());
-
+		var bat = spawner.spawn(BAT, new Coordinate(4, 4, WORLD));
 		this.started = true;
 	}
 
@@ -122,53 +105,6 @@ class World {
 		}
 
 		return result;
-	}
-
-	public function clearVisible() {
-		for (value in visible) {
-			var c = value.toChunk();
-			var chunk = chunks.getChunk(c.x, c.y);
-			if (chunk == null || !chunk.isLoaded) {
-				continue;
-			}
-
-			var local = value.toChunkLocal().toIntPoint();
-
-			for (entity in getEntitiesAt(value.toWorld().toIntPoint())) {
-				if (entity.exists(Visible)) {
-					entity.remove(Visible);
-				}
-			}
-		}
-
-		visible = [];
-	}
-
-	public function setVisible(pos: Coordinate) {
-		var c = pos.toChunk();
-		var chunk = chunks.getChunk(c.x, c.y);
-		if (chunk != null) {
-			var local = pos.toChunkLocal().toIntPoint();
-
-			// TODO explored
-
-			var light = systems.getSystem(ON_UPDATE, LightSystem).getTileLight(pos.toIntPoint());
-
-			for (entity in getEntitiesAt(pos.toWorld().toIntPoint())) {
-				if (!entity.exists(Visible)) {
-					entity.add(new Visible());
-				}
-
-				if (light.intensity > 0) {
-					var sprite = entity.get(Sprite);
-					sprite.shader.isLit = 1;
-					sprite.shader.lightColor = light.color.toHxdColor().toVector();
-					sprite.shader.lightIntensity = light.intensity;
-				}
-			}
-		}
-
-		visible.push(pos);
 	}
 
 	public inline function getTileIdx(pos: IntPoint) {
