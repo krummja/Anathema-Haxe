@@ -21,6 +21,8 @@ class ColorPaletteResources {
 	private static function parse(image: Pixels): ColorPalette {
 		var p = new ColorPalette();
 
+		p.setColor(C_BRIGHT_WHITE, 0xffffff);
+
 		p.setColor(C_WHITE, image.getPixel(0, 0));
 		p.setColor(C_GRAY_1, image.getPixel(1, 0));
 		p.setColor(C_GRAY_2, image.getPixel(2, 0));
@@ -67,6 +69,8 @@ class ColorPaletteResources {
 		p.setColor(C_RED_5, image.getPixel(5, 5));
 
 		p.setColor(C_SLATE, 0x212121);
+		p.setColor(C_SHROUD, 0x1f2224);
+		p.setColor(C_FIRE_LIGHT, 0xdbb45f);
 
 		return p;
 	}

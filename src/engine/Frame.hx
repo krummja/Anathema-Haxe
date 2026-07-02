@@ -1,5 +1,7 @@
 package engine;
 
+import haxe.Timer;
+
 class Frame {
 	/**
 	 * Delta time
@@ -37,6 +39,11 @@ class Frame {
 	 * The number of frames since the game start.
 	 */
 	public var tick(default, null): Int = 0;
+
+	public function getTimeSinceLastFrame(): Float {
+		var now = Timer.stamp();
+		return now - hxd.Timer.lastTimeStamp;
+	}
 
 	@:allow(engine.MainLoop)
 	private function new() {}

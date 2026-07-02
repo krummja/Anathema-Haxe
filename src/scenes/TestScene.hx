@@ -1,15 +1,16 @@
 package scenes;
 
-import systems.MovementSystem;
-import events.ConsumeEnergyEvent;
-import components.Move;
-import systems.EnergySystem;
 import common.struct.Cardinal;
+import events.ConsumeEnergyEvent;
 import engine.CommandManager.Command;
 import engine.MainLoop;
-import engine.KeyCode;
 import engine.Frame;
 import engine.Scene;
+import components.Move;
+import components.Visible;
+import components.Explored;
+import systems.MovementSystem;
+import systems.EnergySystem;
 
 class TestScene extends Scene {
 	public var energySystem(get, never): EnergySystem;
@@ -18,14 +19,15 @@ class TestScene extends Scene {
 
 	private override function onEnter(): Void {
 		MainLoop.getInstance().world.initialize();
-		MainLoop.getInstance().world.start();
+
+		var seed = Std.random(0xffffff);
+		MainLoop.getInstance().world.start(seed);
 	}
 
 	private override function onDestroy(): Void {}
 
 	private override function update(?frame: Frame): Void {
 		MainLoop.getInstance().world.update();
-		updateCamera();
 
 		if (energySystem.isPlayerTurn) {
 			var cmd = loop.commands.peek();
@@ -38,12 +40,15 @@ class TestScene extends Scene {
 				}
 			}
 		}
+
+		updateCamera();
 	}
 
 	private function updateCamera(): Void {
 		var cfocus = loop.camera.focus.toWorld().toFloatPoint();
 		var ctarget = loop.world.player.pos.toFloatPoint();
-		loop.camera.focus = ctarget.asWorld();
+		// loop.camera.focus = ctarget.asWorld();
+		loop.camera.focus = cfocus.lerp(ctarget, 0.2).asWorld();
 	}
 
 	private function handle(cmd: Command): Void {
@@ -75,10 +80,7 @@ class TestScene extends Scene {
 	private function move(dir: Cardinal) {
 		var target = world.player.pos.toIntPoint().add(dir.toOffset());
 
-		var move = new Move(target.asWorld(), 0.1, EASE_LINEAR);
-		move.start = world.player.pos;
-		move.startTime = loop.frame.elapsed;
-		world.player.entity.add(move);
+		world.player.entity.add(new Move(target.asWorld(), 0.1, EASE_LINEAR));
 
 		var cost = EnergySystem.getEnergyCost(world.player.entity, ACT_MOVE);
 		world.player.entity.fireEvent(new ConsumeEnergyEvent(cost));

@@ -24,4 +24,8 @@ class FloatExtensions {
 
 		return n;
 	}
+
+	public static function nthRoot(n: Float, root: Float): Float {
+		return Math.pow(n, 1 / root);
+	}
 }

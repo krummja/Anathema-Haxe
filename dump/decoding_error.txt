@@ -1,0 +1,323 @@
+[{
+	access: [APrivate, AOverride]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EIf({
+					expr: EUnop(OpNot, false, {
+						expr: EConst(CIdent(active))
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBlock([{
+						expr: EBlock([])
+						pos: #pos
+					}, {
+						expr: EBlock([])
+						pos: #pos
+					}, {
+						expr: EBlock([])
+						pos: #pos
+					}, {
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(super))
+								pos: #pos
+							}, __activate__, Normal)
+							pos: #pos
+						}, [])
+						pos: #pos
+					}, {
+						expr: EBlock([])
+						pos: #pos
+					}])
+					pos: #pos
+				}, null)
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: TPath({
+			name: Void
+			pack: []
+			params: []
+			sub: null
+		})
+	})
+	meta: []
+	name: __activate__
+	pos: #pos
+}, {
+	access: [APrivate, AOverride]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EIf({
+					expr: EConst(CIdent(active))
+					pos: #pos
+				}, {
+					expr: EBlock([{
+						expr: EBlock([])
+						pos: #pos
+					}, {
+						expr: EBlock([])
+						pos: #pos
+					}, {
+						expr: EBlock([])
+						pos: #pos
+					}, {
+						expr: ECall({
+							expr: EField({
+								expr: EConst(CIdent(super))
+								pos: #pos
+							}, __deactivate__, Normal)
+							pos: #pos
+						}, [])
+						pos: #pos
+					}])
+					pos: #pos
+				}, null)
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: TPath({
+			name: Void
+			pack: []
+			params: []
+			sub: null
+		})
+	})
+	meta: []
+	name: __deactivate__
+	pos: #pos
+}, {
+	access: [APrivate, AOverride]
+	doc: null
+	kind: FFun({
+		args: [{
+			meta: []
+			name: dt
+			opt: false
+			type: TPath({
+				name: Float
+				pack: []
+				params: []
+				sub: null
+			})
+			value: null
+		}]
+		expr: {
+			expr: EBlock([{
+				expr: EVars([{
+					expr: {
+						expr: ECall({
+							expr: EField({
+								expr: ECall({
+									expr: EField({
+										expr: EConst(CIdent(Date))
+										pos: #pos
+									}, now, Normal)
+									pos: #pos
+								}, [])
+								pos: #pos
+							}, getTime, Normal)
+							pos: #pos
+						}, [])
+						pos: #pos
+					}
+					isFinal: false
+					isStatic: false
+					meta: []
+					name: __timestamp__
+					namePos: #pos
+					type: null
+				}])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EField({
+						expr: EConst(CIdent(super))
+						pos: #pos
+					}, __update__, Normal)
+					pos: #pos
+				}, [{
+					expr: EConst(CIdent(dt))
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EBlock([])
+				pos: #pos
+			}, {
+				expr: EBinop(OpAssign, {
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, __updateTime__, Normal)
+					pos: #pos
+				}, {
+					expr: ECall({
+						expr: EField({
+							expr: EConst(CIdent(Std))
+							pos: #pos
+						}, int, Normal)
+						pos: #pos
+					}, [{
+						expr: EBinop(OpSub, {
+							expr: ECall({
+								expr: EField({
+									expr: ECall({
+										expr: EField({
+											expr: EConst(CIdent(Date))
+											pos: #pos
+										}, now, Normal)
+										pos: #pos
+									}, [])
+									pos: #pos
+								}, getTime, Normal)
+								pos: #pos
+							}, [])
+							pos: #pos
+						}, {
+							expr: EConst(CIdent(__timestamp__))
+							pos: #pos
+						})
+						pos: #pos
+					}])
+					pos: #pos
+				})
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: TPath({
+			name: Void
+			pack: []
+			params: []
+			sub: null
+		})
+	})
+	meta: []
+	name: __update__
+	pos: #pos
+}, {
+	access: [APublic]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: ECall({
+					expr: EConst(CIdent(super))
+					pos: #pos
+				}, [])
+				pos: #pos
+			}, {
+				expr: ECall({
+					expr: EConst(CIdent(trace))
+					pos: #pos
+				}, [{
+					expr: EField({
+						expr: EConst(CIdent(this))
+						pos: #pos
+					}, testField, Normal)
+					pos: #pos
+				}])
+				pos: #pos
+			}, {
+				expr: EIf({
+					expr: EBinop(OpNotEq, {
+						expr: EConst(CIdent(parent))
+						pos: #pos
+					}, {
+						expr: EConst(CIdent(null))
+						pos: #pos
+					})
+					pos: #pos
+				}, {
+					expr: EBlock([{
+						expr: EFor({
+							expr: EBinop(OpIn, {
+								expr: EConst(CIdent(child))
+								pos: #pos
+							}, {
+								expr: EConst(CIdent(__children__))
+								pos: #pos
+							})
+							pos: #pos
+						}, {
+							expr: EBlock([{
+								expr: ECall({
+									expr: EField({
+										expr: EConst(CIdent(parent))
+										pos: #pos
+									}, add, Normal)
+									pos: #pos
+								}, [{
+									expr: EConst(CIdent(child))
+									pos: #pos
+								}])
+								pos: #pos
+							}])
+							pos: #pos
+						})
+						pos: #pos
+					}])
+					pos: #pos
+				}, null)
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: null
+	})
+	meta: []
+	name: new
+	pos: #pos
+}, {
+	access: [APublic, AOverride]
+	doc: null
+	kind: FFun({
+		args: []
+		expr: {
+			expr: EBlock([{
+				expr: EReturn({
+					expr: EConst(CString(TestSystem, DoubleQuotes))
+					pos: #pos
+				})
+				pos: #pos
+			}])
+			pos: #pos
+		}
+		params: []
+		ret: TPath({
+			name: String
+			pack: []
+			params: []
+			sub: null
+		})
+	})
+	meta: []
+	name: toString
+	pos: #pos
+}, {
+	access: null
+	doc: null
+	kind: null <- expected value
+	meta: null
+	name: null <- expected value
+	pos: null <- expected value
+}]
+line 316: expected value
+line 318: expected value
+line 319: expected value

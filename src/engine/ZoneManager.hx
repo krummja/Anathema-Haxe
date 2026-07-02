@@ -30,7 +30,7 @@ class ZoneManager {
 	}
 
 	public function getZoneId(pos: IntPoint): Int {
-		return zones.id(pos.x, pos.y);
+		return zones.idx(pos.x, pos.y);
 	}
 
 	private function get_zoneCountX(): Int {

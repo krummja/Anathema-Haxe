@@ -49,10 +49,7 @@ class Behavior {
 		EnergySystem.consumeEnergy(entity, ACT_MOVE);
 
 		var fast = entity.exists(Move);
-		var move = new Move(next.asWorld(), fast ? 0.1 : 0.2, EASE_LINEAR);
-		move.start = entity.getPosition();
-		move.startTime = MainLoop.getInstance().frame.elapsed;
-		entity.add(move);
+		entity.add(new Move(next.asWorld(), fast ? 0.1 : 0.2, EASE_LINEAR));
 
 		return false;
 	}

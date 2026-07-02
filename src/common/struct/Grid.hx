@@ -26,16 +26,16 @@ class Grid<T> {
 		}
 	}
 
-	public inline function id(x: Int, y: Int): Int {
+	public inline function idx(x: Int, y: Int): Int {
 		return y * this.width + x;
 	}
 
 	public inline function x(idx: Int): Int {
-		return Math.floor(idx & width);
+		return Math.floor(idx % width);
 	}
 
 	public inline function y(idx: Int): Int {
-		return Math.floor(idx & height);
+		return Math.floor(idx / width);
 	}
 
 	public function coord(idx: Int): IntPoint {
@@ -45,18 +45,27 @@ class Grid<T> {
 		};
 	}
 
+	public inline function getAt(idx: Int): T {
+		return this.data[idx];
+	}
+
 	public function get(x: Int, y: Int): T {
 		if (this.isOutOfBounds(x, y)) return null;
-		var idx = this.id(x, y);
+		var idx = this.idx(x, y);
 		return this.data[idx];
+	}
+
+	public function set(x: Int, y: Int, value: T) {
+		if (isOutOfBounds(x, y)) {
+			throw 'Trying to set out-of-bounds grid coordinates (${x}, ${y}) to value ${value}';
+		}
+
+		var idx = idx(x, y);
+		data[idx] = value;
 	}
 
 	public function clear(): Void {
 		this.data = new Array();
-	}
-
-	public inline function getAt(id: Int): T {
-		return this.data[id];
 	}
 
 	public inline function isOutOfBounds(x: Int, y: Int): Bool {
@@ -71,7 +80,50 @@ class Grid<T> {
 		return y < 0 || y >= this.height;
 	}
 
+	public function iterator() {
+		return new GridIterator(this);
+	}
+
 	private function get_size(): Int {
 		return this.height * this.width;
+	}
+}
+
+@:generic
+typedef GridItem<T> = {
+	var idx: Int;
+	var x: Int;
+	var y: Int;
+	var pos: IntPoint;
+	var value: T;
+}
+
+@:generic
+class GridIterator<T> {
+	var grid: Grid<T>;
+	var i: Int;
+
+	public inline function new(grid: Grid<T>) {
+		this.grid = grid;
+		i = 0;
+	}
+
+	public inline function hasNext() {
+		return i < grid.size;
+	}
+
+	public inline function next(): GridItem<T> {
+		var idx = i;
+		var t = grid.getAt(i);
+		var pos = grid.coord(i);
+		i++;
+
+		return {
+			idx: idx,
+			x: pos.x,
+			y: pos.y,
+			pos: pos,
+			value: t
+		};
 	}
 }

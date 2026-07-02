@@ -13,4 +13,6 @@ enum SpawnableType {
 	WOLF;
 	DOG;
 	BAT;
+	LIGHT;
+	WALL;
 }

@@ -58,7 +58,7 @@ class GridMap<T> {
 	}
 
 	public inline function idx(x: Int, y: Int): Int {
-		return this.grid.id(x, y);
+		return this.grid.idx(x, y);
 	}
 
 	private function get_size(): Int {

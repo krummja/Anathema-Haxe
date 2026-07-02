@@ -51,4 +51,12 @@ class IterableExtensions {
 	public static inline function first<T>(it: Iterable<T>): T {
 		return it.iterator().next();
 	}
+
+	public static inline function fold<A, B>(it: Iterable<A>, fn: (item: A, result: B) -> B, first: B): B {
+		return Lambda.fold(it, fn, first);
+	}
+
+	public static inline function sum<T>(it: Iterable<T>, fn: (value: T) -> Float): Float {
+		return it.fold((it, res) -> fn(it) + res, 0);
+	}
 }

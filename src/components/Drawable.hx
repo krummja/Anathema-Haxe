@@ -15,7 +15,10 @@ abstract class Drawable extends Component {
 	public var secondaryColor(get, never): ColorKey;
 	public var drawable(get, never): h2d.Drawable;
 	public var shader(default, null): SpriteShader;
-	public var visible(default, set): Bool;
+
+	public var visible(default, set): Bool = true;
+	public var isShrouded(default, set): Bool = false;
+	public var enableLutShader(default, set): Bool = true;
 
 	public var offsetX(default, set): Float = -8.0;
 	public var offsetY(default, set): Float = -8.0;
@@ -93,7 +96,18 @@ abstract class Drawable extends Component {
 	}
 
 	private function set_visible(value: Bool): Bool {
-		this.drawable.visible = value;
+		this.visible = value;
+		return this.drawable.visible = value;
+	}
+
+	private function set_isShrouded(value: Bool): Bool {
+		isShrouded = value;
+		shader.setShrouded(value);
+		return value;
+	}
+
+	private function set_enableLutShader(value: Bool): Bool {
+		enableLutShader = value;
 		return value;
 	}
 }

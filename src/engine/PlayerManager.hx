@@ -22,7 +22,6 @@ class PlayerManager {
 
 	public function create(pos: Coordinate) {
 		this.entity = world.spawner.spawn(PLAYER, pos);
-		trace(this.entity);
 	}
 
 	private inline function get_x(): Float {

@@ -30,7 +30,8 @@ class MovementSystem extends System {
 	}
 
 	@:add
-	private function onMoveAdded(move: Move): Void {
+	private function onMoveAdded(move: Move, entity: Entity): Void {
+		move.start = entity.get(Position).asCoordinate();
 		move.startTime = loop.frame.elapsed;
 	}
 

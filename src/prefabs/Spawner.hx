@@ -15,6 +15,8 @@ class Spawner {
 	public function initialize() {
 		prefabs.set(PLAYER, (pos: Coordinate, ?options: Dynamic) -> new PlayerPrefab(new Position(pos.x, pos.y)));
 		prefabs.set(BAT, (pos: Coordinate, ?options: Dynamic) -> new BatPrefab(new Position(pos.x, pos.y)));
+		prefabs.set(LIGHT, (pos: Coordinate, ?options: Dynamic) -> new LightPrefab(new Position(pos.x, pos.y)));
+		prefabs.set(WALL, (pos: Coordinate, ?options: Dynamic) -> new WallPrefab(new Position(pos.x, pos.y)));
 	}
 
 	public function spawn(type: SpawnableType, ?pos: Coordinate, ?options: Dynamic, ?isDetachable: Bool): Entity {
@@ -22,6 +24,12 @@ class Spawner {
 		var o = options == null ? {} : options;
 
 		var spawnFunction = prefabs.get(type);
-		return spawnFunction(p, o);
+		var entity = spawnFunction(p, o);
+
+		if (pos != null) {
+			entity.setPosition(pos);
+		}
+
+		return entity;
 	}
 }

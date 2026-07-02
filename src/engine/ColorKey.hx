@@ -1,8 +1,10 @@
 package engine;
 
 enum abstract ColorKey(String) to String from String {
+	var C_BRIGHT_WHITE = 'C_BRIGHT_WHITE';
 	var C_WHITE = 'C_WHITE';
 	var C_BLACK = 'C_BLACK';
+
 	var C_SLATE = 'C_SLATE';
 	var C_GRAY_1 = 'C_GRAY_1';
 	var C_GRAY_2 = 'C_GRAY_2';
@@ -41,6 +43,8 @@ enum abstract ColorKey(String) to String from String {
 	var C_YELLOW_4 = 'C_YELLOW_4';
 	var C_YELLOW_5 = 'C_YELLOW_5';
 	var C_CLEAR = 'C_CLEAR';
+	var C_SHROUD = 'C_SHROUD';
+	var C_FIRE_LIGHT = 'C_FIRE_LIGHT';
 
 	@:to
 	public function toInt(): Int {

@@ -17,8 +17,6 @@ class Energy extends Component {
 		if (this.value > 0) {
 			this.value = 0;
 		}
-
-		trace(this.value);
 	}
 
 	public function consumeEnergy(value: Int) {

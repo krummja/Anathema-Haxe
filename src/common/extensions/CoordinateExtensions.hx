@@ -77,7 +77,7 @@ class CoordinateExtensions {
 
 	public static inline function toChunkId(a: Coordinate): Int {
 		var c = a.toChunk();
-		return MainLoop.getInstance().world.chunks.getChunkId(c.x, c.y);
+		return MainLoop.getInstance().world.chunks.getChunkIdx(c.x, c.y);
 	}
 
 	public static inline function toZoneId(a: Coordinate): Int {
