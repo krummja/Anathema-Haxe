@@ -17,7 +17,7 @@ class SceneManager {
 		this.scenes.push(new EmptyScene());
 	}
 
-	public function update(?frame: Frame): Void {
+	public function update(frame: Frame): Void {
 		this.current.handleInput();
 		this.current.update(frame);
 	}

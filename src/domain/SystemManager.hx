@@ -8,6 +8,8 @@ class SystemManager {
 	public var movement(default, null): MovementSystem;
 	public var chunks(default, null): ChunkSystem;
 	public var sprites(default, null): SpriteSystem;
+	public var lights(default, null): LightSystem;
+	public var vision(default, null): VisionSystem;
 
 	public function new() {}
 
@@ -16,12 +18,16 @@ class SystemManager {
 		movement = new MovementSystem();
 		chunks = new ChunkSystem();
 		sprites = new SpriteSystem();
+		lights = new LightSystem();
+		vision = new VisionSystem();
 	}
 
 	public function update(frame: Frame) {
 		energy.update(frame);
-		movement.update(frame);
 		chunks.update(frame);
+		movement.update(frame);
+		lights.update(frame);
+		vision.update(frame);
 		sprites.update(frame);
 	}
 }

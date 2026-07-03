@@ -92,16 +92,54 @@ class Chunk {
 		return this.entities.get(Math.floor(x), Math.floor(y));
 	}
 
+	public function setExplore(pos: IntPoint, isExplored: Bool, isVisible: Bool) {
+		if (!isLoaded) {
+			trace('Warning: Loading chunk on demand');
+			MainLoop.getInstance().world.chunks.loadChunk(chunkId);
+			return;
+		}
+
+		var idx = exploration.idx(pos.x, pos.y);
+		if (idx < 0) {
+			return;
+		}
+
+		exploration.setIdx(idx, isExplored);
+
+		var bm = bitmaps.get(pos.x, pos.y);
+
+		if (bm == null) {
+			return;
+		}
+
+		var shader = bm.getShader(SpriteShader);
+
+		if (isExplored) {
+			bm.visible = true;
+			if (!isVisible) {
+				shader.setShrouded(true);
+			} else {
+				shader.setShrouded(false);
+			}
+		} else {
+			shader.setShrouded(true);
+			bm.visible = false;
+		}
+	}
+
 	public function setEntityPosition(entity: Entity): Void {
 		if (!isLoaded) {
 			return;
 		}
 
-		var local = entity.get(Position).asCoordinate().toChunkLocal().toWorld();
+		var local = entity.pos.toChunkLocal().toWorld();
 		entities.set(Math.floor(local.x), Math.floor(local.y), entity.id);
 	}
 
 	public function removeEntity(entity: Entity): Void {
+		if (!isLoaded) {
+			return;
+		}
 		entities.remove(entity.id);
 	}
 
@@ -122,7 +160,7 @@ class Chunk {
 		var background = cell.background;
 
 		var bm = new h2d.Bitmap();
-		var shader = new SpriteShader(primary, secondary, background);
+		var shader = new SpriteShader(primary, secondary);
 
 		if (tileKey != null) {
 			bm.tile = TileResources.get(tileKey);

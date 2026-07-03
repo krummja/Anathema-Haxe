@@ -1,10 +1,12 @@
 package engine;
 
+import engine.ColorKey;
+
 typedef Cell = {
 	idx: Int,
 	terrain: TerrainType,
 	tileKey: TileKey,
-	primary: Int,
-	secondary: Int,
-	background: Int,
+	primary: ColorKey,
+	secondary: ColorKey,
+	background: ColorKey,
 };

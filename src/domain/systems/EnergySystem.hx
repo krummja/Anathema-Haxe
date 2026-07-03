@@ -59,7 +59,7 @@ class EnergySystem extends System {
 		world.clock.clearDeltas();
 
 		if (isPlayersTurn && world.player.entity.get(Energy).hasEnergy) {
-			// TODO
+			// TODO Sleeping system logic
 			return;
 		}
 

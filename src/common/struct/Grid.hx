@@ -64,12 +64,24 @@ class Grid<T> {
 		data[idx] = value;
 	}
 
+	public function setIdx(idx: Int, value: T) {
+		if (isIdxOutOfBounds(idx)) {
+			throw 'Trying to set out-of-bounds grid index (${idx}) to value ${value}';
+		}
+
+		data[idx] = value;
+	}
+
 	public function clear(): Void {
 		this.data = new Array();
 	}
 
 	public inline function isOutOfBounds(x: Int, y: Int): Bool {
 		return this.isXOutOfBounds(x) || this.isYOutOfBounds(y);
+	}
+
+	public inline function isIdxOutOfBounds(idx: Int): Bool {
+		return idx > size || idx < 0;
 	}
 
 	public inline function isXOutOfBounds(x: Int): Bool {

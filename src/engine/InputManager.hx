@@ -63,6 +63,7 @@ class InputManager {
 			case EKeyDown:
 				this.setModKeys(event.keyCode, KEY_DOWN);
 				this.handleKeyEvent(event.keyCode, KEY_DOWN);
+				MainLoop.getInstance().scenes.current.onKeyDown(event.keyCode);
 			case _:
 		}
 	}

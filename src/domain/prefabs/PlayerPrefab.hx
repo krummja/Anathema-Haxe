@@ -1,5 +1,7 @@
 package domain.prefabs;
 
+import domain.components.LightSource;
+import domain.components.Vision;
 import domain.components.Energy;
 import domain.components.Position;
 import domain.components.IsPlayer;
@@ -16,6 +18,7 @@ class PlayerPrefab extends Prefab {
 		entity.add(new IsPlayer());
 		entity.add(new Position(pos.x, pos.y));
 		entity.add(new Energy(10));
+		entity.add(new Vision());
 
 		return entity;
 	}

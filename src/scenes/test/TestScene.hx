@@ -1,31 +1,29 @@
-package scenes;
+package scenes.test;
 
-import domain.systems.MovementSystem;
+import engine.KeyCode;
 import domain.events.ConsumeEnergyEvent;
 import domain.components.Move;
 import domain.systems.EnergySystem;
 import common.struct.Cardinal;
 import engine.CommandManager.Command;
-import engine.MainLoop;
 import engine.Frame;
 import engine.Scene;
 
 class TestScene extends Scene {
 	public var energySystem(get, never): EnergySystem;
 
+	private var cameraLocked: Bool = false;
+
 	public function new() {}
 
 	private override function onEnter(): Void {
-		MainLoop.getInstance().world.initialize();
-
-		var seed = Std.random(0xffffff);
-		MainLoop.getInstance().world.start(seed);
+		world.systems.vision.computeVision();
 	}
 
 	private override function onDestroy(): Void {}
 
 	private override function update(?frame: Frame): Void {
-		MainLoop.getInstance().world.update();
+		loop.world.update();
 
 		if (energySystem.isPlayersTurn) {
 			var cmd = loop.commands.peek();
@@ -38,13 +36,21 @@ class TestScene extends Scene {
 			}
 		}
 
-		updateCamera();
+		if (!cameraLocked) {
+			updateCamera();
+		}
 	}
 
 	private function updateCamera(): Void {
 		var cfocus = loop.camera.focus.toWorld().toFloatPoint();
 		var ctarget = loop.world.player.pos.toFloatPoint();
 		loop.camera.focus = cfocus.lerp(ctarget, 0.2).asWorld();
+	}
+
+	private override function onKeyDown(key: KeyCode) {
+		if (key == KEY_NUM_1) {
+			cameraLocked = !cameraLocked;
+		}
 	}
 
 	private function handle(cmd: Command): Void {

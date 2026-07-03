@@ -68,14 +68,6 @@ class MainLoop {
 		this.app.s2d.addChild(this.layers.root);
 	}
 
-	/**
-	 * Runs update on all attached managers.
-	 *
-	 * 1. Frame
-	 * 2. SceneManager
-	 * 	- Current Scene Handle Input
-	 * 	- Current Scene Update
-	 */
 	public inline function update(): Void {
 		this.frame.update();
 		this.scenes.update(this.frame);
@@ -83,6 +75,11 @@ class MainLoop {
 
 	public inline function render(layer: RenderLayerType, ob: h2d.Object): Void {
 		return this.layers.render(layer, ob);
+	}
+
+	@:allow(engine.Scene)
+	private function setWorld(world: World) {
+		this.world = world;
 	}
 
 	private inline function get_window(): hxd.Window {

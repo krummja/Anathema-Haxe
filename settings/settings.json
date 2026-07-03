@@ -14,7 +14,7 @@
 		"resolutionWidth": 1200,
 		"resolutionHeight": 800,
 		"scanlines": false,
-		"zoomLevel": 4.0
+		"zoomLevel": 2.0
 	},
 	"graphics": {
 		"vsyncEnabled": true

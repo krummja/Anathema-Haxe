@@ -13,4 +13,8 @@ class IntExtensions {
 		var r = (n >> 16) & 0xff;
 		return new h3d.Vector4(r / 255, g / 255, b / 255, a);
 	}
+
+	public static inline function pow(n: Int, exp: Int): Int {
+		return Math.pow(n, exp).floor();
+	}
 }

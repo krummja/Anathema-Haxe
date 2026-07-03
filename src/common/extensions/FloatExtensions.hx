@@ -1,6 +1,14 @@
 package common.extensions;
 
 class FloatExtensions {
+	public static inline function floor(n: Float): Int {
+		return Math.floor(n);
+	}
+
+	public static inline function ceil(n: Float): Int {
+		return Math.ceil(n);
+	}
+
 	public static inline function toDegrees(n: Float): Float {
 		return n * (180 / Math.PI);
 	}

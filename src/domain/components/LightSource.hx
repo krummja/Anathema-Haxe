@@ -1,5 +1,6 @@
 package domain.components;
 
+import engine.ColorKey;
 import ecs.Component;
 import ecs.Entity;
 import domain.events.EntitySpawnedEvent;
@@ -13,14 +14,14 @@ class LightSource extends Component {
 
 	public function new(
 		intensity: Float = 0.5,
-		color: Int = 0xffffff,
+		color: ColorKey = C_WHITE,
 		range: Int = 5,
 		isEnabled: Bool = true,
 		disableLutShader: Bool = true
 	) {
 		this.intensity = intensity;
 		this.range = range;
-		this.color = color;
+		this.color = color.toInt();
 		this.isEnabled = isEnabled;
 		this.disableLutShader = disableLutShader;
 

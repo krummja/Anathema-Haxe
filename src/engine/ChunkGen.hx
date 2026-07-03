@@ -18,7 +18,7 @@ class ChunkGen {
 			idx: idx,
 			terrain: TERRAIN_GRASS,
 			tileKey: TK_GRASS_01,
-			primary: MainLoop.getInstance().palette.getColor(C_GREEN_0),
+			primary: MainLoop.getInstance().palette.getColor(C_GREEN_3),
 			secondary: 0x000000,
 			background: 0x000000,
 		};

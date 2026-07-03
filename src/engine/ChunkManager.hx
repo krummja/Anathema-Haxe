@@ -80,7 +80,6 @@ class ChunkManager {
 	}
 
 	public function loadChunk(chunkIdx: Int) {
-		trace('Loading chunk ${chunkIdx}');
 		var chunk = getChunkById(chunkIdx);
 		if (chunk != null) {
 			chunk.load();

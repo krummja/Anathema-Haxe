@@ -9,6 +9,7 @@ import domain.PlayerManager;
 import domain.SystemManager;
 // import prefabs.*;
 // import components.*;
+import domain.components.*;
 import domain.prefabs.*;
 import engine.*;
 
@@ -19,9 +20,9 @@ class World {
 	public var chunks(default, null): ChunkManager;
 	public var zones(default, null): ZoneManager;
 
-	public var zoneCountX(default, null): Int = 64;
-	public var zoneCountY(default, null): Int = 48;
-	public var zoneSize(default, null): Int = 64;
+	public var zoneCountX(default, null): Int = 8;
+	public var zoneCountY(default, null): Int = 4;
+	public var zoneSize(default, null): Int = 16;
 
 	public var chunksPerZone(default, never): Int = 4;
 	public var chunkSize(get, never): Int;
@@ -34,6 +35,7 @@ class World {
 	public var systems(default, null): SystemManager;
 	public var clock(default, null): Clock;
 	public var started(get, null): Bool = false;
+	public var spawner(default, null): Spawner;
 
 	public var rand: Rand;
 	public var seed: Int = 2;
@@ -47,23 +49,28 @@ class World {
 		this.behavior = new BehaviorManager();
 		this.chunks = new ChunkManager();
 		this.zones = new ZoneManager();
+		this.spawner = new Spawner();
 	}
 
 	public function initialize(): Void {
 		this.rand = new Rand(seed);
 		this.visible = [];
 
+		this.spawner.initialize();
 		this.zones.initialize();
 		this.chunks.initialize();
+		this.player.initialize();
 		this.systems.initialize();
 		// this.map.initialize();
 	}
 
 	public function start(seed: Int): Void {
-		this.player.create(new Coordinate(2, 2, WORLD));
+		var pos = new Coordinate((worldWidth / 2).floor(), (worldHeight / 2).floor(), WORLD);
+		chunks.loadChunks(pos.toChunkId());
+		chunks.loadChunk(pos.toChunkId());
+		this.player.create(pos);
 
-		var plant = new PlantPrefab();
-		plant.create({}, new Coordinate(4, 4, WORLD));
+		this.spawner.spawnEntity(LIGHT, pos.add(new Coordinate(2, 2, WORLD)));
 
 		this.started = true;
 	}
@@ -101,6 +108,58 @@ class World {
 			x: Math.floor(idx % w),
 			y: Math.floor(idx / w),
 		};
+	}
+
+	public function clearVisible() {
+		for (value in visible) {
+			var c = value.toChunk();
+			var chunk = chunks.getChunk(c.x, c.y);
+
+			if (chunk == null || !chunk.isLoaded) {
+				continue;
+			}
+
+			var local = value.toChunkLocal().toIntPoint();
+			chunk.setExplore(local, true, false);
+
+			for (entity in getEntitiesAt(value.toWorld().toIntPoint())) {
+				if (entity.has(Visible)) {
+					entity.remove(Visible);
+				}
+			}
+		}
+
+		visible = [];
+	}
+
+	public function setVisible(pos: Coordinate) {
+		var c = pos.toChunk();
+
+		var chunk = chunks.getChunk(c.x, c.y);
+
+		if (chunk != null) {
+			var local = pos.toChunkLocal().toIntPoint();
+			chunk.setExplore(local, true, true);
+
+			var light = systems.lights.getTileLight(pos.toIntPoint());
+
+			for (entity in getEntitiesAt(pos.toWorld().toIntPoint())) {
+				if (!entity.has(Visible)) {
+					entity.add(new Visible());
+				}
+
+				if (!entity.has(Explored)) {
+					entity.add(new Explored());
+				}
+
+				if (light.intensity > 0 && entity.has(Sprite)) {
+					var sprite = entity.get(Sprite);
+					sprite.shader.isLit = 1;
+					sprite.shader.lightColor = light.color.toHxdColor().toVector();
+					sprite.shader.lightIntensity = light.intensity;
+				}
+			}
+		}
 	}
 
 	public inline function isOutOfBounds(pos: IntPoint): Bool {

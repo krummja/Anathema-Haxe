@@ -20,7 +20,7 @@ class TileResources {
 	}
 
 	public static function init() {
-		var sheet = hxd.Res.tiles.kenny2;
+		var sheet = hxd.Res.tiles.kenny2_transparent;
 		var t = divideTilesheet(sheet.toTile(), 49, 22);
 
 		// @formatter:off

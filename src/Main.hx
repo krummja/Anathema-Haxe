@@ -1,3 +1,6 @@
+import haxe.ui.Toolkit;
+import scenes.boot.BootScene;
+import data.Bitmasks;
 import engine.BehaviorManager.Behaviors;
 import engine.TextResources;
 import engine.SettingsManager;
@@ -6,7 +9,6 @@ import engine.TileResources;
 import hxd.Res;
 import engine.Commands;
 import engine.MainLoop;
-import scenes.TestScene;
 
 class Main extends hxd.App {
 	public static function main(): Void {
@@ -19,11 +21,17 @@ class Main extends hxd.App {
 	public override function init(): Void {
 		SettingsManager.init("settings");
 
+		s2d.renderer.globals.set("daylight", 1);
+		s2d.renderer.globals.set("dayProgress", 0);
+		s2d.renderer.globals.set("time", 0);
+		s2d.renderer.globals.set("clearColor", 0xff00ff.toHxdColor().toVector());
+
 		var window = hxd.Window.getInstance();
 
 		ColorPaletteResources.init();
 		TextResources.init();
 		TileResources.init();
+		Bitmasks.init();
 		Commands.init();
 		Behaviors.init();
 
@@ -37,7 +45,8 @@ class Main extends hxd.App {
 		});
 
 		this.loop = MainLoop.create(this);
-		this.loop.scenes.set(new TestScene());
+		Toolkit.init({root: this.loop.layers.root});
+		this.loop.scenes.set(new BootScene());
 
 		trace("App initialized - launching");
 	}
