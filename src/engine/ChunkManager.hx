@@ -102,6 +102,10 @@ class ChunkManager {
 		return this.chunks.getAt(chunkId);
 	}
 
+	public inline function getChunkIdxByWorld(wx: Float, wy: Float): Int {
+		return getChunkIdx(Math.floor(wx / chunkSize), Math.floor(wy / chunkSize));
+	}
+
 	public overload extern inline function getChunk(cx: Float, cy: Float): Chunk {
 		return getChunk(Math.floor(cx), Math.floor(cy));
 	}

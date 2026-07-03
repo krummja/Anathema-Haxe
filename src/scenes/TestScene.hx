@@ -1,14 +1,14 @@
 package scenes;
 
+import domain.systems.MovementSystem;
+import domain.events.ConsumeEnergyEvent;
+import domain.components.Move;
+import domain.systems.EnergySystem;
 import common.struct.Cardinal;
-import events.ConsumeEnergyEvent;
 import engine.CommandManager.Command;
 import engine.MainLoop;
 import engine.Frame;
 import engine.Scene;
-import components.Move;
-import systems.MovementSystem;
-import systems.EnergySystem;
 
 class TestScene extends Scene {
 	public var energySystem(get, never): EnergySystem;
@@ -27,12 +27,11 @@ class TestScene extends Scene {
 	private override function update(?frame: Frame): Void {
 		MainLoop.getInstance().world.update();
 
-		if (energySystem.isPlayerTurn) {
+		if (energySystem.isPlayersTurn) {
 			var cmd = loop.commands.peek();
 			if (cmd != null) {
-				if (world.player.entity.exists(Move)) {
-					var movement: MovementSystem = cast world.systems.getSystem(ON_UPDATE, MovementSystem);
-					movement.finishMoveFast(world.player.entity);
+				if (world.player.entity.has(Move)) {
+					world.systems.movement.finishMoveFast(world.player.entity);
 				} else {
 					handle(loop.commands.next());
 				}
@@ -76,14 +75,14 @@ class TestScene extends Scene {
 
 	private function move(dir: Cardinal) {
 		var target = world.player.pos.toIntPoint().add(dir.toOffset());
+		var entities = world.getEntitiesAt(target);
 
 		world.player.entity.add(new Move(target.asWorld(), 0.1, EASE_LINEAR));
-
 		var cost = EnergySystem.getEnergyCost(world.player.entity, ACT_MOVE);
 		world.player.entity.fireEvent(new ConsumeEnergyEvent(cost));
 	}
 
 	private function get_energySystem(): EnergySystem {
-		return world.systems.getSystem(ON_UPDATE, EnergySystem);
+		return world.systems.energy;
 	}
 }

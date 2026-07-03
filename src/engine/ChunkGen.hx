@@ -4,7 +4,7 @@ import hxd.Rand;
 
 class ChunkGen {
 	private var seed(get, null): Int;
-	private var world(get, null): World;
+	private var world(get, null): domain.World;
 
 	public function new() {}
 
@@ -30,7 +30,7 @@ class ChunkGen {
 		return engine.MainLoop.getInstance().world.seed;
 	}
 
-	private function get_world(): World {
+	private function get_world(): domain.World {
 		return engine.MainLoop.getInstance().world;
 	}
 }

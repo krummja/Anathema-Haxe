@@ -1,17 +1,15 @@
 package engine;
 
-import components.Move;
-import components.IsCreature;
-import components.Position;
 import common.algorithm.Distance;
 import common.algorithm.AStar;
 import common.algorithm.AStar.AStarResult;
 import common.struct.Coordinate;
-import systems.EnergySystem;
-import echoes.Entity;
+import domain.components.*;
+import domain.systems.EnergySystem;
+import ecs.Entity;
 
 class Behavior {
-	public var world(get, never): World;
+	public var world(get, never): domain.World;
 
 	public function takeAction(entity: Entity): Void {
 		wait(entity);
@@ -41,14 +39,14 @@ class Behavior {
 
 		var entities = world.getEntitiesAt(next);
 
-		if (Lambda.exists(entities, (e) -> e.exists(IsCreature))) {
+		if (Lambda.exists(entities, (e) -> e.has(IsCreature))) {
 			wait(entity);
 			return true;
 		}
 
 		EnergySystem.consumeEnergy(entity, ACT_MOVE);
 
-		var fast = entity.exists(Move);
+		var fast = entity.has(Move);
 		entity.add(new Move(next.asWorld(), fast ? 0.1 : 0.2, EASE_LINEAR));
 
 		return false;
@@ -67,7 +65,7 @@ class Behavior {
 		});
 	}
 
-	private function get_world(): World {
+	private function get_world(): domain.World {
 		return MainLoop.getInstance().world;
 	}
 }

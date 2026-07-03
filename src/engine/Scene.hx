@@ -5,7 +5,7 @@ abstract class Scene {
 
 	public var camera(get, null): Camera;
 
-	public var world(get, null): World;
+	public var world(get, null): domain.World;
 
 	public var inputDomain: InputDomainType = INPUT_DOMAIN_DEFAULT;
 
@@ -49,7 +49,7 @@ abstract class Scene {
 		return MainLoop.getInstance();
 	}
 
-	private function get_world(): World {
+	private function get_world(): domain.World {
 		return MainLoop.getInstance().world;
 	}
 

@@ -1,7 +1,9 @@
 package engine;
 
+import ecs.Registry;
 import h2d.Console;
 import engine.RenderLayerManager;
+import domain.World;
 
 class MainLoop {
 	public var UNIT_X: Int = 16;
@@ -34,6 +36,7 @@ class MainLoop {
 	public var console(default, null): Console;
 	public var timeout(default, null): TimeoutManager;
 	public var world(default, null): World;
+	public var registry(default, null): Registry;
 	public var palette(get, null): ColorPalette;
 
 	private function new(app: hxd.App) {
@@ -46,6 +49,7 @@ class MainLoop {
 		this.commands = new CommandManager();
 		this.camera = new Camera();
 		this.world = new World();
+		this.registry = new Registry();
 		this.scenes = new SceneManager(this);
 		this.timeout = new TimeoutManager();
 

@@ -2,14 +2,14 @@ package engine;
 
 import shaders.SpriteShader;
 import h2d.Bitmap;
-import echoes.Entity;
-import components.Position;
+import ecs.Entity;
+import domain.components.Position;
 import common.struct.IntPoint;
 import common.struct.Grid;
 import common.struct.GridMap;
 
 class Chunk {
-	public var entities(default, null): GridMap<Int>;
+	public var entities(default, null): GridMap<String>;
 	public var exploration(default, null): Grid<Null<Bool>>;
 	public var bitmaps(default, null): Grid<Bitmap>;
 	public var isLoaded(default, null): Bool;
@@ -84,7 +84,7 @@ class Chunk {
 		}
 	}
 
-	public function getEntityIdsAt(x: Float, y: Float): Array<Int> {
+	public function getEntityIdsAt(x: Float, y: Float): Array<String> {
 		if (!isLoaded) {
 			return [];
 		}
