@@ -1,5 +1,6 @@
 package domain.systems;
 
+import domain.components.Position;
 import engine.Frame;
 import ecs.Entity;
 import domain.components.Moved;
@@ -79,9 +80,12 @@ class MovementSystem extends System {
 			var currentDuration = frame.elapsed - move.startTime;
 			var progress = (currentDuration / move.duration).clamp(0, 1);
 
-			var newPos = move.start.ease(move.goal, progress, move.ease);
+			// var newPos = move.start.ease(move.goal, progress, move.ease);
 
-			entity.pos = newPos;
+			var target = move.goal.toWorld();
+
+			entity.get(Position).set(target.x, target.y);
+			entity.pos = target;
 
 			if (distanceSq < move.epsilon * move.epsilon) {
 				entity.remove(move);
