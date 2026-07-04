@@ -17,4 +17,8 @@ class IntExtensions {
 	public static inline function pow(n: Int, exp: Int): Int {
 		return Math.pow(n, exp).floor();
 	}
+
+	public static inline function toString(n: Int): String {
+		return Std.string(n);
+	}
 }

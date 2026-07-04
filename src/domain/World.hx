@@ -21,11 +21,11 @@ class World {
 	public var chunks(default, null): ChunkManager;
 	public var zones(default, null): ZoneManager;
 
-	public var zoneCountX(default, null): Int = 8;
-	public var zoneCountY(default, null): Int = 4;
-	public var zoneSize(default, null): Int = 16;
+	public var zoneCountX(default, null): Int = 64;
+	public var zoneCountY(default, null): Int = 48;
+	public var zoneSize(default, null): Int = 40;
 
-	public var chunksPerZone(default, never): Int = 4;
+	public var chunksPerZone(default, never): Int = 2;
 	public var chunkSize(get, never): Int;
 	public var chunkCountX(get, never): Int;
 	public var chunkCountY(get, never): Int;
@@ -66,7 +66,7 @@ class World {
 		this.map.initialize();
 		this.player.initialize();
 		this.systems.initialize();
-		// this.map.initialize();
+		this.map.initialize();
 	}
 
 	public function start(seed: Int): Void {
@@ -75,7 +75,11 @@ class World {
 		chunks.loadChunk(pos.toChunkId());
 		this.player.create(pos);
 
-		this.spawner.spawnEntity(LIGHT, pos.add(new Coordinate(2, 2, WORLD)));
+		// this.spawner.spawnEntity(LIGHT, pos.add(new Coordinate(2, 2, WORLD)));
+
+		for (y in 0...6) {
+			this.spawner.spawnEntity(TALL_GRASS, pos.add(new Coordinate(6, y, WORLD)));
+		}
 
 		this.started = true;
 	}
@@ -125,8 +129,8 @@ class World {
 			}
 
 			var local = value.toChunkLocal().toIntPoint();
-			chunk.setExplore(local, true, false);
 
+			chunk.setExplore(local, true, false);
 			for (entity in getEntitiesAt(value.toWorld().toIntPoint())) {
 				if (entity.has(Visible)) {
 					entity.remove(Visible);
@@ -169,6 +173,8 @@ class World {
 				}
 			}
 		}
+
+		visible.push(pos);
 	}
 
 	public function isExplored(coord: Coordinate): Bool {

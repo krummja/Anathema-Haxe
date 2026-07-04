@@ -1,5 +1,6 @@
 package engine;
 
+import data.save.SaveZone.SaveZones;
 import common.struct.IntPoint;
 import common.struct.Coordinate;
 import common.struct.Grid;
@@ -14,6 +15,16 @@ class ZoneManager {
 	public function initialize(): Void {
 		this.zones = new Grid<Zone>(this.zoneCountX, this.zoneCountY);
 		this.zones.fillFn((idx) -> new Zone(idx));
+	}
+
+	public function save(): SaveZones {
+		return {
+			zones: zones.save((z) -> z.save()),
+		};
+	}
+
+	public function load(data: SaveZones) {
+		zones.load(data.zones, (z) -> Zone.load(z));
 	}
 
 	public function getZoneByCoordinate(coord: Coordinate) {

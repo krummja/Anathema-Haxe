@@ -1,5 +1,7 @@
 package common.struct;
 
+import data.save.GridSave;
+
 @:generic
 class Grid<T> {
 	public var width(default, null): Int;
@@ -70,6 +72,20 @@ class Grid<T> {
 		}
 
 		data[idx] = value;
+	}
+
+	public function save<V>(fn: (T) -> V): GridSave<V> {
+		return {
+			width: width,
+			height: height,
+			data: data.map((d: T) -> fn(d)),
+		};
+	}
+
+	public function load<V>(save: GridSave<V>, fn: (V) -> T) {
+		width = save.width;
+		height = save.height;
+		data = save.data.map(fn);
 	}
 
 	public function clear(): Void {

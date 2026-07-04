@@ -1,5 +1,6 @@
 package domain.prefabs;
 
+import domain.components.Moniker;
 import domain.components.LightSource;
 import domain.components.Vision;
 import domain.components.Energy;
@@ -16,9 +17,9 @@ class PlayerPrefab extends Prefab {
 
 		entity.add(new Sprite(TK_PLAYER_01, C_WHITE, C_BLUE_1, ACTOR));
 		entity.add(new IsPlayer());
-		entity.add(new Position(pos.x, pos.y));
 		entity.add(new Energy(10));
-		entity.add(new Vision());
+		entity.add(new Vision(14));
+		entity.add(new Moniker("Player"));
 
 		return entity;
 	}

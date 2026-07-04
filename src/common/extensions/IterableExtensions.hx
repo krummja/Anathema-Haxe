@@ -63,4 +63,23 @@ class IterableExtensions {
 	public static inline function sum<T>(it: Iterable<T>, fn: (value: T) -> Float): Float {
 		return it.fold((it, res) -> fn(it) + res, 0);
 	}
+
+	public static inline function map<A, B>(it: Iterable<A>, fn: (item: A) -> B): Array<B> {
+		return Lambda.map(it, fn);
+	}
+
+	public static inline function filterMap<A, B>(it: Iterable<A>, fn: (item: A) -> {value: B, filter: Bool}): Array<B> {
+		return [
+			for (x in it) {
+				var r = fn(x);
+				if (r.filter) {
+					r.value;
+				}
+			}
+		];
+	}
+
+	public static inline function flatten<A>(it: Iterable<Iterable<A>>): Array<A> {
+		return Lambda.flatten(it);
+	}
 }

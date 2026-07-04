@@ -30,11 +30,11 @@ class PlayerManager {
 	}
 
 	private inline function get_x(): Float {
-		return entity.get(Position).x;
+		return entity.pos.x;
 	}
 
 	private inline function get_y(): Float {
-		return entity.get(Position).y;
+		return entity.pos.y;
 	}
 
 	private inline function get_pos(): Coordinate {

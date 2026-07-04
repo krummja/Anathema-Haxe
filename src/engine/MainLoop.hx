@@ -37,6 +37,8 @@ class MainLoop {
 	public var timeout(default, null): TimeoutManager;
 	public var world(default, null): World;
 	public var registry(default, null): Registry;
+	public var files(default, null): FileManager;
+
 	public var palette(get, null): ColorPalette;
 
 	private function new(app: hxd.App) {
@@ -44,6 +46,7 @@ class MainLoop {
 		this.app = app;
 
 		this.frame = new Frame();
+		this.files = new FileManager();
 		this.layers = new RenderLayerManager();
 		this.input = new InputManager();
 		this.commands = new CommandManager();

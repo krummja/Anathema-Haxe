@@ -58,7 +58,7 @@ class Shadowcast {
 					break;
 				}
 
-				var deltaDistance = Math.round(Math.sqrt(deltaX * deltaX + deltaY * deltaY));
+				var deltaDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY).round();
 
 				if (deltaDistance <= s.distance) {
 					s.onLight(pos, deltaDistance);

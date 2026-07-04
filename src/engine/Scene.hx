@@ -11,7 +11,7 @@ abstract class Scene {
 	public var onClosedListener: () -> Void = () -> {};
 
 	@:allow(engine.SceneManager)
-	private function update(?frame: Frame): Void {}
+	private function update(frame: Frame): Void {}
 
 	@:allow(engine.SceneManager)
 	private function onEnter(): Void {}

@@ -1,18 +1,19 @@
 package engine;
 
+import common.struct.Coordinate;
 import engine.KeyEvent.KeyEventType;
 import common.struct.Queue;
 
 class InputManager {
 	public var queue: Queue<KeyEvent>;
-	// public var mouse: Coordinate;
+	public var mouse: Coordinate;
 	public var modShift: Bool = false;
 	public var modCtrl: Bool = false;
 	public var modAlt: Bool = false;
 
 	public function new() {
 		this.queue = new Queue(4);
-		// this.mouse = new Coordinate(0, 0, SCREEN);
+		this.mouse = new Coordinate(0, 0, SCREEN);
 		MainLoop.getInstance().window.addEventTarget(this.onSceneEvent);
 	}
 
@@ -58,6 +59,10 @@ class InputManager {
 
 	private function onSceneEvent(event: hxd.Event): Void {
 		switch (event.kind) {
+			case EMove:
+				var previous = mouse;
+				mouse = new Coordinate(event.relX, event.relY, SCREEN);
+			// MainLoop.getInstance().scenes.current.onMouseMove()
 			case EKeyUp:
 				this.setModKeys(event.keyCode, KEY_UP);
 			case EKeyDown:

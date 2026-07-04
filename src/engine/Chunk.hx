@@ -1,5 +1,6 @@
 package engine;
 
+import data.save.SaveChunk;
 import shaders.SpriteShader;
 import h2d.Bitmap;
 import ecs.Entity;
@@ -31,7 +32,7 @@ class Chunk {
 		this.cells = new Grid(size, size);
 	}
 
-	public function load() {
+	public function load(?save: SaveChunk) {
 		if (isLoaded) {
 			return;
 		}
@@ -44,15 +45,73 @@ class Chunk {
 		this.cells = new Grid(size, size);
 		this.tiles = new h2d.Object();
 
-		exploration.fill(false);
-		MainLoop.getInstance().world.chunks.chunkGen.generate(this);
+		if (save == null) {
+			exploration.fill(false);
+			MainLoop.getInstance().world.chunks.chunkGen.generate(this);
+			buildTiles();
+		} else {
+			var tickDelta = MainLoop.getInstance().world.clock.tick - save.tick;
+			size = save.size;
+			cells.load(save.cells, (c) -> c);
+			buildTiles();
 
-		buildTiles();
+			exploration.load(save.explored, (v) -> v);
+
+			for (e in exploration) {
+				setExplore(e.pos, e.value, false);
+			}
+
+			entities.load(save.entities, (edata) -> {
+				return edata.map((data) -> {
+					Entity.load(data, tickDelta);
+					return data.id;
+				});
+			});
+		}
+
+		for (detachedId in MainLoop.getInstance().registry.getDetachedEntities()) {
+			var e = MainLoop.getInstance().registry.getEntity(detachedId);
+			if (e.chunkIdx == chunkId) {
+				e.reattach();
+				setEntityPosition(e);
+			}
+		}
 
 		MainLoop.getInstance().render(BACKGROUND, tiles);
 		var pix = worldPos.asWorld().toPixel();
 		tiles.x = pix.x;
 		tiles.y = pix.y;
+	}
+
+	public function save(): SaveChunk {
+		if (!isLoaded) {
+			trace('Cannot save an unloaded chunk');
+			return null;
+		}
+
+		return {
+			idx: chunkId,
+			size: size,
+			tick: MainLoop.getInstance().world.clock.tick,
+			explored: exploration.save((v) -> v),
+			cells: cells.save((v) -> v),
+			entities: entities.save((v) -> {
+				return v.filterMap((id) -> {
+					var e = MainLoop.getInstance().registry.getEntity(id);
+					if (e != null && !e.isDetachable) {
+						return {
+							value: e.save(),
+							filter: true,
+						};
+					}
+
+					return {
+						value: null,
+						filter: false,
+					};
+				});
+			})
+		}
 	}
 
 	public function unload() {

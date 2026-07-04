@@ -84,7 +84,6 @@ class MovementSystem extends System {
 
 			var target = move.goal.toWorld();
 
-			entity.get(Position).set(target.x, target.y);
 			entity.pos = target;
 
 			if (distanceSq < move.epsilon * move.epsilon) {

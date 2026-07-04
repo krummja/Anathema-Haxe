@@ -15,12 +15,12 @@ class BootScene extends Scene {
 	}
 
 	public function start() {
+		var seed = Std.random(0xffffff);
+		loop.files.deleteSave("test");
+		loop.files.setSaveName("test");
 		loop.setWorld(new World());
 		loop.world.initialize();
-
-		var seed = Std.random(0xffffff);
 		loop.world.start(seed);
-
 		loop.scenes.set(new TestScene());
 	}
 }

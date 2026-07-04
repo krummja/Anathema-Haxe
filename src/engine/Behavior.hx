@@ -54,7 +54,7 @@ class Behavior {
 
 	public function astar(entity: Entity, goal: Coordinate): AStarResult {
 		return AStar.getPath({
-			start: entity.get(Position).asCoordinate().toWorld().toIntPoint(),
+			start: entity.pos.toWorld().toIntPoint(),
 			goal: goal.toWorld().toIntPoint(),
 			maxDepth: 250,
 			allowDiagonals: true,

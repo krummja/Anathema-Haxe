@@ -98,6 +98,9 @@ class VisionSystem extends System {
 		}
 	}
 
+	/**
+	 * Check if one entity can see another (LOS calculation)
+	 */
 	public function canSee(source: Entity, target: Coordinate): Bool {
 		var vision = source.get(Vision);
 
@@ -107,7 +110,7 @@ class VisionSystem extends System {
 
 		var a = source.pos.toIntPoint();
 		var b = target.toWorld().toIntPoint();
-		var distance = Math.round(Distance.Euclidean(a, b));
+		var distance = Distance.Euclidean(a, b).round();
 
 		if (distance > vision.range) {
 			return false;
@@ -170,7 +173,7 @@ class VisionSystem extends System {
 			return false;
 		}
 
-		var entities = world.getEntitiesAt(p.asWorld().toIntPoint());
+		var entities = world.getEntitiesAt(p.asWorld());
 		return Lambda.exists(entities, (e) -> e.has(LightBlocker));
 	}
 }

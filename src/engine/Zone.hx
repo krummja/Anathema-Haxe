@@ -1,8 +1,14 @@
 package engine;
 
+import data.save.SaveZone.ZoneSaveData;
 import common.struct.IntPoint;
 
 class Zone {
+	public static function load(data: ZoneSaveData): Zone {
+		var z = new Zone(data.zoneId);
+		return z;
+	}
+
 	public var zoneId(default, null): Int;
 	public var zonePos(get, never): IntPoint;
 	public var worldPos(get, never): IntPoint;
@@ -10,6 +16,12 @@ class Zone {
 
 	public function new(zoneId: Int) {
 		this.zoneId = zoneId;
+	}
+
+	public function save(): ZoneSaveData {
+		return {
+			zoneId: zoneId,
+		};
 	}
 
 	public function getChunks(): Array<Chunk> {

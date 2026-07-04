@@ -1,9 +1,9 @@
 package domain.prefabs;
 
 import engine.MainLoop;
+import engine.SpawnableType;
 import domain.events.EntitySpawnedEvent;
 import common.struct.Coordinate;
-import engine.SpawnableType;
 
 class Spawner {
 	private var prefabs: Map<SpawnableType, Prefab> = new Map();
@@ -13,6 +13,7 @@ class Spawner {
 	public function initialize() {
 		prefabs.set(PLAYER, new PlayerPrefab());
 		prefabs.set(LIGHT, new LampPrefab());
+		prefabs.set(TALL_GRASS, new PlantPrefab());
 	}
 
 	public function spawnEntity(type: SpawnableType, ?pos: Coordinate, ?options: Dynamic, ?isDetachable: Bool) {

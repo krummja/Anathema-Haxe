@@ -1,5 +1,7 @@
 package ecs;
 
+import domain.events.EntityLoadedEvent;
+import data.save.EntitySaveData;
 import domain.components.IsDetached;
 import common.util.UniqueId;
 import common.struct.Coordinate;
@@ -9,6 +11,42 @@ import bits.Bits;
 import domain.events.MovedEvent;
 
 class Entity {
+	public static function load(data: EntitySaveData, tickDelta: Int = 0): Entity {
+		var entity = new Entity(false);
+
+		entity.isCandidacyEnabled = false;
+		entity.setId(data.id);
+
+		for (cdata in data.components) {
+			var cls = Type.resolveClass(cdata.type);
+			if (cls == null) {
+				trace('Component not found (${cls})');
+				continue;
+			}
+
+			var c = cast(Type.createInstance(cls, []), Component);
+			c._attach(entity);
+			c.load(cdata.data);
+
+			entity.add(c);
+		}
+
+		entity.pos = new Coordinate(data.pos.x, data.pos.y, WORLD);
+		entity.isDetachable = data.isDetachable;
+		entity.isDetached = data.isDetached;
+
+		if (entity.isDetached) {
+			entity.registry.detachEntity(entity.id);
+		}
+
+		entity.isCandidacyEnabled = true;
+		entity.registry.candidacy(entity);
+
+		entity.fireEvent(new EntityLoadedEvent(tickDelta));
+
+		return entity;
+	}
+
 	public var flags(default, null): Bits;
 	public var id(default, null): String;
 	public var pos(get, set): Coordinate;
@@ -148,6 +186,24 @@ class Entity {
 		registry.reattachEntity(id);
 		isDetached = false;
 		remove(IsDetached);
+	}
+
+	public function save(): EntitySaveData {
+		var cdata = components.flatten().map((c) -> ({
+			type: c.type,
+			data: c.save(),
+		}));
+
+		return {
+			id: id,
+			pos: {
+				x: x,
+				y: y,
+			},
+			isDetachable: isDetachable,
+			isDetached: isDetached,
+			components: cdata,
+		};
 	}
 
 	private function removeInstance(component: Component) {
