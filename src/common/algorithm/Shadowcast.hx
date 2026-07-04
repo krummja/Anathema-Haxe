@@ -44,7 +44,7 @@ class Shadowcast {
 			for (deltaX in (-distance...1)) {
 				var pos: IntPoint = {
 					x: s.start.x + (deltaX * xx) + (deltaY * xy),
-					y: s.start.y + (deltaY * yx) + (deltaY * yy),
+					y: s.start.y + (deltaX * yx) + (deltaY * yy),
 				};
 
 				var leftSlope: Float = (deltaX - 0.5) / (deltaY + 0.5);

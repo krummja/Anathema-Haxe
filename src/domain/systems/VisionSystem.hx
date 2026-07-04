@@ -133,7 +133,7 @@ class VisionSystem extends System {
 
 	public function getVisionRange(entity: Entity): Int {
 		var vision = world.player.entity.get(Vision);
-		return vision.range;
+		return (world.clock.getDaylight() * vision.range).round();
 	}
 
 	public function computeVision() {

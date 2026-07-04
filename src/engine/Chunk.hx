@@ -92,6 +92,14 @@ class Chunk {
 		return this.entities.get(Math.floor(x), Math.floor(y));
 	}
 
+	public function isExplored(pos: IntPoint): Bool {
+		if (!isLoaded) {
+			return false;
+		}
+
+		return exploration.get(pos.x, pos.y);
+	}
+
 	public function setExplore(pos: IntPoint, isExplored: Bool, isVisible: Bool) {
 		if (!isLoaded) {
 			trace('Warning: Loading chunk on demand');
@@ -151,13 +159,16 @@ class Chunk {
 		return cells.get(localX, localY);
 	}
 
+	public function getCellCoord(idx: Int): IntPoint {
+		return cells.coord(idx);
+	}
+
 	private function getGroundBitmap(pos: IntPoint): Bitmap {
 		var cell = getCell(pos.x, pos.y);
 
 		var tileKey = cell.tileKey;
 		var primary = cell.primary;
 		var secondary = cell.secondary;
-		var background = cell.background;
 
 		var bm = new h2d.Bitmap();
 		var shader = new SpriteShader(primary, secondary);
@@ -167,7 +178,7 @@ class Chunk {
 		}
 
 		bm.addShader(shader);
-		bm.visible = true;
+		bm.visible = false;
 
 		return bm;
 	}

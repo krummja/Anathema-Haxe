@@ -1,5 +1,7 @@
 package engine;
 
+import domain.terrain.Biomes;
+import engine.BiomeType;
 import hxd.Rand;
 
 class ChunkGen {
@@ -14,14 +16,22 @@ class ChunkGen {
 	}
 
 	public function generateCell(r: Rand, chunk: Chunk, idx: Int) {
+		var pos = chunk.getCellCoord(idx);
+		var biome = Biomes.get(PRAIRIE);
+
 		var cell: Cell = {
 			idx: idx,
 			terrain: TERRAIN_GRASS,
+			biomeKey: PRAIRIE,
 			tileKey: TK_GRASS_01,
-			primary: MainLoop.getInstance().palette.getColor(C_GREEN_3),
-			secondary: 0x000000,
-			background: 0x000000,
+			primary: C_GREEN_3,
+			secondary: C_BLACK,
+			background: C_BLACK,
 		};
+
+		var worldPos = pos.add(chunk.worldPos);
+
+		biome.setCellData(worldPos, cell);
 
 		return cell;
 	}

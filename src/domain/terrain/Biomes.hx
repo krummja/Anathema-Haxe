@@ -1,5 +1,6 @@
 package domain.terrain;
 
+import engine.BiomeType;
 import engine.Biome;
 
 class Biomes {
@@ -8,5 +9,17 @@ class Biomes {
 
 	public function new() {}
 
-	public function initialize(seed: Int) {}
+	public function initialize(seed: Int) {
+		BIOME_PRAIRIE = new PrairieBiome(seed + 1);
+
+		biomes = [
+			BIOME_PRAIRIE,
+		];
+	}
+
+	public static function get(type: BiomeType): Biome {
+		return switch type {
+			case PRAIRIE: BIOME_PRAIRIE;
+		}
+	}
 }

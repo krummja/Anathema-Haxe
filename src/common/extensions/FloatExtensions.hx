@@ -9,6 +9,14 @@ class FloatExtensions {
 		return Math.ceil(n);
 	}
 
+	public static inline function round(n: Float): Int {
+		return Math.floor(n);
+	}
+
+	public static inline function pow(n: Float, exp: Float): Float {
+		return Math.pow(n, exp);
+	}
+
 	public static inline function toDegrees(n: Float): Float {
 		return n * (180 / Math.PI);
 	}

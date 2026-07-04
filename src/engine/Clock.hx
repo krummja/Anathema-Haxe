@@ -52,6 +52,12 @@ class Clock {
 		turnDelta = 0;
 	}
 
+	public function getDaylight(): Float {
+		var d = ticksToDays(tick + (TICKS_PER_HOUR * HOUR_START));
+		var x = d - d.floor();
+		return 1 - ((Math.cos(2 * Math.PI * x) + 1) / 2).pow(2);
+	}
+
 	private inline function get_turn(): Int {
 		return Math.floor(this.tick / TICKS_PER_TURN);
 	}

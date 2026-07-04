@@ -1,5 +1,6 @@
 package domain;
 
+import domain.terrain.MapData;
 import hxd.Rand;
 import ecs.Entity;
 import common.struct.IntPoint;
@@ -36,6 +37,7 @@ class World {
 	public var clock(default, null): Clock;
 	public var started(get, null): Bool = false;
 	public var spawner(default, null): Spawner;
+	public var map(default, null): MapData;
 
 	public var rand: Rand;
 	public var seed: Int = 2;
@@ -50,6 +52,8 @@ class World {
 		this.chunks = new ChunkManager();
 		this.zones = new ZoneManager();
 		this.spawner = new Spawner();
+
+		this.map = new MapData();
 	}
 
 	public function initialize(): Void {
@@ -59,6 +63,7 @@ class World {
 		this.spawner.initialize();
 		this.zones.initialize();
 		this.chunks.initialize();
+		this.map.initialize();
 		this.player.initialize();
 		this.systems.initialize();
 		// this.map.initialize();
@@ -139,10 +144,14 @@ class World {
 
 		if (chunk != null) {
 			var local = pos.toChunkLocal().toIntPoint();
+
+			// Set explored tiles in chunk
 			chunk.setExplore(local, true, true);
 
+			// Get tile light data
 			var light = systems.lights.getTileLight(pos.toIntPoint());
 
+			// Apply visibility and exploration states to entities in the chunk
 			for (entity in getEntitiesAt(pos.toWorld().toIntPoint())) {
 				if (!entity.has(Visible)) {
 					entity.add(new Visible());
@@ -160,6 +169,21 @@ class World {
 				}
 			}
 		}
+	}
+
+	public function isExplored(coord: Coordinate): Bool {
+		var c = coord.toChunk();
+		var chunk = chunks.getChunk(c.x, c.y);
+		if (chunk == null || !chunk.isLoaded) {
+			return false;
+		}
+
+		var local = coord.toChunkLocal().toIntPoint();
+		return chunk.isExplored(local);
+	}
+
+	public function isVisible(coord: Coordinate): Bool {
+		return Lambda.exists(visible, (v) -> v.toWorld().equals(coord.toWorld().floor()));
 	}
 
 	public inline function isOutOfBounds(pos: IntPoint): Bool {

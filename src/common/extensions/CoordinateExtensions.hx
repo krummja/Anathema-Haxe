@@ -126,6 +126,10 @@ class CoordinateExtensions {
 		};
 	}
 
+	public static inline function equals(a: Coordinate, b: Coordinate): Bool {
+		return a.space == b.space && a.x == b.x && a.y == b.y;
+	}
+
 	public static inline function direction(a: Coordinate, b: Coordinate): FloatPoint {
 		return b.sub(a).normalized();
 	}
