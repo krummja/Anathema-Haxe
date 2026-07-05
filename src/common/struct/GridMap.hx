@@ -84,7 +84,7 @@ class GridMap<T> {
 		}
 	}
 
-	public function iterator() {
+	public function iterator(): GridIterator<Array<T>> {
 		return new GridIterator(grid);
 	}
 

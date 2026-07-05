@@ -10,7 +10,7 @@ class WallPrefab extends Prefab {
 	public function create(options: Dynamic, pos: Coordinate): Entity {
 		var entity = new Entity(pos);
 
-		entity.add(new Sprite(WALL_BASIC_0, C_GRAY_3, C_GRAY_5, OBJECT));
+		entity.add(new Sprite(WALL_0, C_GRAY_3, C_GRAY_5, OBJECT));
 		entity.add(new BitmaskSprite([
 			BITMASK_WALL,
 			BITMASK_WALL_THICK,

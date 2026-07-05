@@ -76,7 +76,6 @@ class BitmaskSystem extends System {
 		var mask = compute(entity);
 		var tileKey = Bitmasks.getTileKey(bitmaskSprite.bitmaskType, mask);
 		var sprite = entity.get(Sprite);
-
 		sprite.tileKey = tileKey;
 	}
 }

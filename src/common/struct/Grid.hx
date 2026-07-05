@@ -108,7 +108,7 @@ class Grid<T> {
 		return y < 0 || y >= this.height;
 	}
 
-	public function iterator() {
+	public function iterator(): GridIterator<T> {
 		return new GridIterator(this);
 	}
 

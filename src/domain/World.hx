@@ -1,5 +1,8 @@
 package domain;
 
+import common.struct.Size;
+import common.struct.Rect;
+import common.struct.Cardinal;
 import domain.terrain.MapData;
 import hxd.Rand;
 import ecs.Entity;
@@ -78,11 +81,13 @@ class World {
 		// this.spawner.spawnEntity(LIGHT, pos.add(new Coordinate(2, 2, WORLD)));
 
 		for (y in 0...6) {
-			this.spawner.spawnEntity(TALL_GRASS, pos.add(new Coordinate(6, y, WORLD)));
+			this.spawner.spawnEntity(TALL_GRASS, pos.add(new Coordinate(8, y, WORLD)));
 		}
 
-		for (x in 0...6) {
-			this.spawner.spawnEntity(WALL, pos.add(new Coordinate(x, 5, WORLD)));
+		var rect = new Rect(new IntPoint(0, 0), new Size(8, 8));
+		for (p in rect.iterBorder()) {
+			var wallPos = pos.toIntPoint().add(p).add(6).asWorld();
+			this.spawner.spawnEntity(WALL, wallPos);
 		}
 
 		this.started = true;
@@ -113,14 +118,14 @@ class World {
 
 	public function getNeighborEntities(pos: IntPoint): Array<Array<Entity>> {
 		return [
-			getEntitiesAt(pos.add(-1, -1)), // Northwest
-			getEntitiesAt(pos.add(0, -1)), // North
-			getEntitiesAt(pos.add(1, -1)), // Northeast
-			getEntitiesAt(pos.add(-1, 0)), // West
-			getEntitiesAt(pos.add(1, 0)), // East
-			getEntitiesAt(pos.add(-1, 1)), // Southwest
-			getEntitiesAt(pos.add(0, -1)), // South
-			getEntitiesAt(pos.add(1, 1)), // Southeast
+			getEntitiesAt(pos.add(Cardinal.NORTH_WEST.toOffset())), // NORTH_WEST
+			getEntitiesAt(pos.add(Cardinal.NORTH.toOffset())), // NORTH
+			getEntitiesAt(pos.add(Cardinal.NORTH_EAST.toOffset())), // NORTH_EAST
+			getEntitiesAt(pos.add(Cardinal.WEST.toOffset())), // WEST
+			getEntitiesAt(pos.add(Cardinal.EAST.toOffset())), // EAST
+			getEntitiesAt(pos.add(Cardinal.SOUTH_WEST.toOffset())), // SOUTH_WEST
+			getEntitiesAt(pos.add(Cardinal.SOUTH.toOffset())), // SOUTH
+			getEntitiesAt(pos.add(Cardinal.SOUTH_EAST.toOffset())), // SOUTH_EAST
 		];
 	}
 

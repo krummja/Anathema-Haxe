@@ -185,6 +185,24 @@ class Bitmasks {
 			};
 		}
 
+		if (style == BITMASK_STYLE_2D) {
+			mask = BitUtil.subtractBit(mask, 0);
+			mask = BitUtil.subtractBit(mask, 2);
+			mask = BitUtil.subtractBit(mask, 5);
+			mask = BitUtil.subtractBit(mask, 7);
+
+			return switch mask {
+				case 66: 1;
+				case 0: 0;
+				case 2: 1;
+				case 24: 0;
+				case 16: 0;
+				case 8: 0;
+				case 64: 1;
+				case _: 1;
+			}
+		}
+
 		return -1;
 	}
 

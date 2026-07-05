@@ -6,6 +6,10 @@ class IntPoint {
 		return other.x == point.x && other.y == point.y;
 	}
 
+	public static function LessOrEquals(point: IntPoint, other: IntPoint): Bool {
+		return other.x <= point.x && other.y <= point.y;
+	}
+
 	public final x: Int;
 	public final y: Int;
 
@@ -16,6 +20,10 @@ class IntPoint {
 
 	public function equals(other: IntPoint): Bool {
 		return IntPoint.Equals(this, other);
+	}
+
+	public function lessOrEquals(other: IntPoint): Bool {
+		return IntPoint.LessOrEquals(this, other);
 	}
 
 	public function asWorld(): Coordinate {
@@ -38,12 +46,20 @@ class IntPoint {
 		return new IntPoint(this.x - x, this.y - y);
 	}
 
+	public overload extern inline function sub(n: Int): IntPoint {
+		return new IntPoint(this.x - n, this.y - n);
+	}
+
 	public overload extern inline function add(other: IntPoint): IntPoint {
 		return new IntPoint(this.x + other.x, this.y + other.y);
 	}
 
 	public overload extern inline function add(x: Int, y: Int): IntPoint {
 		return new IntPoint(this.x + x, this.y + y);
+	}
+
+	public overload extern inline function add(n: Int): IntPoint {
+		return new IntPoint(this.x + n, this.y + n);
 	}
 
 	public overload extern inline function multiply(value: Int): IntPoint {
