@@ -1,3 +1,4 @@
 build/
 .haxelib/
 saves/
+res/.tmp/
