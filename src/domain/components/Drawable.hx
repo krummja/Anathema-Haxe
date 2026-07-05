@@ -27,7 +27,7 @@ abstract class Drawable extends Component {
 	public function new(
 		primary: ColorKey = C_WHITE,
 		secondary: ColorKey = C_CLEAR,
-		background: ColorKey = C_SLATE,
+		background: ColorKey = C_SHROUD,
 		layer: RenderLayerType = OBJECT,
 	) {
 		this.shader = new SpriteShader();

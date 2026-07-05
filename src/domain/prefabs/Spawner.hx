@@ -1,7 +1,7 @@
 package domain.prefabs;
 
 import engine.MainLoop;
-import engine.SpawnableType;
+import data.SpawnableType;
 import domain.events.EntitySpawnedEvent;
 import common.struct.Coordinate;
 
@@ -14,7 +14,7 @@ class Spawner {
 		prefabs.set(PLAYER, new PlayerPrefab());
 		prefabs.set(LIGHT, new LampPrefab());
 		prefabs.set(TALL_GRASS, new PlantPrefab());
-		prefabs.set(WALL, new WallPrefab());
+		prefabs.set(BLANK, new BlankPrefab());
 	}
 
 	public function spawnEntity(type: SpawnableType, ?pos: Coordinate, ?options: Dynamic, ?isDetachable: Bool) {

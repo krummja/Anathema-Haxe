@@ -4,7 +4,6 @@ import data.save.SaveChunk;
 import shaders.SpriteShader;
 import h2d.Bitmap;
 import ecs.Entity;
-import domain.components.Position;
 import common.struct.IntPoint;
 import common.struct.Grid;
 import common.struct.GridMap;

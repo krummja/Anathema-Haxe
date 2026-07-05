@@ -1,14 +1,11 @@
 package domain.prefabs;
 
 import domain.components.Moniker;
-import domain.components.LightSource;
 import domain.components.Vision;
 import domain.components.Energy;
-import domain.components.Position;
 import domain.components.IsPlayer;
 import domain.components.Sprite;
 import ecs.Entity;
-import hxd.Rand;
 import common.struct.Coordinate;
 
 class PlayerPrefab extends Prefab {

@@ -3,6 +3,8 @@ package engine;
 enum TileKey {
 	TK_UNKNOWN;
 
+	TK_BLANK;
+
 	TK_FOLIAGE_01;
 	TK_TILES_01;
 	TK_TILES_02;
@@ -28,7 +30,14 @@ enum TileKey {
 	TK_PALM_01;
 	TK_BAT_01;
 
+	TK_DIRT_01;
+	TK_DIRT_02;
+	TK_DIRT_03;
+	TK_DIRT_04;
+	TK_DIRT_05;
+
 	TK_PLAYER_01; // 0,26
+
 	WALL_0;
 	WALL_1;
 	WALL_2;

@@ -2,7 +2,6 @@ package domain.prefabs;
 
 import domain.components.Moniker;
 import domain.components.LightBlocker;
-import domain.components.Position;
 import domain.components.Sprite;
 import ecs.Entity;
 import common.struct.Coordinate;

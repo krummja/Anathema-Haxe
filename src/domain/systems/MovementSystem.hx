@@ -1,6 +1,5 @@
 package domain.systems;
 
-import domain.components.Position;
 import engine.Frame;
 import ecs.Entity;
 import domain.components.Moved;

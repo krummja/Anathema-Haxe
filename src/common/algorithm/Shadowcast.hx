@@ -25,7 +25,16 @@ class Shadowcast {
 		}
 	}
 
-	private static function shadowcast(row: Int, start: Float, end: Float, xx: Int, xy: Int, yx: Int, yy: Int, s: ShadowcastSettings) {
+	private static function shadowcast(
+		row: Int,
+		start: Float,
+		end: Float,
+		xx: Int,
+		xy: Int,
+		yx: Int,
+		yy: Int,
+		s: ShadowcastSettings
+	) {
 		var newStart: Float = 0;
 
 		if (start < end) {

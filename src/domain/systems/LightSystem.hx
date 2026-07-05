@@ -75,6 +75,9 @@ class LightSystem extends System {
 				},
 				onLight: (pos, distance) -> {
 					var d = distance > 0.75 ? distance = 0.75 : 0.75;
+
+					// Light intensity decreases inversely proportional to the square of
+					// the distance from the source.
 					var i = light.intensity / (d * d);
 
 					addFragment({
@@ -110,6 +113,9 @@ class LightSystem extends System {
 		lightFragments = [];
 	}
 
+	/**
+	 * Add a LightFragment to the fragment list.
+	 */
 	private function addFragment(fragment: LightFragment): Void {
 		var idx = world.getTileIdx(fragment.pos);
 		var existing = lightFragments.get(idx);
@@ -123,6 +129,11 @@ class LightSystem extends System {
 		}
 	}
 
+	/**
+	 * Combine individual fragments to accumulate multiple light sources for a single
+	 * tile. Returns the mixed color for that tile based on input color and the summed
+	 * intensities of all light sources affecting it.
+	 */
 	private function combine(fragments: Array<LightFragment>): TileLightData {
 		var color: Int = -1;
 		var intensity = fragments.sum((f) -> f.intensity);
