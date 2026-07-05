@@ -14,6 +14,7 @@ class Spawner {
 		prefabs.set(PLAYER, new PlayerPrefab());
 		prefabs.set(LIGHT, new LampPrefab());
 		prefabs.set(TALL_GRASS, new PlantPrefab());
+		prefabs.set(WALL, new WallPrefab());
 	}
 
 	public function spawnEntity(type: SpawnableType, ?pos: Coordinate, ?options: Dynamic, ?isDetachable: Bool) {

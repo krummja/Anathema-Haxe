@@ -82,4 +82,16 @@ class IterableExtensions {
 	public static inline function flatten<A>(it: Iterable<Iterable<A>>): Array<A> {
 		return Lambda.flatten(it);
 	}
+
+	public static inline function intersects<T>(it: Iterable<T>, other: Iterable<T>): Bool {
+		return it.exists((v) -> other.has(v));
+	}
+
+	public static inline function has<T>(it: Iterable<T>, value: T): Bool {
+		return Lambda.has(it, value);
+	}
+
+	public static inline function exists<T>(it: Iterable<T>, fn: (value: T) -> Bool): Bool {
+		return Lambda.exists(it, fn);
+	}
 }

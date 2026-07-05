@@ -1,8 +1,9 @@
 package scenes.test;
 
-import engine.TextResources;
 import h2d.Text;
 import h2d.Object;
+import emitter.Emitter;
+import engine.TextResources;
 import engine.KeyCode;
 import domain.events.ConsumeEnergyEvent;
 import domain.components.Move;
@@ -26,7 +27,9 @@ class TestScene extends Scene {
 	private var cameraLocked: Bool = false;
 	private var hudText: HudText;
 
-	public function new() {}
+	public function new() {
+		emitter = new Emitter();
+	}
 
 	private override function onEnter(): Void {
 		renderText();
@@ -43,7 +46,7 @@ class TestScene extends Scene {
 		var wpos = mpos.toWorld().toIntPoint();
 		var cpos = mpos.toChunk().toIntPoint();
 
-		hudText.fps.text = frame.fps.floor().toString();
+		hudText.fps.text = frame.smoothFps.floor().toString();
 		hudText.wpos.text = 'world ' + wpos.toString();
 		hudText.zpos.text = 'zone  ' + zpos.toString();
 		hudText.cpos.text = 'chunk ' + cpos.toString();

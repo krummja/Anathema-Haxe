@@ -7,7 +7,7 @@
 -lib json2object
 -lib haxeui-core
 -lib haxeui-heaps
--lib echoes
+-lib emitter
 -hl build/hl/anathema.hl
 -D echoes_profiling
 -main Main

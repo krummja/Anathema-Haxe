@@ -10,6 +10,7 @@ class SystemManager {
 	public var lights(default, null): LightSystem;
 	public var sprites(default, null): SpriteSystem;
 	public var vision(default, null): VisionSystem;
+	public var bitmasks(default, null): BitmaskSystem;
 
 	public function new() {}
 
@@ -20,6 +21,7 @@ class SystemManager {
 		lights = new LightSystem();
 		vision = new VisionSystem();
 		sprites = new SpriteSystem();
+		bitmasks = new BitmaskSystem();
 	}
 
 	public function update(frame: Frame) {
@@ -28,6 +30,7 @@ class SystemManager {
 		movement.update(frame);
 		lights.update(frame);
 		vision.update(frame);
+		bitmasks.update(frame);
 		sprites.update(frame);
 	}
 }

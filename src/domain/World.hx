@@ -81,6 +81,10 @@ class World {
 			this.spawner.spawnEntity(TALL_GRASS, pos.add(new Coordinate(6, y, WORLD)));
 		}
 
+		for (x in 0...6) {
+			this.spawner.spawnEntity(WALL, pos.add(new Coordinate(x, 5, WORLD)));
+		}
+
 		this.started = true;
 	}
 
@@ -105,6 +109,19 @@ class World {
 
 	public overload extern inline function getEntitiesAt(pos: Coordinate): Array<Entity> {
 		return getEntitiesAt(pos.toWorld().toIntPoint());
+	}
+
+	public function getNeighborEntities(pos: IntPoint): Array<Array<Entity>> {
+		return [
+			getEntitiesAt(pos.add(-1, -1)), // Northwest
+			getEntitiesAt(pos.add(0, -1)), // North
+			getEntitiesAt(pos.add(1, -1)), // Northeast
+			getEntitiesAt(pos.add(-1, 0)), // West
+			getEntitiesAt(pos.add(1, 0)), // East
+			getEntitiesAt(pos.add(-1, 1)), // Southwest
+			getEntitiesAt(pos.add(0, -1)), // South
+			getEntitiesAt(pos.add(1, 1)), // Southeast
+		];
 	}
 
 	public inline function getTileIdx(pos: IntPoint) {
