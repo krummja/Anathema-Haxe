@@ -86,29 +86,6 @@ class World {
 			this.spawner.spawnEntity(TALL_GRASS, pos.add(new Coordinate(8, y, WORLD)));
 		}
 
-		// var rect = new Rect(new IntPoint(0, 0), new Size(8, 8));
-		// for (p in rect.iterBorder()) {
-		// 	var wallPos = pos.toIntPoint().add(p).add(6).asWorld();
-		// 	this.spawner.spawnEntity(WALL, wallPos);
-		// }
-
-		var colors = AbstractEnumTools.getValues(ColorKey);
-		var colorGrid = new Grid<ColorKey>(8, 8);
-		colorGrid.fillFn((idx) -> {
-			return colors[idx];
-		});
-
-		for (color in colorGrid) {
-			trace([color, loop.palette.getColor(color.value).toHxdColor()]);
-		}
-
-		// var rect = new Rect(new IntPoint(0, 0), new Size(7, 7));
-		// for (p in rect.iterPoints()) {
-		// 	var tilePos = pos.toIntPoint().add(p).add(6).asWorld();
-		// 	var color = colorGrid.get(p.x, p.y);
-		// 	this.spawner.spawnEntity(BLANK, tilePos, {color: color});
-		// }
-
 		this.started = true;
 	}
 
