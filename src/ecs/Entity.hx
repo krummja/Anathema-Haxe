@@ -1,5 +1,6 @@
 package ecs;
 
+import domain.components.Moniker;
 import domain.events.EntityLoadedEvent;
 import data.save.EntitySaveData;
 import domain.components.IsDetached;
@@ -43,7 +44,6 @@ class Entity {
 		entity.registry.candidacy(entity);
 
 		entity.fireEvent(new EntityLoadedEvent(tickDelta));
-
 		return entity;
 	}
 

@@ -25,7 +25,7 @@ class Sprite extends Drawable {
 
 		this.ob = new Bitmap(this.tile);
 		this.ob.addShader(this.shader);
-		this.ob.visible = true;
+		this.ob.visible = false;
 	}
 
 	public function getPosition(): FloatPoint {

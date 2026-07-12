@@ -99,7 +99,7 @@ class Projection {
 	}
 
 	public static function zoneToChunk(zx: Float, zy: Float): Coordinate {
-		var cs = loop.world.chunksPerZone;
+		var cs = loop.world.chunkSubdivision;
 		return new Coordinate(zx * cs, zy * cs, CHUNK);
 	}
 
@@ -121,7 +121,7 @@ class Projection {
 	}
 
 	public static function chunkToZone(cx: Float, cy: Float): Coordinate {
-		var cs = loop.world.chunksPerZone;
+		var cs = loop.world.chunkSubdivision;
 		return new Coordinate(cx / cs, cy / cs, ZONE);
 	}
 }

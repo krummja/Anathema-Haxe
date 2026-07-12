@@ -1,5 +1,6 @@
 package domain.terrain;
 
+import domain.prefabs.Spawner;
 import engine.TileKey;
 import engine.Cell;
 import common.struct.IntPoint;
@@ -55,5 +56,15 @@ class PrairieBiome extends Biome {
 		}
 
 		cell.background = C_GREEN_0;
+	}
+
+	public override function spawnEntity(pos: IntPoint, cell: Cell) {
+		if (cell.terrain == TERRAIN_GRASS) {
+			var h = perlin.get(pos, 6);
+
+			if (h > 0.65) {
+				Spawner.spawn(TALL_GRASS, pos.asWorld());
+			}
+		}
 	}
 }

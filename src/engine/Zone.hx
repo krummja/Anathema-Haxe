@@ -26,12 +26,12 @@ class Zone {
 
 	public function getChunks(): Array<Chunk> {
 		var world = MainLoop.getInstance().world;
-		var baseChunkPos = zonePos.multiply(world.chunksPerZone);
+		var baseChunkPos = zonePos.multiply(world.chunkSubdivision);
 
 		var chunks = new Array<Chunk>();
 
-		for (x in 0...world.chunksPerZone) {
-			for (y in 0...world.chunksPerZone) {
+		for (x in 0...world.chunkSubdivision) {
+			for (y in 0...world.chunkSubdivision) {
 				var chunkPos = baseChunkPos.add(x, y);
 				var chunk = world.chunks.getChunk(chunkPos.x, chunkPos.y);
 				chunks.push(chunk);

@@ -77,6 +77,11 @@ class ChunkManager {
 		var chunk = getChunkById(chunkIdx);
 
 		var data = MainLoop.getInstance().files.tryReadChunk(chunkIdx);
+
+		if (chunk == null) {
+			return;
+		}
+
 		if (data != null) {
 			chunk.load(data);
 		} else {

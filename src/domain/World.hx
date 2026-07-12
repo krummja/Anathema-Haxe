@@ -23,11 +23,11 @@ class World {
 	public var factions(default, null): FactionManager;
 	public var zones(default, null): ZoneManager;
 
-	public var zoneCountX(default, null): Int = 64;
-	public var zoneCountY(default, null): Int = 48;
-	public var zoneSize(default, null): Int = 40;
+	public var zoneCountX(default, null): Int = 1;
+	public var zoneCountY(default, null): Int = 1;
+	public var zoneSize(default, null): Int = 60;
 
-	public var chunksPerZone(default, never): Int = 2;
+	public var chunkSubdivision(default, never): Int = 2;
 	public var chunkSize(get, never): Int;
 	public var chunkCountX(get, never): Int;
 	public var chunkCountY(get, never): Int;
@@ -40,6 +40,8 @@ class World {
 	public var started(get, null): Bool = false;
 	public var spawner(default, null): Spawner;
 	public var map(default, null): MapData;
+
+	public var timeStopped: Bool = false;
 
 	public var rand: Rand;
 	public var seed: Int = 2;
@@ -77,22 +79,8 @@ class World {
 		var pos = new Coordinate((worldWidth / 2).floor(), (worldHeight / 2).floor(), WORLD);
 		chunks.loadChunks(pos.toChunkId());
 		chunks.loadChunk(pos.toChunkId());
+
 		this.player.create(pos);
-
-		for (y in 0...6) {
-			this.spawner.spawnEntity(TALL_GRASS, pos.add(new Coordinate(-8, -y, WORLD)));
-		}
-
-		var rect = Rect.centeredAt(new Size(12, 12), pos.toIntPoint());
-		var idx = 0;
-		for (point in rect.iterBorder()) {
-			// if (idx == 4) {
-			// 	continue;
-			// }
-
-			var wall = spawner.spawnEntity(WALL, point.asWorld().add(20, 20));
-			idx++;
-		}
 
 		this.started = true;
 	}
@@ -155,14 +143,14 @@ class World {
 
 	public function getNeighborEntities(pos: IntPoint): Array<Array<Entity>> {
 		return [
-			getEntitiesAt(pos.add(Cardinal.NORTH_WEST.toOffset())), // NORTH_WEST
-			getEntitiesAt(pos.add(Cardinal.NORTH.toOffset())), // NORTH
-			getEntitiesAt(pos.add(Cardinal.NORTH_EAST.toOffset())), // NORTH_EAST
-			getEntitiesAt(pos.add(Cardinal.WEST.toOffset())), // WEST
-			getEntitiesAt(pos.add(Cardinal.EAST.toOffset())), // EAST
-			getEntitiesAt(pos.add(Cardinal.SOUTH_WEST.toOffset())), // SOUTH_WEST
-			getEntitiesAt(pos.add(Cardinal.SOUTH.toOffset())), // SOUTH
-			getEntitiesAt(pos.add(Cardinal.SOUTH_EAST.toOffset())), // SOUTH_EAST
+			getEntitiesAt(pos.add(Cardinal.NORTH_WEST.toOffset())),
+			getEntitiesAt(pos.add(Cardinal.NORTH.toOffset())),
+			getEntitiesAt(pos.add(Cardinal.NORTH_EAST.toOffset())),
+			getEntitiesAt(pos.add(Cardinal.WEST.toOffset())),
+			getEntitiesAt(pos.add(Cardinal.EAST.toOffset())),
+			getEntitiesAt(pos.add(Cardinal.SOUTH_WEST.toOffset())),
+			getEntitiesAt(pos.add(Cardinal.SOUTH.toOffset())),
+			getEntitiesAt(pos.add(Cardinal.SOUTH_EAST.toOffset())),
 		];
 	}
 
@@ -224,7 +212,7 @@ class World {
 					entity.add(new Explored());
 				}
 
-				if (light.intensity > 0 && entity.has(Sprite)) {
+				if (light.intensity > 0 && entity.has(Sprite) && entity.has(Explored)) {
 					var sprite = entity.get(Sprite);
 					sprite.shader.isLit = 1;
 					sprite.shader.lightColor = light.color.toHxdColor().toVector();
@@ -252,7 +240,7 @@ class World {
 	}
 
 	public inline function isOutOfBounds(pos: IntPoint): Bool {
-		return pos.x < 0 || pos.y < 0 || pos.x > worldWidth || pos.y > worldHeight;
+		return pos.x < 0 || pos.y < 0 || pos.x > worldWidth - 1 || pos.y > worldHeight - 1;
 	}
 
 	private function get_loop(): MainLoop {
@@ -268,15 +256,15 @@ class World {
 	}
 
 	private function get_chunkCountX(): Int {
-		return this.zoneCountX * this.chunksPerZone;
+		return this.zoneCountX * this.chunkSubdivision;
 	}
 
 	private function get_chunkCountY(): Int {
-		return this.zoneCountY * this.chunksPerZone;
+		return this.zoneCountY * this.chunkSubdivision;
 	}
 
 	private function get_chunkSize(): Int {
-		return Math.ceil(this.zoneSize / this.chunksPerZone);
+		return Math.ceil(this.zoneSize / this.chunkSubdivision);
 	}
 
 	private function get_started(): Bool {

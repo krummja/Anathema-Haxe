@@ -175,7 +175,6 @@ class VisionSystem extends System {
 			return false;
 		}
 
-		// TODO This is also causing an enormous slowdown!
 		var entities = world.getEntitiesAt(p.asWorld());
 		return Lambda.exists(entities, (e) -> e.has(LightBlocker));
 	}

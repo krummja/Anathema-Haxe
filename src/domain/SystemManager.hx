@@ -14,6 +14,7 @@ class SystemManager {
 	public var sprites(default, null): SpriteSystem;
 	public var expiring(default, null): ExpiringSystem;
 	public var destroy(default, null): DestroySystem;
+	public var debug(default, null): DebugSystem;
 
 	public function new() {}
 
@@ -28,6 +29,7 @@ class SystemManager {
 		sprites = new SpriteSystem();
 		expiring = new ExpiringSystem();
 		destroy = new DestroySystem();
+		debug = new DebugSystem();
 	}
 
 	public function update(frame: Frame) {
@@ -52,5 +54,7 @@ class SystemManager {
 		// storylines
 		expiring.update(frame);
 		destroy.update(frame);
+
+		debug.update(frame);
 	}
 }

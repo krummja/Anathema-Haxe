@@ -73,7 +73,11 @@ class EnergySystem extends System {
 
 		if (!energy.hasEnergy) {
 			var tickAmount = -energy.value;
-			world.clock.incrementTick(tickAmount);
+
+			if (!world.timeStopped) {
+				world.clock.incrementTick(tickAmount);
+			}
+
 			query.each((e) -> e.get(Energy).addEnergy(tickAmount));
 		}
 

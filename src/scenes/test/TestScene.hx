@@ -35,7 +35,6 @@ class TestScene extends Scene {
 
 	private var cameraLocked: Bool = false;
 	private var hudText: HudText;
-
 	private var graphics: h2d.Graphics;
 
 	public function new() {
@@ -67,7 +66,11 @@ class TestScene extends Scene {
 		hudText.cpos.text = 'chunk ' + cpos.toString();
 		hudText.turn.text = 'turn  ' + turn.toString();
 
-		hudText.clock.text = world.clock.toFriendlyString();
+		if (world.timeStopped) {
+			hudText.clock.text = "PAUSED";
+		} else {
+			hudText.clock.text = world.clock.toFriendlyString();
+		}
 
 		if (energySystem.isPlayersTurn) {
 			var cmd = loop.commands.peek();
@@ -93,13 +96,16 @@ class TestScene extends Scene {
 	private function updateCamera(frame: Frame): Void {
 		var cfocus = loop.camera.focus.toWorld().toFloatPoint();
 		var ctarget = loop.world.player.pos.toFloatPoint();
-		// loop.camera.focus = ctarget.asWorld();
 		loop.camera.focus = cfocus.lerp(ctarget, 0.28).asWorld();
 	}
 
 	private override function onKeyDown(key: KeyCode) {
 		if (key == KEY_NUM_1) {
 			cameraLocked = !cameraLocked;
+		}
+
+		if (key == KEY_NUM_2) {
+			world.timeStopped = !world.timeStopped;
 		}
 	}
 
@@ -138,11 +144,13 @@ class TestScene extends Scene {
 	}
 
 	private function move(dir: Cardinal) {
-		// 1294, 974
 		var target = world.player.pos.toIntPoint().add(dir.toOffset());
-		var entities = world.getEntitiesAt(target);
 
-		trace(entities);
+		if (world.isOutOfBounds(target)) {
+			return;
+		}
+
+		var entities = world.getEntitiesAt(target);
 
 		var collider = entities.find((e) -> e.has(Collider));
 

@@ -48,19 +48,23 @@ class Camera {
 
 	private function set_x(value: Float): Float {
 		var p = Projection.worldToPixel(value, y);
-		// scroller.x = -(Math.floor(p.x * zoom));
-		// scroller.y = -(Math.floor(p.y * zoom));
+
+		// var world = MainLoop.getInstance().world;
+		// var zoneWidth = world.zoneSize * world.loop.UNIT_X;
+		// var maxX = (width - zoneWidth);
+
+		// trace([p.x.roundTo(), (width - zoneWidth).roundTo()]);
+
 		scroller.x = -((p.x + 0.5) * zoom);
-		scroller.y = -((p.y + 0.5) * zoom);
+
 		return value;
 	}
 
 	private function set_y(value: Float): Float {
 		var p = Projection.worldToPixel(x, value);
-		// scroller.x = -(Math.floor(p.x * zoom));
-		// scroller.y = -(Math.floor(p.y * zoom));
-		scroller.x = -((p.x + 0.5) * zoom);
+
 		scroller.y = -((p.y + 0.5) * zoom);
+
 		return value;
 	}
 

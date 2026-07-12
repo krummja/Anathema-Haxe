@@ -16,7 +16,7 @@ abstract class Drawable extends Component {
 	@save public var offsetX(default, set): Float = -8.0;
 	@save public var offsetY(default, set): Float = -8.0;
 
-	@save public var visible(default, set): Bool = true;
+	@save public var visible(default, set): Bool = false;
 	@save public var isShrouded(default, set): Bool = false;
 
 	public var primaryColor(default, never): ColorKey;

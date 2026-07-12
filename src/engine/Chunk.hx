@@ -1,5 +1,6 @@
 package engine;
 
+import domain.components.Moniker;
 import data.save.SaveChunk;
 import shaders.SpriteShader;
 import h2d.Bitmap;
@@ -195,11 +196,15 @@ class Chunk {
 
 	public function setEntityPosition(entity: Entity): Void {
 		if (!isLoaded) {
+			if (entity.has(Moniker)) {
+				var name = entity.get(Moniker).displayName;
+				trace('Attempted to set entity in unloaded chunk $chunkId: ${name}');
+			}
 			return;
 		}
 
 		var local = entity.pos.toChunkLocal().toWorld();
-		entities.set(Math.floor(local.x), Math.floor(local.y), entity.id);
+		entities.set(local.x.floor(), local.y.floor(), entity.id);
 	}
 
 	public function removeEntity(entity: Entity): Void {
@@ -242,7 +247,7 @@ class Chunk {
 	}
 
 	private function get_zoneId(): Int {
-		var pos = chunkPos.divide(MainLoop.getInstance().world.chunksPerZone).floor();
+		var pos = chunkPos.divide(MainLoop.getInstance().world.chunkSubdivision).floor();
 		return MainLoop.getInstance().world.zones.getZoneId(pos);
 	}
 
