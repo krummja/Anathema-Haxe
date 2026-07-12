@@ -98,6 +98,12 @@ class Entity {
 				remove(c);
 			}
 		}
+
+		isCandidacyEnabled = true;
+		isDestroyed = true;
+
+		chunk.removeEntity(this);
+		registry.unregisterEntity(this);
 	}
 
 	public function add(component: Component) {

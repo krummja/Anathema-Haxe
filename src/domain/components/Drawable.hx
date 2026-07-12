@@ -6,23 +6,23 @@ import engine.RenderLayerManager;
 import engine.ColorKey;
 
 abstract class Drawable extends Component {
-	public var primary(default, set): ColorKey;
-	public var secondary(default, set): ColorKey;
-	public var outline(default, set): ColorKey;
-	public var background(default, set): Null<ColorKey>;
+	@save public var primary(default, set): ColorKey;
+	@save public var secondary(default, set): ColorKey;
+	@save public var outline(default, set): ColorKey;
+	@save public var background(default, set): Null<ColorKey>;
+	@save public var enableLutShader(default, set): Bool = true;
 
-	public var layer(default, null): RenderLayerType;
+	@save public var layer(default, null): RenderLayerType;
+	@save public var offsetX(default, set): Float = -8.0;
+	@save public var offsetY(default, set): Float = -8.0;
+
+	@save public var visible(default, set): Bool = true;
+	@save public var isShrouded(default, set): Bool = false;
+
 	public var primaryColor(default, never): ColorKey;
 	public var secondaryColor(get, never): ColorKey;
 	public var drawable(get, never): h2d.Drawable;
 	public var shader(default, null): SpriteShader;
-
-	public var visible(default, set): Bool = true;
-	public var isShrouded(default, set): Bool = false;
-	public var enableLutShader(default, set): Bool = true;
-
-	public var offsetX(default, set): Float = -8.0;
-	public var offsetY(default, set): Float = -8.0;
 
 	public function new(
 		primary: ColorKey = C_WHITE,

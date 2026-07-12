@@ -1,20 +1,16 @@
 package domain;
 
-import common.struct.Grid;
-import common.macros.AbstractEnumTools;
+import hxd.Rand;
+import ecs.Entity;
+import common.algorithm.Distance;
 import common.struct.Size;
 import common.struct.Rect;
 import common.struct.Cardinal;
-import domain.terrain.MapData;
-import hxd.Rand;
-import ecs.Entity;
 import common.struct.IntPoint;
 import common.struct.Coordinate;
-import domain.events.EntitySpawnedEvent;
 import domain.PlayerManager;
 import domain.SystemManager;
-// import prefabs.*;
-// import components.*;
+import domain.terrain.MapData;
 import domain.components.*;
 import domain.prefabs.*;
 import engine.*;
@@ -24,6 +20,7 @@ class World {
 	public var player(default, null): PlayerManager;
 	public var behavior(default, null): BehaviorManager;
 	public var chunks(default, null): ChunkManager;
+	public var factions(default, null): FactionManager;
 	public var zones(default, null): ZoneManager;
 
 	public var zoneCountX(default, null): Int = 64;
@@ -55,6 +52,7 @@ class World {
 		this.player = new PlayerManager(this);
 		this.behavior = new BehaviorManager();
 		this.chunks = new ChunkManager();
+		this.factions = new FactionManager();
 		this.zones = new ZoneManager();
 		this.spawner = new Spawner();
 
@@ -65,6 +63,7 @@ class World {
 		this.rand = new Rand(seed);
 		this.visible = [];
 
+		this.factions.initialize();
 		this.spawner.initialize();
 		this.zones.initialize();
 		this.chunks.initialize();
@@ -80,10 +79,19 @@ class World {
 		chunks.loadChunk(pos.toChunkId());
 		this.player.create(pos);
 
-		// this.spawner.spawnEntity(LIGHT, pos.add(new Coordinate(2, 2, WORLD)));
-
 		for (y in 0...6) {
-			this.spawner.spawnEntity(TALL_GRASS, pos.add(new Coordinate(8, y, WORLD)));
+			this.spawner.spawnEntity(TALL_GRASS, pos.add(new Coordinate(-8, -y, WORLD)));
+		}
+
+		var rect = Rect.centeredAt(new Size(12, 12), pos.toIntPoint());
+		var idx = 0;
+		for (point in rect.iterBorder()) {
+			// if (idx == 4) {
+			// 	continue;
+			// }
+
+			var wall = spawner.spawnEntity(WALL, point.asWorld().add(20, 20));
+			idx++;
 		}
 
 		this.started = true;
@@ -110,6 +118,39 @@ class World {
 
 	public overload extern inline function getEntitiesAt(pos: Coordinate): Array<Entity> {
 		return getEntitiesAt(pos.toWorld().toIntPoint());
+	}
+
+	public function getEntitiesInRect(worldPos: IntPoint, width: Int, height: Int): Array<Entity> {
+		var entities: Array<Entity> = [];
+
+		for (x in worldPos.x...(worldPos.x + width)) {
+			for (y in worldPos.y...(worldPos.y + height)) {
+				entities = entities.concat(getEntitiesAt(new IntPoint(x, y)));
+			}
+		}
+
+		return entities;
+	}
+
+	public function getEntitiesInRange(worldPos: IntPoint, range: Int): Array<Entity> {
+		var diameter = (range * 2) + 1;
+		var topLeft = worldPos.sub(new IntPoint(range, range));
+		var result = getEntitiesInRect(topLeft, diameter, diameter);
+		return result;
+	}
+
+	public function getEntityDistances(worldPos: IntPoint): Array<{id: String, d: Int}> {
+		var distances = [];
+
+		for (entity in loop.registry.entities) {
+			var distance = Distance.Manhattan(worldPos, entity.pos.toIntPoint());
+			if (distance == 0) {
+				continue;
+			}
+			distances.push({id: entity.id, d: distance});
+		}
+
+		return distances;
 	}
 
 	public function getNeighborEntities(pos: IntPoint): Array<Array<Entity>> {

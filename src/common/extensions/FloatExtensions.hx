@@ -13,6 +13,11 @@ class FloatExtensions {
 		return Math.floor(n);
 	}
 
+	public static inline function roundTo(n: Float, precision: Int = 3): Float {
+		var multiplier = Math.pow(10, precision);
+		return Math.floor(n * multiplier) / multiplier;
+	}
+
 	public static inline function pow(n: Float, exp: Float): Float {
 		return Math.pow(n, exp);
 	}
@@ -43,5 +48,9 @@ class FloatExtensions {
 
 	public static function nthRoot(n: Float, root: Float): Float {
 		return Math.pow(n, 1 / root);
+	}
+
+	public static inline function toString(n: Float): String {
+		return Std.string(n);
 	}
 }

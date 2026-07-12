@@ -3,10 +3,8 @@ package domain;
 import domain.prefabs.Spawner;
 import ecs.EntityRef;
 import ecs.Entity;
-import domain.prefabs.PlayerPrefab;
 import domain.World;
 import common.struct.Coordinate;
-import domain.components.*;
 
 class PlayerManager {
 	public var entityRef: EntityRef;

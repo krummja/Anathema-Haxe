@@ -1,5 +1,6 @@
 package engine;
 
+import common.tools.Performance;
 import ecs.Registry;
 import h2d.Console;
 import engine.RenderLayerManager;
@@ -69,9 +70,11 @@ class MainLoop {
 
 		window.resize(columns * UNIT_X, rows * UNIT_Y);
 		this.app.s2d.addChild(this.layers.root);
+		window.onClose = onClose;
 	}
 
 	public inline function update(): Void {
+		Performance.update(frame.dt * 1000);
 		this.frame.update();
 		this.scenes.update(this.frame);
 	}
@@ -83,6 +86,11 @@ class MainLoop {
 	@:allow(engine.Scene)
 	private function setWorld(world: World) {
 		this.world = world;
+	}
+
+	private function onClose(): Bool {
+		// Performance.toTable();
+		return true;
 	}
 
 	private inline function get_window(): hxd.Window {

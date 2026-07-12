@@ -3,7 +3,7 @@ package domain.components;
 import ecs.Component;
 
 class Moniker extends Component {
-	public var baseName: String;
+	@save public var baseName: String;
 
 	public var displayName(get, never): String;
 

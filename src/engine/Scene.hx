@@ -28,13 +28,13 @@ abstract class Scene {
 	@:allow(engine.SceneManager)
 	private function onResume(): Void {}
 
-	@:allow(InputManager)
+	@:allow(engine.InputManager)
 	private function onMouseDown(pos: Coordinate): Void {}
 
-	@:allow(InputManager)
+	@:allow(engine.InputManager)
 	private function onMouseUp(pos: Coordinate): Void {}
 
-	@:allow(InputManager)
+	@:allow(engine.InputManager)
 	private function onMouseMove(pos: Coordinate, prev: Coordinate): Void {}
 
 	@:allow(engine.InputManager)

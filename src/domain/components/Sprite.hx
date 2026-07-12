@@ -9,7 +9,8 @@ import h2d.Tile;
 import h2d.Bitmap;
 
 class Sprite extends Drawable {
-	public var tileKey(default, set): TileKey;
+	@save public var tileKey(default, set): TileKey;
+
 	public var ob(default, null): Bitmap;
 	public var tile(get, never): Tile;
 

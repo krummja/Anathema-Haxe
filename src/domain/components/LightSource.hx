@@ -2,15 +2,14 @@ package domain.components;
 
 import engine.ColorKey;
 import ecs.Component;
-import ecs.Entity;
 import domain.events.EntitySpawnedEvent;
 
 class LightSource extends Component {
-	public var intensity: Float;
-	public var range: Int;
-	public var color: Int;
-	public var isEnabled(default, set): Bool = true;
-	public var disableLutShader(default, set): Bool;
+	@save public var intensity: Float;
+	@save public var range: Int;
+	@save public var color: Int;
+	@save public var isEnabled(default, set): Bool = true;
+	@save public var disableLutShader(default, set): Bool;
 
 	public function new(
 		intensity: Float = 0.5,

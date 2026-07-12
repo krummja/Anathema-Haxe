@@ -1,12 +1,13 @@
 package domain.systems;
 
+import common.tools.Performance;
 import domain.events.ConsumeEnergyEvent;
 import data.EnergyActionType;
 import engine.Frame;
-import domain.components.*;
 import ecs.Entity;
 import ecs.Query;
 import ecs.System;
+import domain.components.*;
 
 class EnergySystem extends System {
 	public static function consumeEnergy(entity: Entity, type: EnergyActionType): Int {
@@ -17,12 +18,36 @@ class EnergySystem extends System {
 
 	public static function getEnergyCost(entity: Entity, type: EnergyActionType): Int {
 		switch type {
+			case ACT_MOVE:
+				return 200;
 			case ACT_WAIT:
 				return 500;
-			case ACT_MOVE:
+			case ACT_SLEEP:
+				return 1000;
+			case ACT_DROP:
+				return 25;
+			case ACT_PICKUP:
+				return 65;
+			case ACT_TAKE:
+				return 65;
+			case ACT_EXTINGUISH:
+				return 25;
+			case ACT_LIGHT:
+				return 150;
+			case ACT_THROW:
+				return 150;
+			case ACT_EQUIP:
+				return 80;
+			case ACT_UNEQUIP:
+				return 80;
+			case ACT_DOOR_OPEN:
+				return 80;
+			case ACT_DOOR_CLOSE:
+				return 80;
+			case ACT_SWAPPED:
 				return 25;
 			case _:
-				return 25;
+				return 50;
 		}
 	}
 
@@ -63,8 +88,11 @@ class EnergySystem extends System {
 			return;
 		}
 
+		// TODO Most of the slowdown is happening in this loop
 		while (true) {
+			// Get the next entity from the query iterator
 			var entity = getNext();
+
 			if (entity.has(IsPlayer)) {
 				isPlayersTurn = true;
 				break;

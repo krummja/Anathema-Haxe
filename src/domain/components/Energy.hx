@@ -4,7 +4,7 @@ import ecs.Component;
 import domain.events.ConsumeEnergyEvent;
 
 class Energy extends Component {
-	public var value(default, null): Int = 5;
+	@save public var value(default, null): Int = 5;
 
 	public var hasEnergy(get, never): Bool;
 

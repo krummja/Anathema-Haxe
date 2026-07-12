@@ -1,9 +1,9 @@
 package engine;
 
-import domain.events.ConsumeEnergyEvent;
-// import domain.systems.EnergySystem;
+import common.tools.Performance;
 import ecs.Entity;
 import common.struct.DataRegistry;
+import domain.systems.EnergySystem;
 import domain.components.Actor;
 import data.BehaviorType;
 import data.behaviors.BehaviorBasic;
@@ -30,7 +30,7 @@ class BehaviorManager {
 
 		if (actor == null) {
 			trace("Energy without Actor component!");
-			// EnergySystem.consumeEnergy(entity, ACT_WAIT);
+			EnergySystem.consumeEnergy(entity, ACT_WAIT);
 		}
 
 		var behavior = Behaviors.get(actor.behavior);

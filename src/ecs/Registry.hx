@@ -3,13 +3,14 @@ package ecs;
 import common.struct.Set;
 
 class Registry {
-	var cbit: Int;
-	var bits: Map<String, Int>;
-	var queries: Array<Query>;
-	var entityMap: Map<String, Entity>;
-	var detached: Set<String>;
+	private var cbit: Int;
+	private var bits: Map<String, Int>;
+	private var queries: Array<Query>;
+	private var entityMap: Map<String, Entity>;
+	private var detached: Set<String>;
 
 	public var size(default, null): Int;
+	public var entities(get, never): Array<Entity>;
 
 	public function new() {
 		cbit = 0;
@@ -98,5 +99,9 @@ class Registry {
 		size--;
 		entityMap.remove(entity.id);
 		detached.remove(entity.id);
+	}
+
+	private function get_entities(): Array<Entity> {
+		return [for (entity in entityMap.iterator()) entity];
 	}
 }

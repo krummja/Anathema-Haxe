@@ -130,7 +130,7 @@ class Bresenham {
 					break;
 				}
 				if ((a.y < y && b.y >= y) || (b.y < y && a.y >= y)) {
-					var intersection = Math.round((a.x + ((y - a.y) / (b.y - a.y)) * (b.x - a.x)));
+					var intersection = (a.x + ((y - a.y) / (b.y - a.y)) * (b.x - a.x)).round();
 					intersections.push(intersection);
 				}
 

@@ -19,8 +19,11 @@ class Shadowcast {
 
 	public static function compute(settings: ShadowcastSettings) {
 		settings.onLight(settings.start, 0);
+
 		for (q in quadrants) {
+			// Top-Bottom
 			shadowcast(1, 1, 0, 0, q.x, q.y, 0, settings);
+			// Left-Right
 			shadowcast(1, 1, 0, q.x, 0, 0, q.y, settings);
 		}
 	}

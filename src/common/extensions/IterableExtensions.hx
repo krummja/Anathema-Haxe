@@ -94,4 +94,8 @@ class IterableExtensions {
 	public static inline function exists<T>(it: Iterable<T>, fn: (value: T) -> Bool): Bool {
 		return Lambda.exists(it, fn);
 	}
+
+	public static inline function find<T>(it: Iterable<T>, fn: (value: T) -> Bool): T {
+		return Lambda.find(it, fn);
+	}
 }

@@ -85,9 +85,13 @@ class CoordinateExtensions {
 		return MainLoop.getInstance().world.zones.getZoneId(c.toIntPoint());
 	}
 
-	public static inline function add(a: Coordinate, b: Coordinate): Coordinate {
+	public static extern overload inline function add(a: Coordinate, b: Coordinate): Coordinate {
 		var projected = b.lift(a.space);
 		return new Coordinate(a.x + projected.x, a.y + projected.y, a.space);
+	}
+
+	public static extern overload inline function add(a: Coordinate, x: Float, y: Float): Coordinate {
+		return new Coordinate(a.x + x, a.y + y, a.space);
 	}
 
 	public static inline function sub(a: Coordinate, b: Coordinate): Coordinate {
@@ -143,8 +147,8 @@ class CoordinateExtensions {
 	public static inline function ease(a: Coordinate, b: Coordinate, x: Float, easing: EasingType): Coordinate {
 		var progress = Easing.apply(x, easing);
 		var direction = a.direction(b);
-		var distance = a.toWorld().distance(b.toWorld(), EUCLIDEAN);
 
+		var distance = a.toWorld().distance(b.toWorld(), EUCLIDEAN);
 		var newPx = direction.multiply(progress * distance);
 		return newPx.asWorld().add(a);
 	}

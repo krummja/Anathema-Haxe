@@ -58,6 +58,13 @@ class Clock {
 		return 1 - ((Math.cos(2 * Math.PI * x) + 1) / 2).pow(2);
 	}
 
+	public function toFriendlyString(): String {
+		var h = hour.toString().lpad(2);
+		var m = minute.toString().lpad(2, '0');
+		var d = day.floor();
+		return '$d - $h:$m';
+	}
+
 	private inline function get_turn(): Int {
 		return Math.floor(this.tick / TICKS_PER_TURN);
 	}

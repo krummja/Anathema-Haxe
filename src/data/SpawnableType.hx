@@ -19,4 +19,5 @@ enum SpawnableType {
 	WOOD_WALL;
 
 	BLANK;
+	DEBUG;
 }

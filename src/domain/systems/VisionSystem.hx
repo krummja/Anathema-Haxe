@@ -34,11 +34,13 @@ class VisionSystem extends System {
 				var sprite = entity.get(Sprite);
 				sprite.visible = true;
 
+				// If light intensity is non-zero, apply light color to fragment
 				if (light.intensity > 0) {
 					sprite.shader.isLit = 1;
 					sprite.shader.lightColor = light.color.toHxdColor().toVector();
 					sprite.shader.lightIntensity = light.intensity;
 				} else {
+					// Unlit tiles appear darker
 					sprite.shader.isLit = 0;
 				}
 			}
@@ -173,6 +175,7 @@ class VisionSystem extends System {
 			return false;
 		}
 
+		// TODO This is also causing an enormous slowdown!
 		var entities = world.getEntitiesAt(p.asWorld());
 		return Lambda.exists(entities, (e) -> e.has(LightBlocker));
 	}

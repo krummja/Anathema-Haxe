@@ -1,5 +1,6 @@
 package domain.prefabs;
 
+import domain.components.FactionMember;
 import domain.components.Moniker;
 import domain.components.Vision;
 import domain.components.Energy;
@@ -17,7 +18,7 @@ class PlayerPrefab extends Prefab {
 		entity.add(new Energy(10));
 		entity.add(new Vision(20));
 		entity.add(new Moniker("Player"));
-
+		entity.add(new FactionMember(FACTION_PLAYER));
 		return entity;
 	}
 }

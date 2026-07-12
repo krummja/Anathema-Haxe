@@ -142,12 +142,12 @@ class Chunk {
 		}
 	}
 
-	public function getEntityIdsAt(x: Float, y: Float): Array<String> {
+	public function getEntityIdsAt(x: Int, y: Int): Array<String> {
 		if (!isLoaded) {
 			return [];
 		}
 
-		return this.entities.get(Math.floor(x), Math.floor(y));
+		return this.entities.get(x, y);
 	}
 
 	public function isExplored(pos: IntPoint): Bool {

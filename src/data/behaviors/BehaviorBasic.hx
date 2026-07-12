@@ -1,5 +1,6 @@
 package data.behaviors;
 
+import common.tools.Performance;
 import domain.components.*;
 import ecs.Entity;
 import engine.Behavior;
@@ -9,13 +10,29 @@ class BehaviorBasic extends Behavior {
 
 	public override function takeAction(entity: Entity) {
 		var actor = entity.get(Actor);
-		// var targets = Echoes.activeEntities.filter((e) -> e.exists(IsPlayer));
-		// var target = targets.first();
 
-		// if (tryMoveToward(entity, target.get(Position).asCoordinate())) {
-		// 	return;
-		// }
+		Performance.start("get-target");
+		var target = getTarget(entity);
+		Performance.stop("get-target");
 
-		// wait(entity);
+		if (target == null) {
+			if (actor.lastKnownTargetPosition != null) {
+				if (tryMoveToward(entity, actor.lastKnownTargetPosition)) {
+					return;
+				}
+			}
+
+			wait(entity);
+
+			return;
+		}
+
+		actor.lastKnownTargetPosition = target.pos;
+
+		if (tryMoveToward(entity, target.pos)) {
+			return;
+		}
+
+		wait(entity);
 	}
 }

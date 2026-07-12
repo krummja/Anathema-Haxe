@@ -9,5 +9,5 @@
 -lib haxeui-heaps
 -lib emitter
 -hl build/hl/anathema.hl
--D echoes_profiling
+-D hl-profile
 -main Main

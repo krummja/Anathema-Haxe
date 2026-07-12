@@ -1,8 +1,8 @@
 package engine;
 
 import common.struct.Coordinate;
-import engine.KeyEvent.KeyEventType;
 import common.struct.Queue;
+import engine.KeyEvent.KeyEventType;
 
 class InputManager {
 	public var queue: Queue<KeyEvent>;
@@ -60,15 +60,17 @@ class InputManager {
 	private function onSceneEvent(event: hxd.Event): Void {
 		switch (event.kind) {
 			case EMove:
-				var previous = mouse;
 				mouse = new Coordinate(event.relX, event.relY, SCREEN);
-			// MainLoop.getInstance().scenes.current.onMouseMove()
 			case EKeyUp:
 				this.setModKeys(event.keyCode, KEY_UP);
 			case EKeyDown:
 				this.setModKeys(event.keyCode, KEY_DOWN);
 				this.handleKeyEvent(event.keyCode, KEY_DOWN);
 				MainLoop.getInstance().scenes.current.onKeyDown(event.keyCode);
+			case EPush:
+				MainLoop.getInstance().scenes.current.onMouseDown(new Coordinate(event.relX, event.relY, SCREEN));
+			case ERelease:
+				MainLoop.getInstance().scenes.current.onMouseUp(new Coordinate(event.relX, event.relY, SCREEN));
 			case _:
 		}
 	}

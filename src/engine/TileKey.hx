@@ -37,6 +37,7 @@ enum TileKey {
 	TK_DIRT_05;
 
 	TK_PLAYER_01; // 0,26
+	TK_RECT;
 
 	WALL_0;
 	WALL_1;
@@ -108,4 +109,8 @@ enum TileKey {
 	WALL_BASIC_0;
 	WALL_BASIC_1;
 	WALL_BASIC_2;
+
+	TK_CURSOR;
+	TK_LIST_DASH;
+	TK_DEBUG_CURSOR;
 }
