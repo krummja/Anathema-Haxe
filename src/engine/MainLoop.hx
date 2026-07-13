@@ -66,6 +66,7 @@ class MainLoop {
 
 		var columns = Math.floor(width / this.UNIT_X);
 		var rows = Math.floor(height / this.UNIT_Y);
+		this.camera.windowColumns = columns;
 		this.camera.zoom = zoom;
 
 		window.resize(columns * UNIT_X, rows * UNIT_Y);
