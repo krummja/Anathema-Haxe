@@ -12,7 +12,8 @@ class Zone {
 	public var zoneId(default, null): Int;
 	public var zonePos(get, never): IntPoint;
 	public var worldPos(get, never): IntPoint;
-	public var size(get, never): Int;
+	public var width(get, never): Int;
+	public var height(get, never): Int;
 
 	public function new(zoneId: Int) {
 		this.zoneId = zoneId;
@@ -46,10 +47,14 @@ class Zone {
 	}
 
 	private function get_worldPos(): IntPoint {
-		return zonePos.multiply(MainLoop.getInstance().world.zoneSize);
+		return zonePos.multiply(width, height);
 	}
 
-	private function get_size(): Int {
-		return MainLoop.getInstance().world.zoneSize;
+	private function get_width(): Int {
+		return MainLoop.getInstance().world.zoneWidth;
+	}
+
+	private function get_height(): Int {
+		return MainLoop.getInstance().world.zoneHeight;
 	}
 }

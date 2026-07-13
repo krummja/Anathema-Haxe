@@ -62,6 +62,14 @@ class IntPoint {
 		return new IntPoint(this.x + n, this.y + n);
 	}
 
+	public overload extern inline function multiply(other: IntPoint): IntPoint {
+		return new IntPoint(this.x * other.x, this.y * other.y);
+	}
+
+	public overload extern inline function multiply(x: Int, y: Int): IntPoint {
+		return new IntPoint(this.x * x, this.y * y);
+	}
+
 	public overload extern inline function multiply(value: Int): IntPoint {
 		return new IntPoint(this.x * value, this.y * value);
 	}

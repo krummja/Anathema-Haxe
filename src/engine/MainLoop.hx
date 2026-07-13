@@ -69,6 +69,8 @@ class MainLoop {
 		this.camera.zoom = zoom;
 
 		window.resize(columns * UNIT_X, rows * UNIT_Y);
+		window.vsync = SettingsManager.settings.graphics.vsyncEnabled;
+		window.displayMode = SettingsManager.settings.display.fullScreen ? Fullscreen : Windowed;
 		this.app.s2d.addChild(this.layers.root);
 		window.onClose = onClose;
 	}
@@ -89,7 +91,7 @@ class MainLoop {
 	}
 
 	private function onClose(): Bool {
-		// Performance.toTable();
+		trace("Shutting down... Goodbye!");
 		return true;
 	}
 

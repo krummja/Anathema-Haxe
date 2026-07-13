@@ -25,10 +25,12 @@ class World {
 
 	public var zoneCountX(default, null): Int = 1;
 	public var zoneCountY(default, null): Int = 1;
-	public var zoneSize(default, null): Int = 60;
+	public var zoneWidth(default, null): Int = 80;
+	public var zoneHeight(default, null): Int = 50;
 
 	public var chunkSubdivision(default, never): Int = 2;
-	public var chunkSize(get, never): Int;
+	public var chunkWidth(get, never): Int;
+	public var chunkHeight(get, never): Int;
 	public var chunkCountX(get, never): Int;
 	public var chunkCountY(get, never): Int;
 
@@ -97,8 +99,8 @@ class World {
 			return new Array<Entity>();
 		}
 
-		var localX = pos.x % chunkSize;
-		var localY = pos.y % chunkSize;
+		var localX = pos.x % chunkWidth;
+		var localY = pos.y % chunkHeight;
 		var ids = chunk.getEntityIdsAt(localX, localY);
 
 		return ids.map((id: String) -> loop.registry.getEntity(id));
@@ -248,11 +250,11 @@ class World {
 	}
 
 	private function get_worldWidth(): Int {
-		return this.chunkCountX * this.chunkSize;
+		return this.chunkCountX * this.chunkWidth;
 	}
 
 	private function get_worldHeight(): Int {
-		return this.chunkCountY * this.chunkSize;
+		return this.chunkCountY * this.chunkHeight;
 	}
 
 	private function get_chunkCountX(): Int {
@@ -263,8 +265,12 @@ class World {
 		return this.zoneCountY * this.chunkSubdivision;
 	}
 
-	private function get_chunkSize(): Int {
-		return Math.ceil(this.zoneSize / this.chunkSubdivision);
+	private function get_chunkWidth(): Int {
+		return Math.ceil(this.zoneWidth / this.chunkSubdivision);
+	}
+
+	private function get_chunkHeight(): Int {
+		return Math.ceil(this.zoneHeight / this.chunkSubdivision);
 	}
 
 	private function get_started(): Bool {

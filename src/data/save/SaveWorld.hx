@@ -12,7 +12,8 @@ typedef SaveWorld = {
 	var player: SavePlayer;
 	var zones: ZoneSaveData;
 	var tick: Int;
-	var chunkSize: Int;
+	var chunkWidth: Int;
+	var chunkHeight: Int;
 	var chunkCountX: Int;
 	var chunkCountY: Int;
 	var detachedEntities: Array<EntitySaveData>;

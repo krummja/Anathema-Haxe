@@ -16,7 +16,8 @@ class Chunk {
 	public var isLoaded(default, null): Bool;
 	public var cells(default, null): Grid<Cell>;
 
-	public var size(default, null): Int;
+	public var width(default, null): Int;
+	public var height(default, null): Int;
 	public var chunkId(default, null): Int;
 	public var zoneId(get, never): Int;
 	public var zone(get, never): Zone;
@@ -26,10 +27,11 @@ class Chunk {
 
 	private var tiles: h2d.Object;
 
-	public function new(chunkId: Int, size: Int) {
+	public function new(chunkId: Int, width: Int, height: Int) {
 		this.chunkId = chunkId;
-		this.size = size;
-		this.cells = new Grid(size, size);
+		this.width = width;
+		this.height = height;
+		this.cells = new Grid(width, height);
 	}
 
 	public function load(?save: SaveChunk) {
@@ -39,10 +41,10 @@ class Chunk {
 
 		isLoaded = true;
 
-		this.entities = new GridMap(size, size);
-		this.bitmaps = new Grid(size, size);
-		this.exploration = new Grid(size, size);
-		this.cells = new Grid(size, size);
+		this.entities = new GridMap(width, height);
+		this.bitmaps = new Grid(width, height);
+		this.exploration = new Grid(width, height);
+		this.cells = new Grid(width, height);
 		this.tiles = new h2d.Object();
 
 		if (save == null) {
@@ -51,7 +53,9 @@ class Chunk {
 			buildTiles();
 		} else {
 			var tickDelta = MainLoop.getInstance().world.clock.tick - save.tick;
-			size = save.size;
+			width = save.width;
+			height = save.height;
+
 			cells.load(save.cells, (c) -> c);
 			buildTiles();
 
@@ -91,7 +95,8 @@ class Chunk {
 
 		return {
 			idx: chunkId,
-			size: size,
+			width: width,
+			height: height,
 			tick: MainLoop.getInstance().world.clock.tick,
 			explored: exploration.save((v) -> v),
 			cells: cells.save((v) -> v),
@@ -260,6 +265,6 @@ class Chunk {
 	}
 
 	private function get_worldPos(): IntPoint {
-		return chunkPos.multiply(size);
+		return chunkPos.multiply(width, height);
 	}
 }

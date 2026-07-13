@@ -8,7 +8,8 @@ class ChunkManager {
 	public var chunkGen(default, null): ChunkGen;
 	public var chunkCountX(get, null): Int;
 	public var chunkCountY(get, null): Int;
-	public var chunkSize(get, null): Int;
+	public var chunkWidth(get, null): Int;
+	public var chunkHeight(get, null): Int;
 
 	private var chunksToLoad: Set<Int>;
 	private var chunksToUnload: Set<Int>;
@@ -21,7 +22,7 @@ class ChunkManager {
 
 	public function initialize() {
 		this.chunks = new Grid<Chunk>(this.chunkCountX, this.chunkCountY);
-		this.chunks.fillFn((idx) -> new Chunk(idx, chunkSize));
+		this.chunks.fillFn((idx) -> new Chunk(idx, chunkWidth, chunkHeight));
 		chunksToLoad = new Set();
 		chunksToUnload = new Set();
 	}
@@ -119,7 +120,7 @@ class ChunkManager {
 	}
 
 	public inline function getChunkIdxByWorld(wx: Float, wy: Float): Int {
-		return getChunkIdx(Math.floor(wx / chunkSize), Math.floor(wy / chunkSize));
+		return getChunkIdx(Math.floor(wx / chunkWidth), Math.floor(wy / chunkHeight));
 	}
 
 	public overload extern inline function getChunk(cx: Float, cy: Float): Chunk {
@@ -142,7 +143,11 @@ class ChunkManager {
 		return MainLoop.getInstance().world.chunkCountY;
 	}
 
-	private function get_chunkSize(): Int {
-		return MainLoop.getInstance().world.chunkSize;
+	private function get_chunkWidth(): Int {
+		return MainLoop.getInstance().world.chunkWidth;
+	}
+
+	private function get_chunkHeight(): Int {
+		return MainLoop.getInstance().world.chunkHeight;
 	}
 }

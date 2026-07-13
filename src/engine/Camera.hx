@@ -11,6 +11,7 @@ class Camera {
 	public var x(get, set): Float;
 	public var y(get, set): Float;
 	public var focus(get, set): Coordinate;
+	public var offsetX(default, null): Int = 8;
 
 	public var scroller(get, null): h2d.Object;
 
@@ -47,16 +48,10 @@ class Camera {
 	}
 
 	private function set_x(value: Float): Float {
+		// `value` is the world x value (i.e. in tile units)
+
 		var p = Projection.worldToPixel(value, y);
-
-		// var world = MainLoop.getInstance().world;
-		// var zoneWidth = world.zoneSize * world.loop.UNIT_X;
-		// var maxX = (width - zoneWidth);
-
-		// trace([p.x.roundTo(), (width - zoneWidth).roundTo()]);
-
 		scroller.x = -((p.x + 0.5) * zoom);
-
 		return value;
 	}
 

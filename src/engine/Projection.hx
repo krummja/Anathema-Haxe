@@ -5,14 +5,19 @@ import common.struct.Coordinate;
 class Projection {
 	private static var loop(get, null): MainLoop;
 
-	private static var chunkSize(get, null): Int;
+	private static var chunkWidth(get, null): Int;
+	private static var chunkHeight(get, null): Int;
 
-	private inline static function get_loop(): MainLoop {
+	private static inline function get_loop(): MainLoop {
 		return MainLoop.getInstance();
 	}
 
-	private inline static function get_chunkSize(): Int {
-		return loop.world.chunkSize;
+	private static inline function get_chunkWidth(): Int {
+		return loop.world.chunkWidth;
+	}
+
+	private static inline function get_chunkHeight(): Int {
+		return loop.world.chunkHeight;
 	}
 
 	// TO SCREEN
@@ -74,7 +79,7 @@ class Projection {
 	}
 
 	public static function chunkToWorld(cx: Float, cy: Float): Coordinate {
-		return new Coordinate(cx * chunkSize, cy * chunkSize, WORLD);
+		return new Coordinate(cx * chunkWidth, cy * chunkHeight, WORLD);
 	}
 
 	public static function zoneToWorld(zx: Float, zy: Float): Coordinate {
@@ -91,11 +96,11 @@ class Projection {
 
 	public static function pixelToChunk(px: Float, py: Float): Coordinate {
 		var w = pixelToWorld(px, py);
-		return new Coordinate(w.x / chunkSize, w.y / chunkSize, CHUNK);
+		return new Coordinate(w.x / chunkWidth, w.y / chunkHeight, CHUNK);
 	}
 
 	public static function worldToChunk(wx: Float, wy: Float): Coordinate {
-		return new Coordinate(Math.floor(wx / chunkSize), Math.floor(wy / chunkSize), CHUNK);
+		return new Coordinate(Math.floor(wx / chunkWidth), Math.floor(wy / chunkHeight), CHUNK);
 	}
 
 	public static function zoneToChunk(zx: Float, zy: Float): Coordinate {
