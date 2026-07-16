@@ -32,7 +32,7 @@ class Camera {
 
 	public function new() {
 		zoom = 1.0;
-		offsetX = 0.5;
+		offsetX = 0.3;
 		offsetY = 0.5;
 	}
 

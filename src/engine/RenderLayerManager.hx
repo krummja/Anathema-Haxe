@@ -14,6 +14,8 @@ enum RenderLayerType {
 	ACTOR;
 	EFFECT;
 	OVERLAY;
+
+	HUD_BACKGROUND;
 	HUD;
 	POPUP;
 }
@@ -87,6 +89,7 @@ class RenderLayerManager {
 		this.createLayer(EFFECT, WORLD);
 		this.createLayer(OVERLAY, WORLD);
 
+		this.createLayer(HUD_BACKGROUND, SCREEN);
 		this.createLayer(HUD, SCREEN);
 		this.createLayer(POPUP, SCREEN);
 

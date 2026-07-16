@@ -1,5 +1,8 @@
 package engine;
 
+import scenes.ui.RLay;
+import scenes.ui.RLay.UIRect;
+import scenes.ui.UIManager;
 import common.tools.Performance;
 import ecs.Registry;
 import h2d.Console;
@@ -39,6 +42,8 @@ class MainLoop {
 	public var world(default, null): World;
 	public var registry(default, null): Registry;
 	public var files(default, null): FileManager;
+	public var ui(default, null): UIManager;
+	public var rlay(default, null): RLay;
 
 	public var palette(get, null): ColorPalette;
 
@@ -46,6 +51,7 @@ class MainLoop {
 		instance = this;
 		this.app = app;
 
+		// Instantiate core engine managers
 		this.frame = new Frame();
 		this.files = new FileManager();
 		this.layers = new RenderLayerManager();
@@ -56,23 +62,33 @@ class MainLoop {
 		this.registry = new Registry();
 		this.scenes = new SceneManager(this);
 		this.timeout = new TimeoutManager();
+		this.ui = new UIManager();
+		this.rlay = new RLay();
 
+		// Set up console
 		this.console = new Console(TextResources.BIZCAT);
 		ConsoleConfig.config(this.console);
 
+		// Get settings
 		var zoom = SettingsManager.settings.display.zoomLevel;
 		var width = SettingsManager.settings.display.resolutionWidth;
 		var height = SettingsManager.settings.display.resolutionHeight;
 
+		// Calculate window geometry
 		var columns = Math.floor(width / this.UNIT_X);
 		var rows = Math.floor(height / this.UNIT_Y);
 		this.camera.windowColumns = columns;
 		this.camera.zoom = zoom;
 
+		// Resize window and set window settings
 		window.resize(columns * UNIT_X, rows * UNIT_Y);
 		window.vsync = SettingsManager.settings.graphics.vsyncEnabled;
 		window.displayMode = SettingsManager.settings.display.fullScreen ? Fullscreen : Windowed;
+
+		// Add rendering root
 		this.app.s2d.addChild(this.layers.root);
+
+		// Register lifecycle callbacks
 		window.onClose = onClose;
 	}
 

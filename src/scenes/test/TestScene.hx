@@ -1,24 +1,31 @@
 package scenes.test;
 
-import common.tools.Performance;
-import domain.components.IsCreature;
-import h2d.Text;
+import common.struct.IntPoint;
+import common.struct.Rect;
+import common.struct.Size;
+import h2d.Bitmap;
 import h2d.Object;
-import emitter.Emitter;
-import common.algorithm.Distance;
-import domain.components.Collider;
+import h2d.Text;
+import h2d.Tile;
 import common.algorithm.AStar;
-import common.struct.Coordinate;
-import engine.TextResources;
-import engine.KeyCode;
-import domain.events.ConsumeEnergyEvent;
-import domain.components.Path;
-import domain.components.Move;
-import domain.systems.EnergySystem;
+import common.algorithm.Distance;
 import common.struct.Cardinal;
+import common.struct.Coordinate;
+import common.tools.Performance;
+import domain.components.Collider;
+import domain.components.IsCreature;
+import domain.components.Move;
+import domain.components.Path;
+import domain.events.ConsumeEnergyEvent;
+import domain.systems.EnergySystem;
+import emitter.Emitter;
 import engine.CommandManager.Command;
 import engine.Frame;
+import engine.KeyCode;
 import engine.Scene;
+import engine.TextResources;
+import scenes.ui.Layout;
+import scenes.ui.View;
 
 typedef HudText = {
 	ob: Object,
@@ -30,10 +37,15 @@ typedef HudText = {
 	clock: Text,
 }
 
+typedef SidePanel = {
+	ob: Object,
+}
+
 class TestScene extends Scene {
 	public var energySystem(get, never): EnergySystem;
 
 	private var cameraLocked: Bool = false;
+	private var sidePanel: SidePanel;
 	private var hudText: HudText;
 	private var graphics: h2d.Graphics;
 
@@ -42,7 +54,9 @@ class TestScene extends Scene {
 	}
 
 	private override function onEnter(): Void {
+		renderSidePanel();
 		renderText();
+
 		world.systems.vision.computeVision();
 
 		graphics = new h2d.Graphics();
@@ -86,6 +100,10 @@ class TestScene extends Scene {
 		if (!cameraLocked) {
 			updateCamera(frame);
 		}
+
+		// graphics.clear();
+		// graphics.drawRect(panelRect.x, panelRect.y, panelRect.width, panelRect.height);
+		// graphics.beginFill(0xff0000);
 
 		// var pos = world.player.pos.toScreen();
 		// graphics.clear();
@@ -171,6 +189,8 @@ class TestScene extends Scene {
 		var cost = EnergySystem.getEnergyCost(world.player.entity, ACT_MOVE);
 		world.player.entity.fireEvent(new ConsumeEnergyEvent(cost));
 	}
+
+	private function renderSidePanel() {}
 
 	private function renderText() {
 		var ob = new Object();

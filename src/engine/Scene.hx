@@ -1,5 +1,6 @@
 package engine;
 
+import scenes.ui.View;
 import emitter.Emitter;
 import common.struct.Coordinate;
 

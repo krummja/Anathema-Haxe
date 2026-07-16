@@ -8,6 +8,7 @@
 -lib haxeui-core
 -lib haxeui-heaps
 -lib emitter
+-lib utest
 -hl build/hl/anathema.hl
 -D hl-profile
 -main Main

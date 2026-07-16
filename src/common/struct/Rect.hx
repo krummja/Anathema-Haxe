@@ -41,6 +41,8 @@ class Rect {
 	public var width(get, set): Int;
 	public var height(get, set): Int;
 
+	public var floored(get, never): Rect;
+
 	public function new(origin: IntPoint, size: Size) {
 		this.origin = origin;
 		this.size = size;
@@ -288,5 +290,9 @@ class Rect {
 	private function set_height(value: Int): Int {
 		size = new Size(width, value);
 		return value;
+	}
+
+	private function get_floored(): Rect {
+		return new Rect(new IntPoint(origin.x.floor(), origin.y.floor()), new Size(size.w.floor(), size.h.floor()));
 	}
 }
