@@ -1,6 +1,7 @@
-import scenes.mainmenu.MainMenuScene;
-import haxe.ui.Toolkit;
+import haxe.ui.backend.TextDisplayImpl;
 import hxd.Res;
+import haxe.ui.Toolkit;
+import scenes.mainmenu.MainMenuScene;
 import engine.BehaviorManager.Behaviors;
 import engine.TextResources;
 import engine.SettingsManager;
@@ -10,7 +11,6 @@ import engine.Commands;
 import engine.MainLoop;
 import engine.Factions;
 import data.Bitmasks;
-import scenes.boot.BootScene;
 
 class Main extends hxd.App {
 	public static function main(): Void {
@@ -22,6 +22,8 @@ class Main extends hxd.App {
 
 	public override function init(): Void {
 		SettingsManager.init("settings");
+
+		TextDisplayImpl;
 
 		s2d.renderer.globals.set("daylight", 1);
 		s2d.renderer.globals.set("dayProgress", 0);
@@ -46,7 +48,10 @@ class Main extends hxd.App {
 		});
 
 		this.loop = MainLoop.create(this);
+
+		Toolkit.theme = "anathema";
 		Toolkit.init({root: this.loop.layers.root});
+
 		this.loop.scenes.set(new MainMenuScene());
 
 		trace("App initialized - launching");

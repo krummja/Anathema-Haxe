@@ -1,17 +1,11 @@
 package scenes.test;
 
-import common.struct.IntPoint;
-import common.struct.Rect;
-import common.struct.Size;
-import h2d.Bitmap;
 import h2d.Object;
 import h2d.Text;
-import h2d.Tile;
 import common.algorithm.AStar;
 import common.algorithm.Distance;
 import common.struct.Cardinal;
 import common.struct.Coordinate;
-import common.tools.Performance;
 import domain.components.Collider;
 import domain.components.IsCreature;
 import domain.components.Move;
@@ -24,8 +18,6 @@ import engine.Frame;
 import engine.KeyCode;
 import engine.Scene;
 import engine.TextResources;
-import scenes.ui.Layout;
-import scenes.ui.View;
 
 typedef HudText = {
 	ob: Object,
@@ -100,15 +92,6 @@ class TestScene extends Scene {
 		if (!cameraLocked) {
 			updateCamera(frame);
 		}
-
-		// graphics.clear();
-		// graphics.drawRect(panelRect.x, panelRect.y, panelRect.width, panelRect.height);
-		// graphics.beginFill(0xff0000);
-
-		// var pos = world.player.pos.toScreen();
-		// graphics.clear();
-		// graphics.lineStyle(2, 0xff0000);
-		// graphics.drawCircle(pos.x, pos.y, 2);
 	}
 
 	private function updateCamera(frame: Frame): Void {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<module id="anathema">
+    <resources>
+        <resource path="/res/styles" prefix="anathema/styles"/>
+        <resource path="/res/fnt" prefix="anathema/fonts"/>
+    </resources>
+    <themes>
+        <anathema>
+            <style resource="anathema/styles/main.css"/>
+        </anathema>
+    </themes>
+</module>

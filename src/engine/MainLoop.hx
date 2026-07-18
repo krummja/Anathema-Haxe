@@ -1,8 +1,6 @@
 package engine;
 
 import scenes.ui.RLay;
-import scenes.ui.RLay.UIRect;
-import scenes.ui.UIManager;
 import common.tools.Performance;
 import ecs.Registry;
 import h2d.Console;
@@ -42,7 +40,6 @@ class MainLoop {
 	public var world(default, null): World;
 	public var registry(default, null): Registry;
 	public var files(default, null): FileManager;
-	public var ui(default, null): UIManager;
 	public var rlay(default, null): RLay;
 
 	public var palette(get, null): ColorPalette;
@@ -62,7 +59,6 @@ class MainLoop {
 		this.registry = new Registry();
 		this.scenes = new SceneManager(this);
 		this.timeout = new TimeoutManager();
-		this.ui = new UIManager();
 		this.rlay = new RLay();
 
 		// Set up console
