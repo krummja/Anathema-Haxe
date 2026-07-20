@@ -11,10 +11,11 @@
 	},
 	"display": {
 		"fullScreen": false,
-		"resolutionWidth": 1200,
 		"resolutionHeight": 800,
+		"resolutionWidth": 1200,
 		"scanlines": false,
-		"zoomLevel": 2.0
+		"warpAmount": 0,
+		"zoomLevel": 2
 	},
 	"graphics": {
 		"vsyncEnabled": true

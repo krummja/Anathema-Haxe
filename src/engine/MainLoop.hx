@@ -65,6 +65,23 @@ class MainLoop {
 		this.console = new Console(TextResources.BIZCAT);
 		ConsoleConfig.config(this.console);
 
+		// Apply initial settings
+		applySettings();
+
+		// Add rendering root
+		this.app.s2d.addChild(this.layers.root);
+
+		// Register lifecycle callbacks
+		window.onClose = onClose;
+	}
+
+	public inline function update(): Void {
+		Performance.update(frame.dt * 1000);
+		this.frame.update();
+		this.scenes.update(this.frame);
+	}
+
+	public function applySettings(): Void {
 		// Get settings
 		var zoom = SettingsManager.settings.display.zoomLevel;
 		var width = SettingsManager.settings.display.resolutionWidth;
@@ -80,22 +97,14 @@ class MainLoop {
 		window.resize(columns * UNIT_X, rows * UNIT_Y);
 		window.vsync = SettingsManager.settings.graphics.vsyncEnabled;
 		window.displayMode = SettingsManager.settings.display.fullScreen ? Fullscreen : Windowed;
-
-		// Add rendering root
-		this.app.s2d.addChild(this.layers.root);
-
-		// Register lifecycle callbacks
-		window.onClose = onClose;
-	}
-
-	public inline function update(): Void {
-		Performance.update(frame.dt * 1000);
-		this.frame.update();
-		this.scenes.update(this.frame);
 	}
 
 	public inline function render(layer: RenderLayerType, ob: h2d.Object): Void {
 		return this.layers.render(layer, ob);
+	}
+
+	public function requestExit() {
+		hxd.System.exit();
 	}
 
 	@:allow(engine.Scene)

@@ -10,6 +10,9 @@ abstract class Scene {
 	public var camera(get, null): Camera;
 	public var world(get, null): domain.World;
 
+	@:allow(engine.SceneManager)
+	private var ui: UIRoot;
+
 	public var inputDomain: InputDomainType = INPUT_DOMAIN_DEFAULT;
 	public var onClosedListener: () -> Void = () -> {};
 

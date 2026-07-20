@@ -24,35 +24,63 @@ class SceneManager {
 
 	public function set(scene: Scene) {
 		while (this.scenes.length > 0) {
-			current.onDestroy();
-			this.scenes.pop().onClosedListener();
+			var popped = this.scenes.pop();
+			popped.onClosedListener();
+			destroy(popped);
 		}
 
 		MainLoop.getInstance().input.flush();
+
+		scene.ui = new UIRoot(scene);
 		this.scenes.push(scene);
-		current.onEnter();
+		enter(scene);
 	}
 
 	public function replace(scene: Scene) {
-		current.onDestroy();
-		this.scenes.pop().onClosedListener();
+		var popped = this.scenes.pop();
+		popped.onClosedListener();
+		destroy(popped);
+
 		MainLoop.getInstance().input.flush();
+
+		scene.ui = new UIRoot(scene);
 		this.scenes.push(scene);
-		current.onEnter();
+		enter(scene);
 	}
 
 	public function push(scene: Scene) {
 		current.onSuspend();
+		current.ui.onSceneSuspend();
 		MainLoop.getInstance().input.flush();
+
+		scene.ui = new UIRoot(scene);
 		this.scenes.push(scene);
-		current.onEnter();
+		enter(current);
 	}
 
 	public function pop() {
-		current.onDestroy();
-		this.scenes.pop().onClosedListener();
+		var popped = this.scenes.pop();
+		popped.onClosedListener();
+		destroy(popped);
+
 		MainLoop.getInstance().input.flush();
+
+		current.ui.onSceneResume();
 		current.onResume();
+	}
+
+	private function enter(scene: Scene) {
+		scene.onEnter();
+		if (scene.ui != null) {
+			scene.ui.onSceneEnter();
+		}
+	}
+
+	private function destroy(scene: Scene) {
+		if (scene.ui != null) {
+			scene.ui.onSceneDestroy();
+		}
+		scene.onDestroy();
 	}
 
 	private function get_current(): Scene {

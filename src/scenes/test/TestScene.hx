@@ -1,5 +1,6 @@
 package scenes.test;
 
+import scenes.options.OptionsScene;
 import h2d.Object;
 import h2d.Text;
 import common.algorithm.AStar;
@@ -46,7 +47,6 @@ class TestScene extends Scene {
 	}
 
 	private override function onEnter(): Void {
-		renderSidePanel();
 		renderText();
 
 		world.systems.vision.computeVision();
@@ -121,6 +121,8 @@ class TestScene extends Scene {
 	private function handle(cmd: Command): Void {
 		if (cmd != null) {
 			switch cmd.type {
+				case CMD_CANCEL:
+					pause();
 				case CMD_MOVE_N:
 					move(NORTH);
 				case CMD_MOVE_NE:
@@ -142,6 +144,10 @@ class TestScene extends Scene {
 				case _:
 			}
 		}
+	}
+
+	private function pause() {
+		loop.scenes.push(new OptionsScene());
 	}
 
 	private function move(dir: Cardinal) {
@@ -172,8 +178,6 @@ class TestScene extends Scene {
 		var cost = EnergySystem.getEnergyCost(world.player.entity, ACT_MOVE);
 		world.player.entity.fireEvent(new ConsumeEnergyEvent(cost));
 	}
-
-	private function renderSidePanel() {}
 
 	private function renderText() {
 		var ob = new Object();

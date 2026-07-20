@@ -5,7 +5,7 @@
         <resource path="/res/fnt" prefix="anathema/fonts"/>
     </resources>
     <themes>
-        <anathema>
+        <anathema parent="dark">
             <style resource="anathema/styles/main.css"/>
         </anathema>
     </themes>

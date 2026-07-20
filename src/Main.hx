@@ -1,4 +1,3 @@
-import haxe.ui.backend.TextDisplayImpl;
 import hxd.Res;
 import haxe.ui.Toolkit;
 import scenes.mainmenu.MainMenuScene;
@@ -22,8 +21,6 @@ class Main extends hxd.App {
 
 	public override function init(): Void {
 		SettingsManager.init("settings");
-
-		TextDisplayImpl;
 
 		s2d.renderer.globals.set("daylight", 1);
 		s2d.renderer.globals.set("dayProgress", 0);
@@ -59,5 +56,10 @@ class Main extends hxd.App {
 
 	public override function update(dt: Float): Void {
 		this.loop.update();
+	}
+
+	@:allow(engine.MainLoop)
+	private function requestExit() {
+		dispose();
 	}
 }

@@ -40,8 +40,16 @@ typedef Settings = {
 	input: InputSettings,
 }
 
+typedef Resolution = {w: Int, h: Int};
+
 class SettingsManager {
-	public static var settings(default, null): Settings;
+	public static final RESOLUTIONS: Array<Resolution> = [
+		{w: 1024, h: 768},
+		{w: 1200, h: 800},
+		{w: 1920, h: 1080},
+	];
+
+	public static var settings(default, set): Settings;
 
 	private static var settingsDirectory: String = "settings";
 
@@ -98,5 +106,11 @@ class SettingsManager {
 			},
 			input: {},
 		};
+	}
+
+	private static function set_settings(value: Settings): Settings {
+		SettingsManager.settings = value;
+		SettingsManager.writeSettings("settings.json");
+		return value;
 	}
 }

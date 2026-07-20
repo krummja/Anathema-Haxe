@@ -1,0 +1,94 @@
+<box width="100%" height="100%" style="padding: 8px;">
+    <style>
+    .options-wrapper {
+        width: 100%;
+        height: 100%;
+        background-color: #212121;
+        padding: 8px;
+    }
+
+    .button-controls {
+        width: 100%;
+        height: auto;
+    }
+
+    .button-wrapper {
+        width: 100%;
+    }
+
+    .setting-group {
+        width: 100%;
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+
+    .setting-row {
+        width: 100%;
+        height: 50px;
+    }
+
+    .setting-name {
+        width: 100%;
+        vertical-align: center;
+    }
+
+    .setting-value {
+        width: 100%;
+        vertical-align: center;
+    }
+
+    .setting-value .checkbox-value {
+        width: 32px;
+        height: 32px;
+    }
+    </style>
+    <vbox styleName="options-wrapper">
+        <vbox styleName="page-wrapper">
+            <section-header text="Settings" styleName="page-title"/>
+            <vbox styleName="page-body">
+                <accordion id="ac1" width="100%" height="100%">
+                    <vbox text="Section 1" styleName="setting-group">
+                        <hbox styleName="setting-row">
+                            <label text="Option" styleName="setting-name"/>
+                            <checkbox selected="true" styleName="setting-value"/>
+                        </hbox>
+                        <hbox styleName="setting-row">
+                            <label text="Option" styleName="setting-name"/>
+                            <option-stepper width="100%" styleName="setting-value">
+                                <data>
+                                    <item text="1024x768"/>
+                                    <item text="1200x600"/>
+                                    <item text="1920x1080"/>
+                                </data>
+                            </option-stepper>
+                        </hbox>
+                        <hbox styleName="setting-row">
+                            <label text="Option" styleName="setting-name"/>
+                            <checkbox selected="true" styleName="setting-value"/>
+                        </hbox>
+                    </vbox>
+                    <vbox text="Section 2" styleName="setting-group">
+                        <hbox styleName="setting-row">
+                            <label text="Option" styleName="setting-name"/>
+                            <checkbox selected="true" styleName="setting-value"/>
+                        </hbox>
+                        <hbox styleName="setting-row">
+                            <label text="Option" styleName="setting-name"/>
+                            <checkbox selected="true" styleName="setting-value"/>
+                        </hbox>
+                        <hbox styleName="setting-row">
+                            <label text="Option" styleName="setting-name"/>
+                            <checkbox selected="true" styleName="setting-value"/>
+                        </hbox>
+                    </vbox>
+                </accordion>
+            </vbox>
+        </vbox>
+        <box styleName="button-controls">
+            <hbox styleName="button-wrapper">
+                <button id="btnBack" text="Back"/>
+                <button id="btnSave" text="Save"/>
+            </hbox>
+        </box>
+    </vbox>
+</box>

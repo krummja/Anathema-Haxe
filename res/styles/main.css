@@ -1,16 +1,46 @@
-.modal-background {
-  background-color: #212121;
-  opacity: 0.75;
+.ui-root {
+  padding: 8px;
+}
+
+.label {
+  color: #ffffff;
+  font-name: "fnt/bizcat.fnt";
+  font-size: 12px;
+}
+
+/* Global button style */
+.button {
+  background-color: #303030;
+  border: 1px solid #606060;
+  padding: 12px;
+  border-radius: 2px;
 }
 
 .title {
   width: 100%;
-  color: #ffffff;
   font-size: 60px;
-  font-name: "fnt/bizcat.fnt";
   text-align: center;
+  vertical-align: center;
 }
 
-.wrapper {
-  border: 1px solid #ff0000;
+.page-title {
+  font-size: 14px;
+}
+
+.page-wrapper {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 8px;
+  pointer-events: none;
+}
+
+.page-body {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+}
+
+.modal-background {
+  background-color: #212121;
+  opacity: 1.0;
 }
