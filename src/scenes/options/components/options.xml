@@ -16,6 +16,10 @@
         width: 100%;
     }
 
+    .settings-page .accordion-button {
+        height: 32px;
+    }
+
     .setting-group {
         width: 100%;
         padding-top: 16px;
@@ -25,62 +29,47 @@
     .setting-row {
         width: 100%;
         height: 50px;
+        padding: 2px;
     }
 
     .setting-name {
-        width: 100%;
+        width: 50%;
         vertical-align: center;
+        horizontal-align: left;
+    }
+
+    .slot {
+        width: 50%;
+        height: 100%;
+        vertical-align: center;
+        horizontal-align: right;
     }
 
     .setting-value {
         width: 100%;
         vertical-align: center;
+        horizontal-align: left;
     }
 
-    .setting-value .checkbox-value {
+    .checkbox-value {
         width: 32px;
         height: 32px;
+    }
+
+    .option-stepper {
+        vertical-align: center;
     }
     </style>
     <vbox styleName="options-wrapper">
         <vbox styleName="page-wrapper">
             <section-header text="Settings" styleName="page-title"/>
             <vbox styleName="page-body">
-                <accordion id="ac1" width="100%" height="100%">
-                    <vbox text="Section 1" styleName="setting-group">
-                        <hbox styleName="setting-row">
-                            <label text="Option" styleName="setting-name"/>
-                            <checkbox selected="true" styleName="setting-value"/>
-                        </hbox>
-                        <hbox styleName="setting-row">
-                            <label text="Option" styleName="setting-name"/>
-                            <option-stepper width="100%" styleName="setting-value">
-                                <data>
-                                    <item text="1024x768"/>
-                                    <item text="1200x600"/>
-                                    <item text="1920x1080"/>
-                                </data>
-                            </option-stepper>
-                        </hbox>
-                        <hbox styleName="setting-row">
-                            <label text="Option" styleName="setting-name"/>
-                            <checkbox selected="true" styleName="setting-value"/>
-                        </hbox>
-                    </vbox>
-                    <vbox text="Section 2" styleName="setting-group">
-                        <hbox styleName="setting-row">
-                            <label text="Option" styleName="setting-name"/>
-                            <checkbox selected="true" styleName="setting-value"/>
-                        </hbox>
-                        <hbox styleName="setting-row">
-                            <label text="Option" styleName="setting-name"/>
-                            <checkbox selected="true" styleName="setting-value"/>
-                        </hbox>
-                        <hbox styleName="setting-row">
-                            <label text="Option" styleName="setting-name"/>
-                            <checkbox selected="true" styleName="setting-value"/>
-                        </hbox>
-                    </vbox>
+                <accordion id="ac1" width="100%" height="100%" styleName="settings-page">
+                    <vbox id="general" text="General" styleName="setting-group"></vbox>
+                    <vbox id="display" text="Display" styleName="setting-group"></vbox>
+                    <vbox id="graphics" text="Graphics" styleName="setting-group"></vbox>
+                    <vbox id="audio" text="Audio" styleName="setting-group"></vbox>
+                    <vbox id="input" text="Input" styleName="setting-group"></vbox>
                 </accordion>
             </vbox>
         </vbox>
