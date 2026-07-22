@@ -10,7 +10,7 @@
 		"voiceVolume": 100
 	},
 	"display": {
-		"fullScreen": false,
+		"fullScreen": "Windowed",
 		"resolutionHeight": 800,
 		"resolutionWidth": 1200,
 		"scanlines": false,

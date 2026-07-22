@@ -1,0 +1,9 @@
+<box width="100%" height="100%">
+    <style>
+        .panel-wrapper {
+            height: 100%;
+            horizontal-align: right;
+        }
+    </style>
+    <vbox id="panelWrapper" styleName="panel-wrapper"></vbox>
+</box>

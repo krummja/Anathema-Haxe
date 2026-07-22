@@ -1,5 +1,9 @@
 package engine;
 
+import domain.World;
+import common.struct.Size;
+import common.struct.IntPoint;
+import common.struct.Rect;
 import common.struct.Coordinate;
 import hxd.Window;
 
@@ -19,7 +23,7 @@ class Camera {
 	 */
 	public var pos(get, set): Coordinate;
 
-	public var offsetX(default, null): Float;
+	public var offsetX(get, set): Float;
 	public var offsetY(default, null): Float;
 
 	public var width(get, null): Float;
@@ -27,13 +31,20 @@ class Camera {
 	public var focus(get, set): Coordinate;
 	public var zoom(get, set): Float;
 	public var windowColumns(default, set): Int;
+	public var world(get, never): World;
 
 	public var scroller(get, null): h2d.Object;
+
+	private var _viewRect: Rect;
+	private var _offsetX: Float = 0.0;
+	private var _clampX: Bool = false;
+	private var _clampY: Bool = false;
 
 	public function new() {
 		zoom = 1.0;
 		offsetX = 0.3;
 		offsetY = 0.5;
+		this._viewRect = new Rect(new IntPoint(0, 0), new Size(width.floor(), height.floor()));
 	}
 
 	private inline function get_width(): Float {
@@ -80,12 +91,15 @@ class Camera {
 			value = 0;
 		}
 
-		var world = MainLoop.getInstance().world;
 		var zoneWidth = world.zoneWidth;
 		var viewCols = (width / world.loop.UNIT_X).floor();
 
 		var offsetCols = (focus.x / world.loop.UNIT_X).floor();
 		var maxX = (zoneWidth - ((viewCols - offsetCols) / zoom));
+
+		if (_clampX) {
+			maxX = Math.min(maxX, zoneWidth - (viewCols / zoom));
+		}
 
 		if (value >= maxX) {
 			value = maxX;
@@ -101,14 +115,20 @@ class Camera {
 	 * Additionally sets the scroller's y position.
 	 */
 	private function set_y(value: Float): Float {
+		// Clamp minimum y to zero
 		if (value < 0) {
 			value = 0;
 		}
 
-		var world = MainLoop.getInstance().world;
 		var zoneHeight = world.zoneHeight;
 		var viewRows = (height / world.loop.UNIT_Y).floor();
-		var maxY = zoneHeight - (viewRows / zoom);
+
+		var offsetRows = (focus.y / world.loop.UNIT_Y).floor();
+		var maxY = (zoneHeight - ((viewRows - offsetRows) / zoom));
+
+		if (_clampY) {
+			maxY = Math.min(maxY, zoneHeight - (viewRows / zoom));
+		}
 
 		if (value >= maxY) {
 			value = maxY;
@@ -145,12 +165,25 @@ class Camera {
 		return new Coordinate(width * offsetX, height * offsetY, SCREEN);
 	}
 
-	private function get_scroller(): h2d.Object {
-		return MainLoop.getInstance().layers.scroller;
+	private function get_offsetX(): Float {
+		return _offsetX;
+	}
+
+	private function set_offsetX(value: Float): Float {
+		_offsetX = value;
+		return value;
 	}
 
 	private function set_windowColumns(value: Int): Int {
 		this.windowColumns = value;
 		return value;
+	}
+
+	private function get_scroller(): h2d.Object {
+		return MainLoop.getInstance().layers.scroller;
+	}
+
+	private function get_world(): World {
+		return MainLoop.getInstance().world;
 	}
 }

@@ -12,7 +12,7 @@ typedef ApplicationSettings = {
 typedef DisplaySettings = {
 	resolutionWidth: Int,
 	resolutionHeight: Int,
-	fullScreen: Bool,
+	fullScreen: String,
 	scanlines: Bool,
 	zoomLevel: Float,
 	warpAmount: Float,
@@ -46,6 +46,8 @@ class SettingsManager {
 	public static final RESOLUTIONS: Array<Resolution> = [
 		{w: 1024, h: 768},
 		{w: 1200, h: 800},
+		{w: 1440, h: 900},
+		{w: 1600, h: 900},
 		{w: 1920, h: 1080},
 	];
 
@@ -89,7 +91,7 @@ class SettingsManager {
 			display: {
 				resolutionWidth: 1200,
 				resolutionHeight: 800,
-				fullScreen: false,
+				fullScreen: "Windowed",
 				scanlines: true,
 				warpAmount: 0.1,
 				zoomLevel: 1.5,

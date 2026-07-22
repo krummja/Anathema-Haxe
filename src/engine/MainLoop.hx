@@ -1,5 +1,7 @@
 package engine;
 
+import hxd.Event.EventKind;
+import haxe.ui.containers.windows.WindowEvent;
 import scenes.ui.RLay;
 import common.tools.Performance;
 import ecs.Registry;
@@ -28,6 +30,7 @@ class MainLoop {
 
 	public var app(default, null): hxd.App;
 	public var window(get, never): hxd.Window;
+	public var isMaximized(get, never): Bool;
 
 	public var frame(default, null): Frame;
 	public var camera(default, null): Camera;
@@ -84,8 +87,11 @@ class MainLoop {
 	public function applySettings(): Void {
 		// Get settings
 		var zoom = SettingsManager.settings.display.zoomLevel;
-		var width = SettingsManager.settings.display.resolutionWidth;
-		var height = SettingsManager.settings.display.resolutionHeight;
+		var minWidth = SettingsManager.settings.display.resolutionWidth;
+		var minHeight = SettingsManager.settings.display.resolutionHeight;
+
+		var width = Math.max(app.s2d.renderer.globals.get("screenW"), minWidth);
+		var height = Math.max(app.s2d.renderer.globals.get("screenH"), minHeight);
 
 		// Calculate window geometry
 		var columns = Math.floor(width / this.UNIT_X);
@@ -93,10 +99,18 @@ class MainLoop {
 		this.camera.windowColumns = columns;
 		this.camera.zoom = zoom;
 
-		// Resize window and set window settings
 		window.resize(columns * UNIT_X, rows * UNIT_Y);
 		window.vsync = SettingsManager.settings.graphics.vsyncEnabled;
-		window.displayMode = SettingsManager.settings.display.fullScreen ? Fullscreen : Windowed;
+		window.displayMode = switch (SettingsManager.settings.display.fullScreen) {
+			case "Windowed":
+				Windowed;
+			case "Borderless":
+				Borderless;
+			case "Fullscreen":
+				Fullscreen;
+			case _:
+				Windowed;
+		}
 	}
 
 	public inline function render(layer: RenderLayerType, ob: h2d.Object): Void {
@@ -115,6 +129,23 @@ class MainLoop {
 	private function onClose(): Bool {
 		trace("Shutting down... Goodbye!");
 		return true;
+	}
+
+	private function get_isMaximized(): Bool {
+		#if (hl || cpp)
+		var win = @:privateAccess window.window;
+		if (win != null) {
+			var screenWidth = hxd.System.width;
+			var screenHeight = hxd.System.height;
+
+			trace([[win.width, screenWidth], [win.height, screenHeight]]);
+
+			// Subtract 23 from height to account for Windows window bar
+			return (win.width >= screenWidth && win.height >= screenHeight - 23);
+		}
+		#end
+
+		return false;
 	}
 
 	private inline function get_window(): hxd.Window {

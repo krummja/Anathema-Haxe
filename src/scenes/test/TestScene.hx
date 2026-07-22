@@ -51,8 +51,10 @@ class TestScene extends Scene {
 
 		world.systems.vision.computeVision();
 
-		graphics = new h2d.Graphics();
-		loop.render(HUD, graphics);
+		// graphics = new h2d.Graphics();
+		// loop.render(HUD, graphics);
+		var overlay = new scenes.test.AdventureView(this);
+		this.ui.addComponent(overlay);
 	}
 
 	private override function onDestroy(): Void {}

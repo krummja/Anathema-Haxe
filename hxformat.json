@@ -20,12 +20,14 @@
         "typeHintColonPolicy": "after",
         "typeCheckColonPolicy": "after",
         "typeParamOpenPolicy": "none",
-        "typeParamClosePolicy": "none"
+        "typeParamClosePolicy": "none",
+        "addLineCommentSpace": true
     },
     "emptyLines": {
         "finalNewline": true,
         "lineCommentsBetweenFunctions": "keep"
     },
+    "indentation": {},
     "wrapping": {
         "arrayWrap": {
             "defaultWrap": "keep"
