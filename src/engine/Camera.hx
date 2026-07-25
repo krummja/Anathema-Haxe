@@ -1,50 +1,38 @@
 package engine;
 
 import domain.World;
-import common.struct.Size;
-import common.struct.IntPoint;
-import common.struct.Rect;
 import common.struct.Coordinate;
 import hxd.Window;
 
 class Camera {
-	/**
-	 * Camera's x position in pixel space
-	 */
 	public var x(get, set): Float;
-
-	/**
-	 * Camera's y position in pixel space
-	 */
 	public var y(get, set): Float;
-
-	/**
-	 * Camera's position in world space
-	 */
 	public var pos(get, set): Coordinate;
-
 	public var offsetX(get, set): Float;
 	public var offsetY(default, null): Float;
 
 	public var width(get, null): Float;
 	public var height(get, null): Float;
-	public var focus(get, set): Coordinate;
 	public var zoom(get, set): Float;
-	public var windowColumns(default, set): Int;
-	public var world(get, never): World;
+	public var focus(get, set): Coordinate;
 
+	public var viewport(default, null): Viewport;
+	public var world(get, never): World;
+	public var windowColumns(default, set): Int;
 	public var scroller(get, null): h2d.Object;
 
-	private var _viewRect: Rect;
+	public var viewportW(get, never): Float;
+	public var viewportH(get, never): Float;
+
 	private var _offsetX: Float = 0.0;
-	private var _clampX: Bool = false;
-	private var _clampY: Bool = false;
+	private var _clampX: Bool = true;
+	private var _clampY: Bool = true;
 
 	public function new() {
 		zoom = 1.0;
-		offsetX = 0.3;
-		offsetY = 0.5;
-		this._viewRect = new Rect(new IntPoint(0, 0), new Size(width.floor(), height.floor()));
+		offsetX = 0.35;
+		offsetY = 0.4;
+		viewport = new Viewport();
 	}
 
 	private inline function get_width(): Float {
@@ -56,7 +44,7 @@ class Camera {
 	}
 
 	private function set_zoom(value: Float): Float {
-		scroller.setScale(value);
+		scroller.setScale(Math.max(value, 0.1));
 		return value;
 	}
 
@@ -82,61 +70,48 @@ class Camera {
 		return new Coordinate(x, y, WORLD);
 	}
 
+	private function get_viewportW(): Float {
+		var loop = MainLoop.getInstance();
+		return (width * offsetX) / loop.UNIT_X;
+	}
+
+	private function get_viewportH(): Float {
+		var loop = MainLoop.getInstance();
+		return (height * offsetY) / loop.UNIT_Y;
+	}
+
 	/**
-	 * Sets camera x position. Converts unit to pixel space.
-	 * Additionally sets the scroller's x position.
+	 * Sets camera scroller x position. Converts unit to pixel space.
 	 */
 	private function set_x(value: Float): Float {
-		if (value < 0) {
+		if (value <= 0) {
 			value = 0;
 		}
 
-		var zoneWidth = world.zoneWidth;
-		var viewCols = (width / world.loop.UNIT_X).floor();
-
-		var offsetCols = (focus.x / world.loop.UNIT_X).floor();
-		var maxX = (zoneWidth - ((viewCols - offsetCols) / zoom));
-
-		if (_clampX) {
-			maxX = Math.min(maxX, zoneWidth - (viewCols / zoom));
-		}
-
-		if (value >= maxX) {
-			value = maxX;
+		if (value >= world.zoneWidth - viewportW) {
+			value = world.zoneWidth - viewportW;
 		}
 
 		var p = Projection.worldToPixel(value, y);
 		scroller.x = -((p.x + 0.5) * zoom);
-		return p.x;
+		return scroller.x;
 	}
 
 	/**
-	 * Sets camera y position. Converts unit to pixel space.
-	 * Additionally sets the scroller's y position.
+	 * Sets camera scroller y position. Converts unit to pixel space.
 	 */
 	private function set_y(value: Float): Float {
-		// Clamp minimum y to zero
-		if (value < 0) {
+		if (value <= 0) {
 			value = 0;
 		}
 
-		var zoneHeight = world.zoneHeight;
-		var viewRows = (height / world.loop.UNIT_Y).floor();
-
-		var offsetRows = (focus.y / world.loop.UNIT_Y).floor();
-		var maxY = (zoneHeight - ((viewRows - offsetRows) / zoom));
-
-		if (_clampY) {
-			maxY = Math.min(maxY, zoneHeight - (viewRows / zoom));
-		}
-
-		if (value >= maxY) {
-			value = maxY;
+		if (value >= world.zoneHeight - viewportH) {
+			value = world.zoneHeight - viewportH;
 		}
 
 		var p = Projection.worldToPixel(x, value);
 		scroller.y = -((p.y + 0.5) * zoom);
-		return p.y;
+		return scroller.y;
 	}
 
 	/**

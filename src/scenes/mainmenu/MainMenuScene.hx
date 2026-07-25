@@ -1,17 +1,19 @@
 package scenes.mainmenu;
 
-import haxe.ui.core.ItemRenderer;
-import scenes.options.OptionsScene;
-import haxe.ui.events.MouseEvent;
-import scenes.ui.Layouts.GridLayout;
+// Third-Party
 import haxe.ui.containers.Box;
-import domain.World;
+import haxe.ui.core.ItemRenderer;
+import haxe.ui.events.MouseEvent;
+// Internal
 import common.struct.Coordinate;
 import common.util.Timeout;
+import domain.World;
 import engine.Frame;
 import engine.KeyCode;
 import engine.Scene;
-import scenes.test.TestScene;
+import scenes.adventure.AdventureScene;
+import scenes.options.OptionsScene;
+import scenes.ui.Layouts.GridLayout;
 
 typedef ClickEvent = (e: MouseEvent) -> Void;
 
@@ -182,7 +184,7 @@ class MainMenuScene extends Scene {
 		loop.setWorld(new World());
 		loop.world.initialize();
 		loop.world.start(seed);
-		loop.scenes.set(new TestScene());
+		loop.scenes.set(new AdventureScene());
 	}
 
 	private function options() {

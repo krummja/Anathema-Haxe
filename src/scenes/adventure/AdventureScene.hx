@@ -1,8 +1,10 @@
-package scenes.test;
+package scenes.adventure;
 
-import scenes.options.OptionsScene;
+// Third-party
 import h2d.Object;
 import h2d.Text;
+import emitter.Emitter;
+// Internal
 import common.algorithm.AStar;
 import common.algorithm.Distance;
 import common.struct.Cardinal;
@@ -13,12 +15,12 @@ import domain.components.Move;
 import domain.components.Path;
 import domain.events.ConsumeEnergyEvent;
 import domain.systems.EnergySystem;
-import emitter.Emitter;
 import engine.CommandManager.Command;
 import engine.Frame;
 import engine.KeyCode;
 import engine.Scene;
 import engine.TextResources;
+import scenes.options.OptionsScene;
 
 typedef HudText = {
 	ob: Object,
@@ -34,27 +36,32 @@ typedef SidePanel = {
 	ob: Object,
 }
 
-class TestScene extends Scene {
+class AdventureScene extends Scene {
 	public var energySystem(get, never): EnergySystem;
 
 	private var cameraLocked: Bool = false;
 	private var sidePanel: SidePanel;
 	private var hudText: HudText;
 	private var graphics: h2d.Graphics;
+	private var focusMarker: h2d.Graphics;
+	private var cameraPosMarker: h2d.Graphics;
+
+	private var overlay: AdventureView;
 
 	public function new() {
 		emitter = new Emitter();
 	}
 
 	private override function onEnter(): Void {
-		renderText();
-
 		world.systems.vision.computeVision();
 
-		// graphics = new h2d.Graphics();
-		// loop.render(HUD, graphics);
-		var overlay = new scenes.test.AdventureView(this);
-		this.ui.addComponent(overlay);
+		this.overlay = new AdventureView(this);
+		this.ui.addComponent(this.overlay);
+
+		focusMarker = new h2d.Graphics();
+		cameraPosMarker = new h2d.Graphics();
+		loop.render(HUD, focusMarker);
+		loop.render(HUD, cameraPosMarker);
 	}
 
 	private override function onDestroy(): Void {}
@@ -62,23 +69,8 @@ class TestScene extends Scene {
 	private override function update(frame: Frame): Void {
 		loop.world.update();
 
-		var mpos = loop.input.mouse;
-		var zpos = mpos.toZone().toIntPoint();
-		var wpos = mpos.toWorld().toIntPoint();
-		var cpos = mpos.toChunk().toIntPoint();
-		var turn = loop.world.clock.turn;
-
-		hudText.fps.text = frame.smoothFps.floor().toString();
-		hudText.wpos.text = 'world ' + wpos.toString();
-		hudText.zpos.text = 'zone  ' + zpos.toString();
-		hudText.cpos.text = 'chunk ' + cpos.toString();
-		hudText.turn.text = 'turn  ' + turn.toString();
-
-		if (world.timeStopped) {
-			hudText.clock.text = "PAUSED";
-		} else {
-			hudText.clock.text = world.clock.toFriendlyString();
-		}
+		renderFocusMarker();
+		renderCameraPosMarker();
 
 		if (energySystem.isPlayersTurn) {
 			var cmd = loop.commands.peek();
@@ -94,12 +86,14 @@ class TestScene extends Scene {
 		if (!cameraLocked) {
 			updateCamera(frame);
 		}
+
+		this.overlay.update(frame);
 	}
 
 	private function updateCamera(frame: Frame): Void {
 		var cfocus = loop.camera.focus.toWorld().toFloatPoint();
 		var ctarget = loop.world.player.pos.toFloatPoint();
-		loop.camera.focus = cfocus.lerp(ctarget, 0.28).asWorld();
+		loop.camera.focus = ctarget.asWorld();
 	}
 
 	private override function onKeyDown(key: KeyCode) {
@@ -113,6 +107,14 @@ class TestScene extends Scene {
 	}
 
 	private override function onMouseDown(pos: Coordinate) {
+		var viewportW = camera.width * (camera.offsetX * 2);
+		var viewportH = camera.height * (camera.offsetY * 2);
+		var screenPos = pos.toScreen();
+
+		if (screenPos.x > viewportW || screenPos.y > viewportH) {
+			return;
+		}
+
 		var p = astar(pos);
 		if (p.success) {
 			world.player.entity.remove(Path);
@@ -141,6 +143,8 @@ class TestScene extends Scene {
 					move(WEST);
 				case CMD_MOVE_NW:
 					move(NORTH_WEST);
+				case CMD_CONSOLE:
+					loop.scenes.push(new Console());
 				case CMD_WAIT:
 					EnergySystem.consumeEnergy(world.player.entity, ACT_WAIT);
 				case _:
@@ -181,46 +185,24 @@ class TestScene extends Scene {
 		world.player.entity.fireEvent(new ConsumeEnergyEvent(cost));
 	}
 
-	private function renderText() {
-		var ob = new Object();
-		ob.x = 16;
-		ob.y = 16;
+	private function renderFocusMarker() {
+		focusMarker.clear();
+		focusMarker.x = loop.camera.focus.x;
+		focusMarker.y = loop.camera.focus.y;
+		focusMarker.beginFill(0xff0000, 0.5);
+		focusMarker.drawRect(-10, -1, 20, 2);
+		focusMarker.drawRect(-1, -10, 2, 20);
+		focusMarker.endFill();
+	}
 
-		var fps = new Text(TextResources.BIZCAT, ob);
-		fps.color = 0xffffff.toHxdColor();
-		fps.y = 0;
-
-		var wpos = new Text(TextResources.BIZCAT, ob);
-		wpos.color = 0xffffff.toHxdColor();
-		wpos.y = 16;
-
-		var zpos = new Text(TextResources.BIZCAT, ob);
-		zpos.color = 0xffffff.toHxdColor();
-		zpos.y = 32;
-
-		var cpos = new Text(TextResources.BIZCAT, ob);
-		cpos.color = 0xffffff.toHxdColor();
-		cpos.y = 48;
-
-		var turn = new Text(TextResources.BIZCAT, ob);
-		turn.color = 0xffffff.toHxdColor();
-		turn.y = 64;
-
-		var clock = new Text(TextResources.BIZCAT, ob);
-		clock.color = 0xff0000.toHxdColor();
-		clock.y = 80;
-
-		hudText = {
-			ob: ob,
-			fps: fps,
-			wpos: wpos,
-			zpos: zpos,
-			cpos: cpos,
-			turn: turn,
-			clock: clock,
-		};
-
-		loop.render(HUD, ob);
+	private function renderCameraPosMarker() {
+		cameraPosMarker.clear();
+		cameraPosMarker.x = loop.camera.pos.toScreen().x + 2;
+		cameraPosMarker.y = loop.camera.pos.toScreen().y + 2;
+		cameraPosMarker.beginFill(0xff0000, 0.5);
+		cameraPosMarker.drawRect(-10, -1, 20, 2);
+		cameraPosMarker.drawRect(-1, -10, 2, 20);
+		cameraPosMarker.endFill();
 	}
 
 	private function get_energySystem(): EnergySystem {

@@ -1,10 +1,9 @@
 .ui-root {
-  padding: 8px;
+  /* padding: 8px; */
 }
 
 .label {
   color: #ffffff;
-  font-name: "fnt/bizcat.fnt";
   font-size: 12px;
 }
 
@@ -12,15 +11,39 @@
 .button {
   background-color: #303030;
   border: 1px solid #606060;
+  font-name: "fira-code-64.fnt";
+  font-size: 24px;
   padding: 12px;
   border-radius: 2px;
 }
 
 .title {
+  font-name: "fnt/bizcat.fnt";
   width: 100%;
   font-size: 60px;
   text-align: center;
   vertical-align: center;
+}
+
+
+.label.small {
+  font-name: "fnt/fira_code_64.fnt";
+  font-size: 16px;
+}
+
+.label.medium {
+  font-name: "fnt/fira_code_64.fnt";
+  font-size: 24px;
+}
+
+.label.large {
+  font-name: "fnt/fira_code_64.fnt";
+  font-size: 32px;
+}
+
+.label.huge {
+  font-name: "fnt/fira_code_64.fnt";
+  font-size: 64px;
 }
 
 .page-title {

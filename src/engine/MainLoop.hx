@@ -43,7 +43,6 @@ class MainLoop {
 	public var world(default, null): World;
 	public var registry(default, null): Registry;
 	public var files(default, null): FileManager;
-	public var rlay(default, null): RLay;
 
 	public var palette(get, null): ColorPalette;
 
@@ -62,7 +61,6 @@ class MainLoop {
 		this.registry = new Registry();
 		this.scenes = new SceneManager(this);
 		this.timeout = new TimeoutManager();
-		this.rlay = new RLay();
 
 		// Set up console
 		this.console = new Console(TextResources.BIZCAT);

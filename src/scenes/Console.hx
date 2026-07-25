@@ -23,7 +23,7 @@ class Console extends Scene {
 		root.remove();
 	}
 
-	public override function update(?frame: Frame) {
+	public override function update(frame: Frame) {
 		root.tile = Tile.fromColor(0x1a1d22, loop.window.width, loop.window.height, 0.65);
 		if (!loop.console.isActive()) {
 			loop.console.show();
