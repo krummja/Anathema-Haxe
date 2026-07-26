@@ -73,9 +73,12 @@ class InputManager {
 				loop.scenes.current.onMouseDown(new Coordinate(event.relX, event.relY, SCREEN));
 			case ERelease:
 				loop.scenes.current.onMouseUp(new Coordinate(event.relX, event.relY, SCREEN));
-			// case EWheel:
-			// 	var zoomDelta = event.wheelDelta / 10;
-			// 	loop.camera.zoom -= zoomDelta;
+			case EWheel:
+				if (event.wheelDelta > 0) {
+					loop.camera.zoomOut();
+				} else if (event.wheelDelta < 0) {
+					loop.camera.zoomIn();
+				}
 			case _:
 		}
 	}

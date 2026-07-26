@@ -9,15 +9,23 @@
             background-color: #212121;
             vertical-align: bottom;
             width: 100%;
+            border: 1px solid red;
+            padding: 8px;
         }
 
         .side-wrapper {
             background-color: #212121;
             horizontal-align: right;
+            border: 1px solid red;
+            padding: 8px;
         }
     </style>
     <box id="panelWrapper" styleName="panel-wrapper">
         <hbox id="bottomWrapper" styleName="bottom-wrapper"></hbox>
-        <vbox id="sideWrapper" styleName="side-wrapper"></vbox>
+        <vbox id="sideWrapper" styleName="side-wrapper">
+            <label id="zoom" value="0" styleName="medium"/>
+            <label id="camx" value="0" styleName="medium"/>
+            <label id="posx" value="0" styleName="medium"/>
+        </vbox>
     </box>
 </box>

@@ -107,11 +107,9 @@ class AdventureScene extends Scene {
 	}
 
 	private override function onMouseDown(pos: Coordinate) {
-		var viewportW = camera.width * (camera.offsetX * 2);
-		var viewportH = camera.height * (camera.offsetY * 2);
 		var screenPos = pos.toScreen();
 
-		if (screenPos.x > viewportW || screenPos.y > viewportH) {
+		if (screenPos.x > camera.viewportWidth || screenPos.y > camera.viewportHeight) {
 			return;
 		}
 

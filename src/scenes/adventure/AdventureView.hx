@@ -16,17 +16,21 @@ class AdventureView extends Box {
 		super();
 		this.scene = scene;
 		this.scene.loop.render(HUD, this);
+
+		// sideWrapper.visible = false;
+		// bottomWrapper.visible = false;
 	}
 
 	public function update(frame: Frame) {
-		var viewportW = scene.camera.width * (scene.camera.offsetX * 2);
-		var viewportH = scene.camera.height * (scene.camera.offsetY * 2);
-
-		var w = scene.camera.width - viewportW;
-		var h = scene.camera.height - viewportH;
+		var w = scene.camera.width - scene.camera.viewportWidth;
+		var h = scene.camera.height - scene.camera.viewportHeight;
 
 		sideWrapper.width = w;
 		sideWrapper.height = scene.camera.height - h;
 		bottomWrapper.height = h;
+
+		zoom.text = ' zoom: ${scene.camera.zoom}';
+		camx.text = 'cam x: ${scene.camera.x}';
+		posx.text = 'pos x: ${scene.world.player.x}';
 	}
 }

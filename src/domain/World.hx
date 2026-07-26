@@ -25,8 +25,8 @@ class World {
 
 	public var zoneCountX(default, null): Int = 1;
 	public var zoneCountY(default, null): Int = 1;
-	public var zoneWidth(default, null): Int = 100;
-	public var zoneHeight(default, null): Int = 60;
+	public var zoneWidth(default, null): Int = 120;
+	public var zoneHeight(default, null): Int = 80;
 
 	public var chunkSubdivision(default, never): Int = 2;
 	public var chunkWidth(get, never): Int;
