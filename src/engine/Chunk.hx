@@ -139,7 +139,6 @@ class Chunk {
 	}
 
 	public function buildTiles(): Void {
-		// TODO This is causing _huge_ slowdowns in `loadChunk`
 		for (t in bitmaps) {
 			var bm = getGroundBitmap(t.pos);
 			bm.x = t.x * MainLoop.getInstance().UNIT_X;

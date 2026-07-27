@@ -1,5 +1,6 @@
 package engine;
 
+import domain.events.MeleeEvent;
 import common.algorithm.Distance;
 import common.algorithm.AStar;
 import common.algorithm.AStar.AStarResult;
@@ -10,6 +11,8 @@ import ecs.Entity;
 
 class Behavior {
 	public var world(get, never): domain.World;
+
+	public function new() {}
 
 	public function takeAction(entity: Entity): Void {
 		wait(entity);
@@ -22,9 +25,14 @@ class Behavior {
 	public function tryMoveToward(entity: Entity, goal: Coordinate, dist: Int = 0): Bool {
 		var path = astar(entity, goal);
 
+		var entityName = entity.get(Moniker).displayName;
+
 		if (!path.success) {
+			trace('${entityName} (${entity.id}): Failed to resolve A* path');
 			return false;
 		}
+
+		trace('${entityName} (${entity.id}): Resolved A* path');
 
 		if (path.path.length <= dist) {
 			wait(entity);
@@ -34,12 +42,21 @@ class Behavior {
 		var next = path.path[1];
 
 		if (next == null) {
+			trace('No next path point found');
 			return false;
 		}
 
 		var entities = world.getEntitiesAt(next);
 
-		if (Lambda.exists(entities, (e) -> e.has(IsCreature))) {
+		if (entities.length > 0) {
+			for (entity in entities) {
+				var name = entity.get(Moniker).displayName;
+				trace('Found ${name} within range');
+			}
+		}
+
+		if (entities.exists((e) -> e.has(IsCreature))) {
+			trace("Cannot move - target space is occupied");
 			wait(entity);
 			return true;
 		}
@@ -47,7 +64,7 @@ class Behavior {
 		EnergySystem.consumeEnergy(entity, ACT_MOVE);
 
 		var fast = entity.has(Move);
-		entity.add(new Move(next.asWorld(), fast ? 0.1 : 0.2, EASE_LINEAR));
+		entity.add(new Move(next.asWorld(), fast ? 0.1 : 0.2, EASE_INSTANT));
 
 		return true;
 	}
@@ -65,46 +82,55 @@ class Behavior {
 			return [];
 		}
 
-		// TODO This is causing _extreme_ slowdowns
-		// Would it help to pre-filter the entities list to candidates based on the behavior?
-		// In this method, I'm looking through every visible cell and checking every entity
-		// to see if there are any valid targets in vision range.
-		//
-		// I can probably reduce this enormously by keeping a distance graph of entities,
-		// then just get the entities that match the requested visual range.
-		//
-		// Additionally, I can filter out entities that don't fit the behavior criteria,
-		// e.g. there's no reason for an enemy to constantly search for things to attack.
-		// Rather, they should respond to an event (something has entered its territory)
-		// and then respond with appropriate logic (territory breached -> defensive behavior
-		// -> looking for enemies and not allies).
+		// TODO Test which approach is more performant
 
-		var distances = MainLoop.getInstance().world.getEntityDistances(entity.pos.toIntPoint());
+		// var distances = MainLoop.getInstance().world.getEntityDistances(entity.pos.toIntPoint());
+		// var inRange = [];
+		// for (distance in distances) {
+		// 	if (distance.d <= vision.range) {
+		// 		inRange.push(distance);
+		// 	}
+		// }
+		// inRange.sort((a, b) -> a.d < b.d ? 1 : -1);
+		// var inRangeEntities = [];
+		// for (entry in inRange) {
+		// 	var target = MainLoop.getInstance().registry.getEntity(entry.id);
+		// 	inRangeEntities.push(target);
+		// }
 
-		var inRange = [];
+		var inRange = world.getEntitiesInRange(entity.pos.toIntPoint(), vision.range);
 
-		for (distance in distances) {
-			if (distance.d <= vision.range) {
-				// var target = MainLoop.getInstance().registry.getEntity(distance.id);
-				inRange.push(distance);
-			}
-		}
+		// var targets = inRangeEntities.filter((e) -> {
+		// 	var canSee = MainLoop.getInstance().world.systems.vision.canSee(entity, e.pos) && e != entity;
+		// 	var isHostile = factions.areEntitiesHostile(e, entity);
+		// 	return canSee && isHostile;
+		// });
 
-		inRange.sort((a, b) -> a.d < b.d ? 1 : -1);
-
-		var inRangeEntities = [];
-		for (entry in inRange) {
-			var target = MainLoop.getInstance().registry.getEntity(entry.id);
-			inRangeEntities.push(target);
-		}
-
-		var targets = inRangeEntities.filter((e) -> {
-			var canSee = MainLoop.getInstance().world.systems.vision.canSee(entity, e.pos) && e != entity;
-			var isHostile = factions.areEntitiesHostile(e, entity);
-			return canSee && isHostile;
+		var targets = inRange.filter((e) -> {
+			return factions.areEntitiesHostile(e, entity) && world.systems.vision.canSee(entity, e.pos);
 		});
 
 		return targets;
+	}
+
+	public function tryAttackingNearby(entity: Entity): Bool {
+		var entityPos = entity.pos.toIntPoint();
+		var factions = world.factions;
+		var neighbors = world.getNeighborEntities(entityPos);
+		var target = neighbors.flatten().find((e) -> factions.areEntitiesHostile(e, entity));
+
+		if (target == null) {
+			return false;
+		}
+
+		var melee = new MeleeEvent(target, entity);
+		entity.fireEvent(melee);
+
+		var offset = target.pos.toIntPoint().sub(entityPos);
+		var dir = offset.toCardinal();
+
+		entity.add(new Attacker(dir));
+		return melee.isHandled;
 	}
 
 	public function astar(entity: Entity, goal: Coordinate): AStarResult {
@@ -129,6 +155,11 @@ class Behavior {
 				if (entities.exists((e) -> e.has(IsCreature) || e.has(IsPlayer))) {
 					return distance * 5;
 				}
+
+				// var cell = world.getCell(b);
+				// if (cell != null && cell.terrain == Water) {
+				// 	return 1000 * distance;
+				// }
 
 				return distance;
 			}

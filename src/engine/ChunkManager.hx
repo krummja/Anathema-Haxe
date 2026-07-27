@@ -10,6 +10,7 @@ class ChunkManager {
 	public var chunkCountY(get, null): Int;
 	public var chunkWidth(get, null): Int;
 	public var chunkHeight(get, null): Int;
+	public var loop(get, never): MainLoop;
 
 	private var chunksToLoad: Set<Int>;
 	private var chunksToUnload: Set<Int>;
@@ -58,10 +59,24 @@ class ChunkManager {
 		}
 	}
 
+	public function loadChunk(chunkIdx: Int) {
+		var chunk = getChunkById(chunkIdx);
+
+		var data = loop.files.tryReadChunk(chunkIdx);
+
+		if (data != null) {
+			chunk.load(data);
+		} else {
+			chunk.load();
+		}
+	}
+
 	public function saveChunk(chunkIdx: Int, unload: Bool = false) {
 		var chunk = getChunkById(chunkIdx);
 		var data = chunk.save();
-		MainLoop.getInstance().files.saveChunk(data);
+
+		loop.files.saveChunk(data);
+
 		if (unload) {
 			chunk.unload();
 		}
@@ -74,27 +89,12 @@ class ChunkManager {
 		}
 	}
 
-	public function loadChunk(chunkIdx: Int) {
-		var chunk = getChunkById(chunkIdx);
-
-		var data = MainLoop.getInstance().files.tryReadChunk(chunkIdx);
-
-		if (chunk == null) {
-			return;
-		}
-
-		if (data != null) {
-			chunk.load(data);
-		} else {
-			chunk.load();
-		}
-	}
-
 	public function update() {
 		var toLoad = chunksToLoad.pop();
+		// TODO This returns -1 under some unknown circumstance
 
 		if (toLoad != null) {
-			var t = MainLoop.getInstance().frame.getTimeSinceLastFrame();
+			var t = loop.frame.getTimeSinceLastFrame();
 			if (t > 0.0005) {
 				trace("Warning: delaying loading chunk for frame delay");
 				return;
@@ -105,6 +105,7 @@ class ChunkManager {
 			loadChunk(toLoad);
 		} else {
 			var chunkIdx = chunksToUnload.pop();
+
 			if (chunkIdx != null) {
 				saveChunk(chunkIdx, true);
 			}
@@ -149,5 +150,9 @@ class ChunkManager {
 
 	private function get_chunkHeight(): Int {
 		return MainLoop.getInstance().world.chunkHeight;
+	}
+
+	private function get_loop(): MainLoop {
+		return MainLoop.getInstance();
 	}
 }

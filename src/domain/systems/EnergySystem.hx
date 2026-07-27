@@ -13,13 +13,17 @@ class EnergySystem extends System {
 	public static function consumeEnergy(entity: Entity, type: EnergyActionType): Int {
 		var cost = getEnergyCost(entity, type);
 		entity.fireEvent(new ConsumeEnergyEvent(cost));
+
+		if (type != ACT_WAIT) {
+			trace([entity.get(Moniker).displayName, type, cost]);
+		}
 		return cost;
 	}
 
 	public static function getEnergyCost(entity: Entity, type: EnergyActionType): Int {
 		switch type {
 			case ACT_MOVE:
-				return 200;
+				return 95;
 			case ACT_WAIT:
 				return 500;
 			case ACT_SLEEP:
@@ -65,6 +69,7 @@ class EnergySystem extends System {
 
 	private function getNext(): Entity {
 		var entity = query.max((e) -> e.get(Energy).value);
+
 		if (entity == null) {
 			return null;
 		}
@@ -73,11 +78,7 @@ class EnergySystem extends System {
 
 		if (!energy.hasEnergy) {
 			var tickAmount = -energy.value;
-
-			if (!world.timeStopped) {
-				world.clock.incrementTick(tickAmount);
-			}
-
+			world.clock.incrementTick(tickAmount);
 			query.each((e) -> e.get(Energy).addEnergy(tickAmount));
 		}
 
@@ -88,15 +89,11 @@ class EnergySystem extends System {
 		world.clock.clearDeltas();
 
 		if (isPlayersTurn && world.player.entity.get(Energy).hasEnergy) {
-			// TODO Sleeping system logic
 			return;
 		}
 
-		// TODO Most of the slowdown is happening in this loop
 		while (true) {
-			// Get the next entity from the query iterator
 			var entity = getNext();
-
 			if (entity.has(IsPlayer)) {
 				isPlayersTurn = true;
 				break;

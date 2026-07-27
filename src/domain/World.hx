@@ -3,8 +3,6 @@ package domain;
 import hxd.Rand;
 import ecs.Entity;
 import common.algorithm.Distance;
-import common.struct.Size;
-import common.struct.Rect;
 import common.struct.Cardinal;
 import common.struct.IntPoint;
 import common.struct.Coordinate;
@@ -23,10 +21,10 @@ class World {
 	public var factions(default, null): FactionManager;
 	public var zones(default, null): ZoneManager;
 
-	public var zoneCountX(default, null): Int = 1;
-	public var zoneCountY(default, null): Int = 1;
-	public var zoneWidth(default, null): Int = 120;
-	public var zoneHeight(default, null): Int = 80;
+	public var zoneCountX(default, null): Int = 8;
+	public var zoneCountY(default, null): Int = 8;
+	public var zoneWidth(default, null): Int = 64;
+	public var zoneHeight(default, null): Int = 48;
 
 	public var chunkSubdivision(default, never): Int = 2;
 	public var chunkWidth(get, never): Int;
@@ -74,16 +72,27 @@ class World {
 		this.map.initialize();
 		this.player.initialize();
 		this.systems.initialize();
-		this.map.initialize();
 	}
 
 	public function start(seed: Int): Void {
+		this.seed = seed;
+
 		var pos = new Coordinate((worldWidth / 2).floor(), (worldHeight / 2).floor(), WORLD);
+
+		// Load chunks around the player position
 		chunks.loadChunks(pos.toChunkId());
+
+		// Load the player chunk
 		chunks.loadChunk(pos.toChunkId());
 
+		// Initialize the player
 		this.player.create(pos);
 
+		trace([this.chunkCountX, this.chunkCountY]);
+
+		Spawner.spawn(BAT, new Coordinate((zoneWidth / 2).floor() + 8, (zoneHeight / 2).floor(), WORLD));
+
+		// Go~!
 		this.started = true;
 	}
 
@@ -180,6 +189,7 @@ class World {
 			var local = value.toChunkLocal().toIntPoint();
 
 			chunk.setExplore(local, true, false);
+
 			for (entity in getEntitiesAt(value.toWorld().toIntPoint())) {
 				if (entity.has(Visible)) {
 					entity.remove(Visible);

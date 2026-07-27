@@ -6,14 +6,9 @@ import ecs.Entity;
 import engine.Behavior;
 
 class BehaviorBasic extends Behavior {
-	public function new() {}
-
 	public override function takeAction(entity: Entity) {
 		var actor = entity.get(Actor);
-
-		Performance.start("get-target");
 		var target = getTarget(entity);
-		Performance.stop("get-target");
 
 		if (target == null) {
 			if (actor.lastKnownTargetPosition != null) {
@@ -23,7 +18,6 @@ class BehaviorBasic extends Behavior {
 			}
 
 			wait(entity);
-
 			return;
 		}
 

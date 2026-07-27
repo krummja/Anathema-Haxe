@@ -47,7 +47,7 @@ class Grid<T> {
 		};
 	}
 
-	public inline function getAt(idx: Int): Null<T> {
+	public inline function getAt(idx: Int): T {
 		return this.data[idx];
 	}
 

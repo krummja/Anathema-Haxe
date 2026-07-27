@@ -1,4 +1,5 @@
 #if !macro
+using common.extensions.ArrayExtensions;
 using common.extensions.FloatExtensions;
 using common.extensions.FloatEasingExtensions;
 using common.extensions.IntExtensions;

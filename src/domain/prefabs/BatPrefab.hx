@@ -14,7 +14,11 @@ class BatPrefab extends Prefab {
 
 		BasicCharacterDecorator.decorate(entity, {
 			moniker: "Bat",
+			behavior: Zombie,
 		});
+
+		entity.add(new EquipmentSlot("head", "face", Hand, true));
+		entity.get(EquipmentSlot).equip(Spawner.spawn(STICK, pos));
 
 		return entity;
 	}

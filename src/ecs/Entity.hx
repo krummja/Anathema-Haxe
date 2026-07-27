@@ -1,6 +1,9 @@
 package ecs;
 
-import domain.components.Moniker;
+import common.struct.FloatPoint;
+import common.struct.IntPoint;
+import common.struct.Cardinal;
+import domain.components.Sprite;
 import domain.events.EntityLoadedEvent;
 import data.save.EntitySaveData;
 import domain.components.IsDetached;
@@ -52,6 +55,7 @@ class Entity {
 	public var pos(get, set): Coordinate;
 	public var x(get, set): Float;
 	public var y(get, set): Float;
+	public var offset(default, set): Null<Coordinate>;
 	public var chunk(get, never): Chunk;
 	public var chunkIdx(get, never): Int;
 	public var isDestroyed(default, null): Bool;
@@ -266,6 +270,23 @@ class Entity {
 
 		fireEvent(new MovedEvent(this, w));
 		return w;
+	}
+
+	private function set_offset(value: Null<Coordinate>): Null<Coordinate> {
+		var sprite = get(Sprite);
+
+		var _delta = new Coordinate(0, 0, WORLD);
+
+		if (sprite != null) {
+			if (value != null) {
+				_delta = value.sub(pos).toPixel();
+			}
+
+			var startPos = sprite.getPosition();
+			sprite.setPosition(startPos.x + _delta.x, startPos.y + _delta.y);
+		}
+
+		return value;
 	}
 
 	private function get_pos(): Coordinate {

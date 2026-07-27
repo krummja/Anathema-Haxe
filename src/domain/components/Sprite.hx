@@ -36,6 +36,10 @@ class Sprite extends Drawable {
 		this.ob.setPosition(x, y);
 	}
 
+	public function setOffset(x: Float, y: Float): Void {
+		this.ob.setPosition(x, y);
+	}
+
 	private function get_tile(): Tile {
 		return TileResources.get(this.tileKey);
 	}

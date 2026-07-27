@@ -17,6 +17,7 @@ enum SpawnableType {
 	WALL;
 	FLOOR;
 	WOOD_WALL;
+	STICK;
 
 	BLANK;
 	DEBUG;

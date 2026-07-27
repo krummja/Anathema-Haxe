@@ -12,6 +12,7 @@ class SystemManager {
 	public var vision(default, null): VisionSystem;
 	public var bitmasks(default, null): BitmaskSystem;
 	public var sprites(default, null): SpriteSystem;
+	public var attack(default, null): AttackSystem;
 	public var expiring(default, null): ExpiringSystem;
 	public var destroy(default, null): DestroySystem;
 	public var debug(default, null): DebugSystem;
@@ -27,6 +28,7 @@ class SystemManager {
 		vision = new VisionSystem();
 		bitmasks = new BitmaskSystem();
 		sprites = new SpriteSystem();
+		attack = new AttackSystem();
 		expiring = new ExpiringSystem();
 		destroy = new DestroySystem();
 		debug = new DebugSystem();
@@ -47,7 +49,7 @@ class SystemManager {
 		sprites.update(frame);
 		// projectiles
 		// hitBlink
-		// bumpAttack
+		attack.update(frame);
 		// health
 		// healthBar
 		// floatingText

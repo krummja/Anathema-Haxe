@@ -1,6 +1,8 @@
 package scenes.adventure;
 
 // Third-party
+import domain.events.MeleeEvent;
+import domain.components.Attacker;
 import h2d.Object;
 import h2d.Text;
 import emitter.Emitter;
@@ -42,9 +44,6 @@ class AdventureScene extends Scene {
 	private var cameraLocked: Bool = false;
 	private var sidePanel: SidePanel;
 	private var hudText: HudText;
-	private var graphics: h2d.Graphics;
-	private var focusMarker: h2d.Graphics;
-	private var cameraPosMarker: h2d.Graphics;
 
 	private var overlay: AdventureView;
 
@@ -54,23 +53,14 @@ class AdventureScene extends Scene {
 
 	private override function onEnter(): Void {
 		world.systems.vision.computeVision();
-
 		this.overlay = new AdventureView(this);
 		this.ui.addComponent(this.overlay);
-
-		focusMarker = new h2d.Graphics();
-		cameraPosMarker = new h2d.Graphics();
-		loop.render(HUD, focusMarker);
-		loop.render(HUD, cameraPosMarker);
 	}
 
 	private override function onDestroy(): Void {}
 
 	private override function update(frame: Frame): Void {
 		loop.world.update();
-
-		renderFocusMarker();
-		renderCameraPosMarker();
 
 		if (energySystem.isPlayersTurn) {
 			var cmd = loop.commands.peek();
@@ -172,35 +162,24 @@ class AdventureScene extends Scene {
 
 		var other = entities.find((e) -> e.has(IsCreature));
 
+		// Attacker
 		if (other != null) {
-			other.add(new Move(world.player.pos, 0.1, EASE_INSTANT));
-			var eMove = EnergySystem.getEnergyCost(other, ACT_SWAPPED);
-			other.fireEvent(new ConsumeEnergyEvent(eMove));
+			var isHostile = world.factions.areEntitiesHostile(other, world.player.entity);
+
+			if (isHostile) {
+				world.player.entity.fireEvent(new MeleeEvent(other, world.player.entity));
+				world.player.entity.add(new Attacker(dir));
+				return;
+			} else {
+				other.add(new Move(world.player.pos, 0.1, EASE_INSTANT));
+				var eMove = EnergySystem.getEnergyCost(other, ACT_SWAPPED);
+				other.fireEvent(new ConsumeEnergyEvent(eMove));
+			}
 		}
 
 		world.player.entity.add(new Move(target.asWorld(), 0.1, EASE_INSTANT));
 		var cost = EnergySystem.getEnergyCost(world.player.entity, ACT_MOVE);
 		world.player.entity.fireEvent(new ConsumeEnergyEvent(cost));
-	}
-
-	private function renderFocusMarker() {
-		focusMarker.clear();
-		focusMarker.x = loop.camera.focus.x;
-		focusMarker.y = loop.camera.focus.y;
-		focusMarker.beginFill(0xff0000, 0.5);
-		focusMarker.drawRect(-10, -1, 20, 2);
-		focusMarker.drawRect(-1, -10, 2, 20);
-		focusMarker.endFill();
-	}
-
-	private function renderCameraPosMarker() {
-		cameraPosMarker.clear();
-		cameraPosMarker.x = loop.camera.pos.toScreen().x + 2;
-		cameraPosMarker.y = loop.camera.pos.toScreen().y + 2;
-		cameraPosMarker.beginFill(0xff0000, 0.5);
-		cameraPosMarker.drawRect(-10, -1, 20, 2);
-		cameraPosMarker.drawRect(-1, -10, 2, 20);
-		cameraPosMarker.endFill();
 	}
 
 	private function get_energySystem(): EnergySystem {

@@ -12,6 +12,7 @@ enum RenderLayerType {
 	GROUND;
 	OBJECT;
 	ACTOR;
+	PLAYER;
 	EFFECT;
 	OVERLAY;
 
@@ -86,6 +87,7 @@ class RenderLayerManager {
 		this.createLayer(GROUND, WORLD);
 		this.createLayer(OBJECT, WORLD);
 		this.createLayer(ACTOR, WORLD);
+		this.createLayer(PLAYER, WORLD);
 		this.createLayer(EFFECT, WORLD);
 		this.createLayer(OVERLAY, WORLD);
 

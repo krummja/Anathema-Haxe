@@ -1,5 +1,4 @@
 -cp src
--main Main
 -lib heaps
 -lib domkit
 -lib hldx
@@ -12,3 +11,4 @@
 -lib utest
 -hl build/hl/anathema.hl
 -D hl-profile
+-main Main

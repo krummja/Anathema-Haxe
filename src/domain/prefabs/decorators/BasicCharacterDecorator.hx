@@ -16,7 +16,7 @@ class BasicCharacterDecorator {
 	public static function decorate(entity: Entity, options: CharacterOptions) {
 		entity.add(new Moniker(options.moniker.or("Unknown")));
 		entity.add(new Vision(options.vision.or(13)));
-		entity.add(new Actor(options.behavior.or(BHV_BASIC)));
+		entity.add(new Actor(options.behavior.or(Basic)));
 		entity.add(new IsCreature());
 		entity.add(new Energy(options.energy.or(-10)));
 	}

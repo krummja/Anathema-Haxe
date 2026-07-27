@@ -6,6 +6,7 @@ import common.struct.DataRegistry;
 import domain.systems.EnergySystem;
 import domain.components.Actor;
 import data.BehaviorType;
+import data.behaviors.BehaviorZombie;
 import data.behaviors.BehaviorBasic;
 
 class Behaviors {
@@ -14,7 +15,8 @@ class Behaviors {
 	public static function init() {
 		behaviors = new DataRegistry();
 
-		behaviors.register(BHV_BASIC, new BehaviorBasic());
+		behaviors.register(Basic, new BehaviorBasic());
+		behaviors.register(Zombie, new BehaviorZombie());
 	}
 
 	public static function get(type: BehaviorType): Behavior {

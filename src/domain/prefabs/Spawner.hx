@@ -1,9 +1,11 @@
 package domain.prefabs;
 
+import domain.components.IsCreature;
 import engine.MainLoop;
 import data.SpawnableType;
 import domain.events.EntitySpawnedEvent;
 import common.struct.Coordinate;
+import domain.components.Moniker;
 
 class Spawner {
 	private var prefabs: Map<SpawnableType, Prefab> = new Map();
@@ -18,6 +20,7 @@ class Spawner {
 		prefabs.set(BLANK, new BlankPrefab());
 		prefabs.set(DEBUG, new DebugPrefab());
 		prefabs.set(WALL, new WallPrefab());
+		prefabs.set(STICK, new StickPrefab());
 	}
 
 	public function spawnEntity(type: SpawnableType, ?pos: Coordinate, ?options: Dynamic, ?isDetachable: Bool) {
@@ -26,6 +29,11 @@ class Spawner {
 		var d = isDetachable == null ? false : isDetachable;
 
 		var entity = prefabs.get(type).create(o, p);
+
+		var name = entity.get(Moniker).displayName;
+		if (entity.has(IsCreature)) {
+			trace('Spawned ${name} (${entity.id}) at (${pos.x}, ${pos.y})');
+		}
 
 		if (d) {
 			entity.isDetachable = true;

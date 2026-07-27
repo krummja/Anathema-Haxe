@@ -152,4 +152,13 @@ class CoordinateExtensions {
 		var newPx = direction.multiply(progress * distance);
 		return newPx.asWorld().add(a);
 	}
+
+	public static inline function easeZig(a: Coordinate, b: Coordinate, x: Float, easing: EasingType): Coordinate {
+		var progress = Easing.applyZig(x, easing);
+		var direction = a.direction(b);
+		var distance = a.toWorld().distance(b.toWorld(), EUCLIDEAN);
+
+		var newPx = direction.multiply(progress * distance);
+		return newPx.asWorld().add(a);
+	}
 }

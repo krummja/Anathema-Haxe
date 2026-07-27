@@ -98,4 +98,8 @@ class IterableExtensions {
 	public static inline function find<T>(it: Iterable<T>, fn: (value: T) -> Bool): T {
 		return Lambda.find(it, fn);
 	}
+
+	public static inline function findIdx<T>(it: Iterable<T>, fn: (value: T) -> Bool): Int {
+		return Lambda.findIndex(it, fn);
+	}
 }

@@ -18,6 +18,9 @@ class Energy extends Component {
 		if (this.value > 0) {
 			this.value = 0;
 		}
+
+		var name = entity.get(Moniker).displayName;
+		// trace('${name}: ${this.value}');
 	}
 
 	public function consumeEnergy(value: Int) {

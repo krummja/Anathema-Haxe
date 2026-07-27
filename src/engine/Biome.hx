@@ -1,5 +1,7 @@
 package engine;
 
+import data.SpawnableType;
+import common.struct.WeightedTable;
 import common.rand.Perlin;
 import common.struct.IntPoint;
 import hxd.Rand;
@@ -8,6 +10,7 @@ class Biome {
 	public var seed: Int;
 	public var clearColor: Int;
 	public var type(default, null): BiomeType;
+	public var creatures: WeightedTable<SpawnableType>;
 
 	private var r: Rand;
 	private var perlin: Perlin;
@@ -19,6 +22,8 @@ class Biome {
 
 		r = new Rand(seed);
 		perlin = new Perlin(seed);
+
+		creatures = setupCreatures();
 	}
 
 	public function setCellData(pos: IntPoint, cell: Cell) {
@@ -26,6 +31,12 @@ class Biome {
 		cell.tileKey = TK_GRASS_01;
 		cell.primary = C_GREEN_1;
 		cell.background = C_GREEN_3;
+	}
+
+	public function setupCreatures(): WeightedTable<SpawnableType> {
+		var e = new WeightedTable<SpawnableType>();
+		e.add(BAT, 1);
+		return e;
 	}
 
 	public function spawnEntity(pos: IntPoint, cell: Cell) {}
