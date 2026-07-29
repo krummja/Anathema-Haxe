@@ -1,10 +1,10 @@
 package domain;
 
-import domain.components.FactionMember;
-import haxe.EnumTools.EnumValueTools;
 import data.FactionType;
-import ecs.Entity;
 import data.save.SaveFactionManager;
+import domain.components.FactionMember;
+import ecs.Entity;
+import haxe.EnumTools.EnumValueTools;
 
 class FactionManager {
 	private var relations: Map<String, Int>;
