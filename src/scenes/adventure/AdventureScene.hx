@@ -1,27 +1,25 @@
 package scenes.adventure;
 
-// Third-party
-import domain.events.MeleeEvent;
-import domain.components.Attacker;
-import h2d.Object;
-import h2d.Text;
-import emitter.Emitter;
-// Internal
 import common.algorithm.AStar;
 import common.algorithm.Distance;
 import common.struct.Cardinal;
 import common.struct.Coordinate;
+import domain.components.Attacker;
 import domain.components.Collider;
 import domain.components.IsCreature;
 import domain.components.Move;
 import domain.components.Path;
+import domain.components.Sprite;
 import domain.events.ConsumeEnergyEvent;
+import domain.events.MeleeEvent;
 import domain.systems.EnergySystem;
+import emitter.Emitter;
 import engine.CommandManager.Command;
 import engine.Frame;
 import engine.KeyCode;
 import engine.Scene;
-import engine.TextResources;
+import h2d.Object;
+import h2d.Text;
 import scenes.options.OptionsScene;
 
 typedef HudText = {
@@ -82,7 +80,9 @@ class AdventureScene extends Scene {
 
 	private function updateCamera(frame: Frame): Void {
 		var cfocus = loop.camera.focus.toWorld().toFloatPoint();
-		var ctarget = loop.world.player.pos.toFloatPoint();
+		var playerSprite = loop.world.player.entity.get(Sprite);
+		var visualPos = playerSprite != null && playerSprite.renderPos != null ? playerSprite.renderPos : loop.world.player.pos;
+		var ctarget = visualPos.toFloatPoint();
 		loop.camera.focus = ctarget.asWorld();
 	}
 

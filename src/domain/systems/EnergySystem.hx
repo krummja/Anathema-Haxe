@@ -1,5 +1,6 @@
 package domain.systems;
 
+import domain.stats.Stats;
 import common.tools.Performance;
 import domain.events.ConsumeEnergyEvent;
 import data.EnergyActionType;
@@ -21,37 +22,38 @@ class EnergySystem extends System {
 	}
 
 	public static function getEnergyCost(entity: Entity, type: EnergyActionType): Int {
-		switch type {
+		return switch type {
 			case ACT_MOVE:
-				return 95;
+				var speed = Stats.getValue(Speed, entity);
+				GameMath.getMoveCost(speed);
 			case ACT_WAIT:
-				return 500;
+				100;
 			case ACT_SLEEP:
-				return 1000;
+				1000;
 			case ACT_DROP:
-				return 25;
+				25;
 			case ACT_PICKUP:
-				return 65;
+				65;
 			case ACT_TAKE:
-				return 65;
+				65;
 			case ACT_EXTINGUISH:
-				return 25;
+				25;
 			case ACT_LIGHT:
-				return 150;
+				150;
 			case ACT_THROW:
-				return 150;
+				150;
 			case ACT_EQUIP:
-				return 80;
+				80;
 			case ACT_UNEQUIP:
-				return 80;
+				80;
 			case ACT_DOOR_OPEN:
-				return 80;
+				80;
 			case ACT_DOOR_CLOSE:
-				return 80;
+				80;
 			case ACT_SWAPPED:
-				return 25;
+				25;
 			case _:
-				return 50;
+				50;
 		}
 	}
 
@@ -94,6 +96,7 @@ class EnergySystem extends System {
 
 		while (true) {
 			var entity = getNext();
+
 			if (entity.has(IsPlayer)) {
 				isPlayersTurn = true;
 				break;

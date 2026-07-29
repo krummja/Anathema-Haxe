@@ -10,4 +10,8 @@ class GameMath {
 	public static function getAttributePointTotal(level: Int): Int {
 		return 7 + level;
 	}
+
+	public static function getMoveCost(speedStat: Int): Int {
+		return 100 - (speedStat * 2);
+	}
 }

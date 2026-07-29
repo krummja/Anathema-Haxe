@@ -28,8 +28,9 @@ class SpriteSystem extends System {
 		}
 
 		for (entity in sprites) {
-			var coord = Projection.worldToPixel(entity.x, entity.y);
 			var sprite = entity.get(Sprite);
+			var worldPos = sprite.renderPos != null ? sprite.renderPos : entity.pos;
+			var coord = Projection.worldToPixel(worldPos.x, worldPos.y);
 			sprite.setPosition(coord.x, coord.y);
 		}
 	}

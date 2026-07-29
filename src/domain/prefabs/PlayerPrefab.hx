@@ -1,12 +1,6 @@
 package domain.prefabs;
 
-import domain.components.EquipmentSlot;
-import domain.components.FactionMember;
-import domain.components.Moniker;
-import domain.components.Vision;
-import domain.components.Energy;
-import domain.components.IsPlayer;
-import domain.components.Sprite;
+import domain.components.*;
 import ecs.Entity;
 import common.struct.Coordinate;
 
@@ -20,6 +14,9 @@ class PlayerPrefab extends Prefab {
 		entity.add(new Vision(40));
 		entity.add(new Moniker("Player"));
 		entity.add(new FactionMember(FACTION_PLAYER));
+		entity.add(new Health());
+
+		entity.add(new Attributes(2, 2, 2, 2, 2, 2, 2, 2, 2));
 
 		var rhand = new EquipmentSlot("Right hand", "handRight", Hand, true);
 		entity.add(rhand);

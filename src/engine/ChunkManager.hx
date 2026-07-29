@@ -64,6 +64,10 @@ class ChunkManager {
 
 		var data = loop.files.tryReadChunk(chunkIdx);
 
+		if (chunk == null) {
+			return;
+		}
+
 		if (data != null) {
 			chunk.load(data);
 		} else {
@@ -91,7 +95,6 @@ class ChunkManager {
 
 	public function update() {
 		var toLoad = chunksToLoad.pop();
-		// TODO This returns -1 under some unknown circumstance
 
 		if (toLoad != null) {
 			var t = loop.frame.getTimeSinceLastFrame();

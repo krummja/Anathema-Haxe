@@ -1,16 +1,16 @@
 package scenes.options;
 
-import haxe.ui.components.Label;
-import haxe.ui.data.ArrayDataSource;
+import engine.Scene;
 import engine.SettingsManager;
-import haxe.ui.core.Component;
-import haxe.ui.components.OptionStepper;
 import haxe.ui.components.CheckBox;
+import haxe.ui.components.Label;
+import haxe.ui.components.OptionStepper;
 import haxe.ui.containers.Box;
 import haxe.ui.containers.HBox;
+import haxe.ui.core.Component;
+import haxe.ui.data.ArrayDataSource;
 import haxe.ui.events.MouseEvent;
 import haxe.ui.events.UIEvent;
-import engine.Scene;
 
 @:build(haxe.ui.macros.ComponentMacros.build("./components/setting-row.xml"))
 class SettingRow extends HBox {

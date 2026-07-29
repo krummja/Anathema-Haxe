@@ -1,4 +1,4 @@
 <hbox styleName="setting-row" width="100%" height="100%">
-    <label id="settingName" text="Option" styleName="setting-name"/>
+    <label id="settingName" text="Option" styleName="setting-name medium"/>
     <box id="slot" styleName="slot"></box>
 </hbox>

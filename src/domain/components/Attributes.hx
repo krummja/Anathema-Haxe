@@ -1,13 +1,14 @@
 package domain.components;
 
-import ecs.Entity;
 import data.AbilityType;
+import data.AttributeType;
 import data.SkillType;
 import domain.events.QueryAbilitiesEvent;
 import domain.events.QuerySkillsEvent;
 import domain.events.QueryStatModEvent;
-import data.AttributeType;
+import domain.skills.Skills;
 import ecs.Component;
+import ecs.Entity;
 
 class Attributes extends Component {
 	public static function getFor(e: Entity, attrType: AttributeType) {
@@ -90,7 +91,7 @@ class Attributes extends Component {
 
 	private function onQueryStatMod(evt: QueryStatModEvent) {
 		for (skill in skills) {
-			var mods = [];
+			var mods = Skills.get(skill).getStatModifiers().filter((mod) -> mod.stat == evt.stat);
 			evt.addMods(mods);
 		}
 	}
@@ -101,6 +102,9 @@ class Attributes extends Component {
 
 	private function onQueryAbilities(evt: QueryAbilitiesEvent) {
 		evt.addAbilities(abilities);
-		for (skillType in skills) {}
+		for (skillType in skills) {
+			var skill = Skills.get(skillType);
+			evt.addAbilities(skill.getAbilities());
+		}
 	}
 }

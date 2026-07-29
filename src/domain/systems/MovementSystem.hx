@@ -6,6 +6,7 @@ import domain.components.Moved;
 import domain.components.IsDestroyed;
 import domain.components.MoveComplete;
 import domain.components.Move;
+import domain.components.Sprite;
 import ecs.System;
 import ecs.Query;
 
@@ -22,8 +23,28 @@ class MovementSystem extends System {
 
 		movers.onEntityAdded((e) -> {
 			var move = e.get(Move);
-			move.start = e.pos;
+			var sprite = e.get(Sprite);
+
+			// If several turns resolve for this entity in the same rendered
+			// frame (e.g. a fast creature, or a burst of AI turns after the
+			// player waits), this Move may be replacing one that never got a
+			// chance to animate. Continue the visual tween from wherever the
+			// sprite is currently drawn instead of the logical start, so the
+			// entity glides quickly across the skipped ground rather than
+			// teleporting.
+			move.start = (sprite != null && sprite.renderPos != null) ? sprite.renderPos : e.pos;
 			move.startTime = loop.frame.elapsed;
+
+			// Snap the logical position to the destination immediately so
+			// AI targeting, vision, and occupancy checks always see where
+			// the entity is headed rather than a stale in-between position.
+			// The sprite eases from move.start to move.goal separately via
+			// Sprite.renderPos, so this doesn't affect what's rendered.
+			e.pos = move.goal;
+
+			if (sprite != null) {
+				sprite.renderPos = move.start;
+			}
 		});
 
 		completed = new Query({
@@ -65,22 +86,22 @@ class MovementSystem extends System {
 				move.isMoveFired = true;
 			}
 
-			if (entity.pos == null) {
-				entity.pos = move.start;
-				if (move.start == null) {
-					trace('Move start is null...', move.start);
-				}
-			}
-
-			var current = entity.pos.toWorld();
-			var distanceSq = current.distance(move.goal, WORLD, EUCLIDEAN);
-
 			var currentDuration = frame.elapsed - move.startTime;
 			var progress = (currentDuration / move.duration).clamp(0, 1);
 			var newPos = move.start.ease(move.goal, progress, move.ease);
-			entity.pos = newPos;
+
+			var sprite = entity.get(Sprite);
+			if (sprite != null) {
+				sprite.renderPos = newPos;
+			}
+
+			var distanceSq = newPos.toWorld().distance(move.goal, WORLD, EUCLIDEAN);
 
 			if (distanceSq < move.epsilon * move.epsilon) {
+				if (sprite != null) {
+					sprite.renderPos = null;
+				}
+
 				entity.remove(move);
 				entity.add(new MoveComplete());
 			}

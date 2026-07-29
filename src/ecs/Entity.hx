@@ -1,5 +1,6 @@
 package ecs;
 
+import domain.components.Moniker;
 import common.struct.FloatPoint;
 import common.struct.IntPoint;
 import common.struct.Cardinal;

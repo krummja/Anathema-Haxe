@@ -15,6 +15,7 @@ class Stats {
 
 	public static function init() {
 		stats.register(Unarmed, new StatUnarmed());
+		stats.register(Speed, new StatSpeed());
 	}
 
 	public static function get(type: StatType): Stat {

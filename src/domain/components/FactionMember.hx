@@ -37,7 +37,17 @@ class FactionMember extends Component {
 		modifiers.clear();
 	}
 
-	private function onAttacked(evt: AttackedEvent) {}
+	private function onAttacked(evt: AttackedEvent) {
+		if (entity.has(IsPlayer)) {
+			return;
+		}
+
+		var member = evt.attack.attacker.get(FactionMember);
+
+		if (member != null) {
+			setModifier(member.factionType, -1000);
+		}
+	}
 
 	private function get_faction(): Faction {
 		return Factions.get(factionType);

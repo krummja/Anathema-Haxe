@@ -22,6 +22,26 @@ class Behavior {
 		EnergySystem.consumeEnergy(entity, ACT_WAIT);
 	}
 
+	public function tryAttackingNearby(entity: Entity): Bool {
+		var entityPos = entity.pos.toIntPoint();
+		var factions = world.factions;
+		var neighbors = world.getNeighborEntities(entityPos);
+		var target = neighbors.flatten().find((e) -> factions.areEntitiesHostile(e, entity));
+
+		if (target == null) {
+			return false;
+		}
+
+		var melee = new MeleeEvent(target, entity);
+		entity.fireEvent(melee);
+
+		var offset = target.pos.toIntPoint().sub(entityPos);
+		var dir = offset.toCardinal();
+
+		entity.add(new Attacker(dir));
+		return melee.isHandled;
+	}
+
 	public function tryMoveToward(entity: Entity, goal: Coordinate, dist: Int = 0): Bool {
 		var path = astar(entity, goal);
 
@@ -35,6 +55,7 @@ class Behavior {
 		trace('${entityName} (${entity.id}): Resolved A* path');
 
 		if (path.path.length <= dist) {
+			trace("Path length <= distance");
 			wait(entity);
 			return true;
 		}
@@ -47,13 +68,6 @@ class Behavior {
 		}
 
 		var entities = world.getEntitiesAt(next);
-
-		if (entities.length > 0) {
-			for (entity in entities) {
-				var name = entity.get(Moniker).displayName;
-				trace('Found ${name} within range');
-			}
-		}
 
 		if (entities.exists((e) -> e.has(IsCreature))) {
 			trace("Cannot move - target space is occupied");
@@ -82,55 +96,12 @@ class Behavior {
 			return [];
 		}
 
-		// TODO Test which approach is more performant
-
-		// var distances = MainLoop.getInstance().world.getEntityDistances(entity.pos.toIntPoint());
-		// var inRange = [];
-		// for (distance in distances) {
-		// 	if (distance.d <= vision.range) {
-		// 		inRange.push(distance);
-		// 	}
-		// }
-		// inRange.sort((a, b) -> a.d < b.d ? 1 : -1);
-		// var inRangeEntities = [];
-		// for (entry in inRange) {
-		// 	var target = MainLoop.getInstance().registry.getEntity(entry.id);
-		// 	inRangeEntities.push(target);
-		// }
-
 		var inRange = world.getEntitiesInRange(entity.pos.toIntPoint(), vision.range);
-
-		// var targets = inRangeEntities.filter((e) -> {
-		// 	var canSee = MainLoop.getInstance().world.systems.vision.canSee(entity, e.pos) && e != entity;
-		// 	var isHostile = factions.areEntitiesHostile(e, entity);
-		// 	return canSee && isHostile;
-		// });
-
 		var targets = inRange.filter((e) -> {
-			return factions.areEntitiesHostile(e, entity) && world.systems.vision.canSee(entity, e.pos);
+			return e.has(Health) && factions.areEntitiesHostile(e, entity) && world.systems.vision.canSee(entity, e.pos);
 		});
 
 		return targets;
-	}
-
-	public function tryAttackingNearby(entity: Entity): Bool {
-		var entityPos = entity.pos.toIntPoint();
-		var factions = world.factions;
-		var neighbors = world.getNeighborEntities(entityPos);
-		var target = neighbors.flatten().find((e) -> factions.areEntitiesHostile(e, entity));
-
-		if (target == null) {
-			return false;
-		}
-
-		var melee = new MeleeEvent(target, entity);
-		entity.fireEvent(melee);
-
-		var offset = target.pos.toIntPoint().sub(entityPos);
-		var dir = offset.toCardinal();
-
-		entity.add(new Attacker(dir));
-		return melee.isHandled;
 	}
 
 	public function astar(entity: Entity, goal: Coordinate): AStarResult {
@@ -155,11 +126,6 @@ class Behavior {
 				if (entities.exists((e) -> e.has(IsCreature) || e.has(IsPlayer))) {
 					return distance * 5;
 				}
-
-				// var cell = world.getCell(b);
-				// if (cell != null && cell.terrain == Water) {
-				// 	return 1000 * distance;
-				// }
 
 				return distance;
 			}

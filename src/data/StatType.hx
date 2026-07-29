@@ -2,6 +2,7 @@ package data;
 
 enum StatType {
 	Armor;
+	ArmorRegen;
 	Speed;
 	Dodge;
 	Unarmed;

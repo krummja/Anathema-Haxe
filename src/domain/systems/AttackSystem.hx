@@ -24,7 +24,6 @@ class AttackSystem extends System {
 
 	public override function update(frame: Frame): Void {
 		for (entity in query) {
-			// Don't attack moving entities
 			if (entity.has(Move)) {
 				continue;
 			}

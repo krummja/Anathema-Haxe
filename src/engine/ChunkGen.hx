@@ -16,22 +16,22 @@ class ChunkGen {
 		var r = new Rand(seed + chunk.chunkId);
 		chunk.cells.fillFn((idx) -> generateCell(r, chunk, idx));
 
-		// for (cell in chunk.cells) {
-		// 	var worldPos = chunk.worldPos.add(cell.pos);
+		for (cell in chunk.cells) {
+			var worldPos = chunk.worldPos.add(cell.pos);
 
-		// 	if (cell.value.terrain != TERRAIN_WATER && r.bool(0.01)) {
-		// 		if (r.bool(0.2)) {
-		// 			var biome = Biomes.get(cell.value.biomeKey);
-		// 			var e = biome.creatures.pick(r);
-		// 			if (e != null) {
-		// 				Spawner.spawn(e, worldPos.asWorld());
-		// 			}
-		// 		}
-		// 	}
+			if (cell.value.terrain != TERRAIN_WATER && r.bool(0.01)) {
+				if (r.bool(0.2)) {
+					var biome = Biomes.get(cell.value.biomeKey);
+					var e = biome.creatures.pick(r);
+					if (e != null) {
+						Spawner.spawn(e, worldPos.asWorld());
+					}
+				}
+			}
 
-		// 	var b = Biomes.get(cell.value.biomeKey);
-		// 	b.spawnEntity(worldPos, cell.value);
-		// }
+			var b = Biomes.get(cell.value.biomeKey);
+			b.spawnEntity(worldPos, cell.value);
+		}
 	}
 
 	public function generateCell(r: Rand, chunk: Chunk, idx: Int) {

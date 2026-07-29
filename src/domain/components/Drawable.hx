@@ -4,6 +4,7 @@ import ecs.Component;
 import shaders.SpriteShader;
 import engine.RenderLayerManager;
 import engine.ColorKey;
+import common.struct.Coordinate;
 
 abstract class Drawable extends Component {
 	@save public var primary(default, set): ColorKey;
@@ -15,6 +16,11 @@ abstract class Drawable extends Component {
 	@save public var layer(default, null): RenderLayerType;
 	@save public var offsetX(default, set): Float = -8.0;
 	@save public var offsetY(default, set): Float = -8.0;
+
+	// World-space position to render at while easing toward a Move's goal.
+	// Lets rendering lag behind the entity's logical `pos`, which snaps to
+	// the goal immediately so gameplay systems never see a stale position.
+	public var renderPos: Null<Coordinate> = null;
 
 	@save public var visible(default, set): Bool = false;
 	@save public var isShrouded(default, set): Bool = false;

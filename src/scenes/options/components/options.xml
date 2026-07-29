@@ -36,6 +36,7 @@
         width: 50%;
         vertical-align: center;
         horizontal-align: left;
+        color: red;
     }
 
     .slot {
