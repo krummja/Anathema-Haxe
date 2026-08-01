@@ -1,9 +1,9 @@
 package domain.stats;
 
-import ecs.Entity;
-import domain.stats.StatUnarmed.StatUnarmed;
 import common.struct.DataRegistry;
 import data.StatType;
+import domain.stats.StatUnarmed.StatUnarmed;
+import ecs.Entity;
 
 typedef StatValue = {
 	var stat: StatType;
@@ -16,6 +16,10 @@ class Stats {
 	public static function init() {
 		stats.register(Unarmed, new StatUnarmed());
 		stats.register(Speed, new StatSpeed());
+		stats.register(Cudgel, new StatCudgel());
+		stats.register(Armor, new StatArmor());
+		stats.register(ArmorRegen, new StatArmorRegen());
+		stats.register(Dodge, new StatDodge());
 	}
 
 	public static function get(type: StatType): Stat {

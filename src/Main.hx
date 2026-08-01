@@ -1,18 +1,18 @@
-import domain.weapons.Weapons;
+import data.Bitmasks;
 import domain.abilities.Abilities;
 import domain.stats.Stats;
-import hxd.Res;
-import haxe.ui.Toolkit;
-import scenes.mainmenu.MainMenuScene;
+import domain.weapons.Weapons;
 import engine.BehaviorManager.Behaviors;
-import engine.TextResources;
-import engine.SettingsManager;
 import engine.ColorPaletteResources;
-import engine.TileResources;
 import engine.Commands;
-import engine.MainLoop;
 import engine.Factions;
-import data.Bitmasks;
+import engine.MainLoop;
+import engine.SettingsManager;
+import engine.TextResources;
+import engine.TileResources;
+import haxe.ui.Toolkit;
+import hxd.Res;
+import scenes.mainmenu.MainMenuScene;
 
 class Main extends hxd.App {
 	public static function main(): Void {
@@ -25,11 +25,38 @@ class Main extends hxd.App {
 	public override function init(): Void {
 		SettingsManager.init("settings");
 
+		initGlobals();
+		initWindow();
+		initAssets();
+
+		this.loop = MainLoop.create(this);
+
+		initUI();
+
+		this.loop.scenes.set(new MainMenuScene());
+
+		trace("App initialized - launching");
+	}
+
+	private function initGlobals(): Void {
 		s2d.renderer.globals.set("daylight", 1);
 		s2d.renderer.globals.set("dayProgress", 0);
 		s2d.renderer.globals.set("time", 0);
 		s2d.renderer.globals.set("clearColor", 0xff00ff.toHxdColor().toVector());
+	}
 
+	private function initWindow(): Void {
+		var window = hxd.Window.getInstance();
+		s2d.renderer.globals.set("screenH", window.height);
+
+		window.title = SettingsManager.settings.application.title;
+		window.addResizeEvent(() -> {
+			s2d.renderer.globals.set("screenW", window.width);
+			s2d.renderer.globals.set("screenH", window.height);
+		});
+	}
+
+	private function initAssets(): Void {
 		TextResources.init();
 		TileResources.init();
 		ColorPaletteResources.init();
@@ -40,24 +67,11 @@ class Main extends hxd.App {
 		Weapons.init();
 		Behaviors.init();
 		Factions.init();
+	}
 
-		var window = hxd.Window.getInstance();
-		s2d.renderer.globals.set("screenH", window.height);
-
-		window.title = SettingsManager.settings.application.title;
-		window.addResizeEvent(() -> {
-			s2d.renderer.globals.set("screenW", window.width);
-			s2d.renderer.globals.set("screenH", window.height);
-		});
-
-		this.loop = MainLoop.create(this);
-
+	private function initUI(): Void {
 		Toolkit.theme = "anathema";
 		Toolkit.init({root: this.loop.layers.root});
-
-		this.loop.scenes.set(new MainMenuScene());
-
-		trace("App initialized - launching");
 	}
 
 	public override function update(dt: Float): Void {

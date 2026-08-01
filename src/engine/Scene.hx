@@ -1,7 +1,7 @@
 package engine;
 
-import emitter.Emitter;
 import common.struct.Coordinate;
+import emitter.Emitter;
 
 abstract class Scene {
 	public var emitter: Emitter;
@@ -42,6 +42,9 @@ abstract class Scene {
 
 	@:allow(engine.InputManager)
 	private function onKeyDown(key: KeyCode): Void {}
+
+	@:allow(engine.InputManager)
+	private function onMouseWheel(delta: Float): Void {}
 
 	@:allow(engine.InputManager)
 	private function onKeyUp(key: KeyCode): Void {}

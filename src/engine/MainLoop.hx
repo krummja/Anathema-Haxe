@@ -1,13 +1,10 @@
 package engine;
 
-import hxd.Event.EventKind;
-import haxe.ui.containers.windows.WindowEvent;
-import scenes.ui.RLay;
 import common.tools.Performance;
-import ecs.Registry;
-import h2d.Console;
-import engine.RenderLayerManager;
 import domain.World;
+import ecs.Registry;
+import engine.RenderLayerManager;
+import h2d.Console;
 
 class MainLoop {
 	public var UNIT_X: Int = 16;
@@ -31,8 +28,6 @@ class MainLoop {
 
 	public var app(default, null): hxd.App;
 	public var window(get, never): hxd.Window;
-	public var isMaximized(get, never): Bool;
-
 	public var frame(default, null): Frame;
 	public var camera(default, null): Camera;
 	public var scenes(default, null): SceneManager;
@@ -44,7 +39,6 @@ class MainLoop {
 	public var world(default, null): World;
 	public var registry(default, null): Registry;
 	public var files(default, null): FileManager;
-
 	public var palette(get, null): ColorPalette;
 
 	private function new(app: hxd.App) {
@@ -75,6 +69,8 @@ class MainLoop {
 
 		// Register lifecycle callbacks
 		window.onClose = onClose;
+
+		window.addResizeEvent(scenes.onResize);
 	}
 
 	public inline function update(): Void {
@@ -127,23 +123,6 @@ class MainLoop {
 	private function onClose(): Bool {
 		trace("Shutting down... Goodbye!");
 		return true;
-	}
-
-	private function get_isMaximized(): Bool {
-		#if (hl || cpp)
-		var win = @:privateAccess window.window;
-		if (win != null) {
-			var screenWidth = hxd.System.width;
-			var screenHeight = hxd.System.height;
-
-			trace([[win.width, screenWidth], [win.height, screenHeight]]);
-
-			// Subtract 23 from height to account for Windows window bar
-			return (win.width >= screenWidth && win.height >= screenHeight - 23);
-		}
-		#end
-
-		return false;
 	}
 
 	private inline function get_window(): hxd.Window {

@@ -1,5 +1,10 @@
 package domain;
 
+import domain.components.Weapon;
+import domain.stats.Stats;
+import domain.weapons.Weapons;
+import ecs.Entity;
+
 class GameMath {
 	public static var XP_REQ_CAP = 4000;
 	public static var XP_LVL_INTENSITY = 10;
@@ -13,5 +18,21 @@ class GameMath {
 
 	public static function getMoveCost(speedStat: Int): Int {
 		return 100 - (speedStat * 2);
+	}
+
+	public static function getArmorRegenRatePerTurn(armorRegenStat: Int): Int {
+		return 4 + armorRegenStat;
+	}
+
+	public static function getArmorRegenDelay(armorRegenStat: Int): Int {
+		return 800;
+	}
+
+	public static function getMeleeAttackToHit(attacker: Entity, weapon: Weapon) {
+		var weaponFamily = Weapons.get(weapon.family);
+
+		// TODO Should this stats get be in this method?
+		// TODO Make the to-hit dynamic instead of flat +6
+		return Stats.getValue(weaponFamily.stat, attacker) + 6;
 	}
 }

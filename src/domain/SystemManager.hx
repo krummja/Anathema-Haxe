@@ -13,6 +13,7 @@ class SystemManager {
 	public var bitmasks(default, null): BitmaskSystem;
 	public var sprites(default, null): SpriteSystem;
 	public var attack(default, null): AttackSystem;
+	public var floatingText(default, null): FloatingTextSystem;
 	public var expiring(default, null): ExpiringSystem;
 	public var destroy(default, null): DestroySystem;
 	public var debug(default, null): DebugSystem;
@@ -29,6 +30,7 @@ class SystemManager {
 		bitmasks = new BitmaskSystem();
 		sprites = new SpriteSystem();
 		attack = new AttackSystem();
+		floatingText = new FloatingTextSystem();
 		expiring = new ExpiringSystem();
 		destroy = new DestroySystem();
 		debug = new DebugSystem();
@@ -52,7 +54,7 @@ class SystemManager {
 		attack.update(frame);
 		// health
 		// healthBar
-		// floatingText
+		floatingText.update(frame);
 		// storylines
 		expiring.update(frame);
 		destroy.update(frame);

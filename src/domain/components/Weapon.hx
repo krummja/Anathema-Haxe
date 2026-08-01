@@ -1,8 +1,8 @@
 package domain.components;
 
-import domain.weapons.Weapons;
-import domain.events.MeleeEvent;
 import data.WeaponFamilyType;
+import domain.events.MeleeEvent;
+import domain.weapons.Weapons;
 import ecs.Component;
 
 class Weapon extends Component {

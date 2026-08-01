@@ -21,4 +21,12 @@ class IntExtensions {
 	public static inline function toString(n: Int): String {
 		return Std.string(n);
 	}
+
+	public static inline function clampUpper(n: Int, max: Int): Int {
+		return n > max ? max : n;
+	}
+
+	public static inline function clampLower(n: Int, min: Int): Int {
+		return n < min ? min : n;
+	}
 }

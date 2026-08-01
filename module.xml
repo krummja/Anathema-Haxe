@@ -9,4 +9,11 @@
             <style resource="anathema/styles/main.css"/>
         </anathema>
     </themes>
+    <components>
+        <component class="uilib.SLabel"/>
+        <component class="uilib.MLabel"/>
+        <component class="uilib.LLabel"/>
+        <component class="uilib.XLLabel"/>
+        <component class="uilib.HLabel"/>
+    </components>
 </module>

@@ -3,29 +3,53 @@
         .panel-wrapper {
             width: 100%;
             height: 100%;
+            padding: -1px;
         }
 
-        .bottom-wrapper {
+        .bottom-container {
             background-color: #212121;
             vertical-align: bottom;
             width: 100%;
-            border: 1px solid red;
-            padding: 8px;
+            padding: 2px;
+        }
+
+        .side-container {
+            background-color: #212121;
+            horizontal-align: right;
+            padding: 2px;
+        }
+
+        .bottom-wrapper {
+            width: 100%;
+            height: 100%;
+            vertical-align: bottom;
+            border: 1px solid #666666;
+            padding: 4px;
         }
 
         .side-wrapper {
-            background-color: #212121;
+            width: 100%;
+            height: 100%;
             horizontal-align: right;
-            border: 1px solid red;
-            padding: 8px;
+            border: 1px solid #666666;
+            padding: 4px;
+        }
+
+        #playerInfo {
+            height: 200px;
         }
     </style>
     <box id="panelWrapper" styleName="panel-wrapper">
-        <hbox id="bottomWrapper" styleName="bottom-wrapper"></hbox>
-        <vbox id="sideWrapper" styleName="side-wrapper">
-            <label id="zoom" value="0" styleName="medium"/>
-            <label id="camx" value="0" styleName="medium"/>
-            <label id="posx" value="0" styleName="medium"/>
+        <hbox id="bottomContainer" styleName="bottom-container">
+            <hbox id="bottomWrapper" styleName="bottom-wrapper"></hbox>
+        </hbox>
+        <vbox id="sideContainer" styleName="side-container">
+            <vbox id="playerInfo" styleName="side-wrapper"></vbox>
+            <vbox id="sideWrapper" styleName="side-wrapper">
+                <slabel id="zoom"/>
+                <llabel id="camx"/>
+                <xllabel id="posx"/>
+            </vbox>
         </vbox>
     </box>
 </box>

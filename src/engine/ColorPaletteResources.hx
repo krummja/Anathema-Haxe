@@ -37,7 +37,7 @@ class ColorPaletteResources {
 		p.setColor(C_GREEN_4, image.getPixel(4, 1));
 		p.setColor(C_GREEN_5, image.getPixel(5, 1));
 		p.setColor(C_RESERVE_0, image.getPixel(6, 1));
-		p.setColor(C_RESERVE_1, image.getPixel(7, 1));
+		p.setColor(C_GREEN_HC, image.getPixel(7, 1));
 
 		p.setColor(C_BLUE_0, image.getPixel(0, 2));
 		p.setColor(C_BLUE_1, image.getPixel(1, 2));
@@ -46,7 +46,7 @@ class ColorPaletteResources {
 		p.setColor(C_BLUE_4, image.getPixel(4, 2));
 		p.setColor(C_BLUE_5, image.getPixel(5, 2));
 		p.setColor(C_RESERVE_2, image.getPixel(6, 2));
-		p.setColor(C_RESERVE_3, image.getPixel(7, 2));
+		p.setColor(C_BLUE_HC, image.getPixel(7, 2));
 
 		p.setColor(C_PURPLE_0, image.getPixel(0, 3));
 		p.setColor(C_PURPLE_1, image.getPixel(1, 3));
@@ -55,7 +55,7 @@ class ColorPaletteResources {
 		p.setColor(C_PURPLE_4, image.getPixel(4, 3));
 		p.setColor(C_PURPLE_5, image.getPixel(5, 3));
 		p.setColor(C_RESERVE_4, image.getPixel(6, 3));
-		p.setColor(C_RESERVE_5, image.getPixel(7, 3));
+		p.setColor(C_PURPLE_HC, image.getPixel(7, 3));
 
 		p.setColor(C_YELLOW_0, image.getPixel(0, 4));
 		p.setColor(C_YELLOW_1, image.getPixel(1, 4));
@@ -64,7 +64,7 @@ class ColorPaletteResources {
 		p.setColor(C_YELLOW_4, image.getPixel(4, 4));
 		p.setColor(C_YELLOW_5, image.getPixel(5, 4));
 		p.setColor(C_RESERVE_6, image.getPixel(6, 4));
-		p.setColor(C_FIRE_LIGHT, image.getPixel(7, 4));
+		p.setColor(C_YELLOW_HC, image.getPixel(7, 4));
 
 		p.setColor(C_RED_0, image.getPixel(0, 5));
 		p.setColor(C_RED_1, image.getPixel(1, 5));
@@ -73,7 +73,7 @@ class ColorPaletteResources {
 		p.setColor(C_RED_4, image.getPixel(4, 5));
 		p.setColor(C_RED_5, image.getPixel(5, 5));
 		p.setColor(C_RESERVE_7, image.getPixel(6, 5));
-		p.setColor(C_RESERVE_8, image.getPixel(7, 5));
+		p.setColor(C_RED_HC, image.getPixel(7, 5));
 
 		p.setColor(C_RESERVE_9, image.getPixel(0, 6));
 		p.setColor(C_RESERVE_10, image.getPixel(1, 6));

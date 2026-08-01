@@ -69,6 +69,10 @@ class SceneManager {
 		current.onResume();
 	}
 
+	public function onResize(): Void {
+		current.ui.onResize();
+	}
+
 	private function enter(scene: Scene) {
 		scene.onEnter();
 		if (scene.ui != null) {

@@ -18,6 +18,7 @@ enum SpawnableType {
 	FLOOR;
 	WOOD_WALL;
 	STICK;
+	FLOATING_TEXT;
 
 	BLANK;
 	DEBUG;

@@ -1,0 +1,46 @@
+<box width="100%" height="100%">
+    <style>
+        .root {
+            width: 100%;
+            height: 100%;
+            padding: 8px;
+        }
+
+        .root .root-item {
+            width: 100%;
+            height: 120px;
+        }
+
+        #title {
+            horizontal-align: center;
+			height: 40%;
+        }
+
+        #menu-wrapper {
+            height: 60%;
+			width: 100%;
+		}
+
+		#menu {
+			height: 100%;
+			width: 100%;
+		}
+
+		.menu-item {
+			width: 200px;
+			horizontal-align: center;
+		}
+    </style>
+    <vbox styleName="root">
+        <vbox id="title" styleName="root-item">
+            <label text="Anathema" styleName="title"/>
+        </vbox>
+        <box id="menu-wrapper" styleName="root-item">
+            <vbox horizontalAlign="center" verticalAlign="center">
+                <button id="start" styleName="menu-item" text="Start"/>
+                <button id="options" styleName="menu-item" text="Options"/>
+                <button id="quit" styleName="menu-item" text="Quit"/>
+            </vbox>
+        </box>
+    </vbox>
+</box>

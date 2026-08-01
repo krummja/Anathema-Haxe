@@ -1,14 +1,15 @@
 package domain.weapons;
 
-import hxd.Rand;
-import ecs.Entity;
-import engine.MainLoop;
 import data.StatType;
-import data.footprints.PointFootprint;
 import data.footprints.Footprint;
+import data.footprints.PointFootprint;
+import domain.components.Weapon;
 import domain.events.AttackedEvent;
 import domain.events.ConsumeEnergyEvent;
-import domain.components.Weapon;
+import domain.stats.Stats;
+import ecs.Entity;
+import engine.MainLoop;
+import hxd.Rand;
 
 class WeaponFamily {
 	public var isRanged: Bool;
@@ -16,11 +17,22 @@ class WeaponFamily {
 
 	public function getMeleeAttacks(attacker: Entity, weapon: Weapon): Array<Attack> {
 		var r = Rand.create();
-		var attacks = new Array<Attack>();
-
 		var roll = r.roll(MainLoop.getInstance().DIE_SIZE);
+		var toHit = roll + GameMath.getMeleeAttackToHit(attacker, weapon);
+		var stat = Stats.getValue(stat, attacker);
+		var damage = r.roll(weapon.die, weapon.modifier) + stat;
+		var isCritical = roll == MainLoop.getInstance().DIE_SIZE;
 
-		return attacks;
+		return [
+			{
+				attacker: attacker,
+				toHit: toHit,
+				damage: damage,
+				damageType: Crushing,
+				isCritical: isCritical,
+				defender: null,
+			}
+		];
 	}
 
 	public function getFootprint(): Footprint {

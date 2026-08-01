@@ -21,7 +21,40 @@ class TileResources {
 
 	public static function init() {
 		var sheet = hxd.Res.tiles.kenny2_transparent;
-		var t = divideTilesheet(sheet.toTile(), 49, 22);
+		var t = divideBySize(sheet.toTile(), 49, 22);
+
+		initPeopleAndCreatures();
+		initTerrainBasic();
+
+		// @formatter:off
+		tiles.set(TK_RECT, 				t[14][39]);
+		tiles.set(TK_BLANK, 			t[5][8]);
+		tiles.set(TK_CURSOR,			t[20][23]);
+		tiles.set(TK_LIST_DASH,			t[20][27]);
+		tiles.set(TK_DEBUG_CURSOR, 		t[14][25]);
+		// @formatter:on
+		trace("TileResources initialized");
+	}
+
+	/**
+	 * Sheet size: 8x10
+	 */
+	private static function initPeopleAndCreatures() {
+		var sheet = hxd.Res.tiles.people_and_creatures;
+		var t = divideByTiles(sheet.toTile(), 16, 16);
+
+		// @formatter:off
+		tiles.set(TK_PLAYER_01, 		t[0][1]);
+		tiles.set(TK_BAT_01, 			t[8][2]);
+		// @formatter:on
+	}
+
+	/**
+	 * 13x3
+	 */
+	private static function initTerrainBasic() {
+		var sheet = hxd.Res.tiles.basic_terrain;
+		var t = divideByTiles(sheet.toTile(), 16, 16);
 
 		// @formatter:off
 		tiles.set(TK_FOLIAGE_01, 		t[0][1]);
@@ -55,21 +88,16 @@ class TileResources {
 		tiles.set(TK_ROCKS_01, 			t[2][5]);
 		tiles.set(TK_DEAD_TREE_01, 		t[2][6]);
 		tiles.set(TK_PALM_01, 			t[2][7]);
-
-		tiles.set(TK_PLAYER_01, 		t[0][25]);
-		tiles.set(TK_BAT_01,			t[8][26]);
-
-		tiles.set(TK_RECT, 				t[14][39]);
-		tiles.set(TK_BLANK, 			t[5][8]);
-
-		tiles.set(TK_CURSOR,			t[20][23]);
-		tiles.set(TK_LIST_DASH,			t[20][27]);
-		tiles.set(TK_DEBUG_CURSOR, 		t[14][25]);
 		// @formatter:on
-		trace("TileResources initialized");
 	}
 
-	private static function divideTilesheet(tile: Tile, sizeX: Int, sizeY: Int): Array<Array<Tile>> {
+	private static function divideByTiles(tile: Tile, tileX: Int, tileY: Int): Array<Array<Tile>> {
+		var sizeX = (tile.width / tileX).floor();
+		var sizeY = (tile.height / tileY).floor();
+		return divideBySize(tile, sizeX, sizeY);
+	}
+
+	private static function divideBySize(tile: Tile, sizeX: Int, sizeY: Int): Array<Array<Tile>> {
 		var tileW = Math.floor(tile.width / sizeX);
 		var tileH = Math.floor(tile.height / sizeY);
 		var tiles_out = new Array<Array<Tile>>();

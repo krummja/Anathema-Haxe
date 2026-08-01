@@ -1,10 +1,6 @@
 package scenes.adventure;
 
-import common.struct.Size;
-import common.struct.Coordinate;
 import engine.Frame;
-import engine.MainLoop;
-import engine.Projection;
 import engine.Scene;
 import haxe.ui.containers.Box;
 
@@ -16,18 +12,15 @@ class AdventureView extends Box {
 		super();
 		this.scene = scene;
 		this.scene.loop.render(HUD, this);
-
-		// sideWrapper.visible = false;
-		// bottomWrapper.visible = false;
 	}
 
 	public function update(frame: Frame) {
+		// The viewport is the area of the screen reserved for the view into the game.
 		var w = scene.camera.width - scene.camera.viewportWidth;
 		var h = scene.camera.height - scene.camera.viewportHeight;
-
-		sideWrapper.width = w;
-		sideWrapper.height = scene.camera.height - h;
-		bottomWrapper.height = h;
+		sideContainer.width = w;
+		sideContainer.height = scene.camera.height - h + 1;
+		bottomContainer.height = h;
 
 		zoom.text = ' zoom: ${scene.camera.zoom}';
 		camx.text = 'cam x: ${scene.camera.x}';

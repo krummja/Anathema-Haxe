@@ -1,0 +1,94 @@
+@startuml Game Math
+
+enum AttributeType {
+    Grit
+    Savvy
+    Finesse
+}
+
+enum StatType {
+    Fortitude
+    Armor
+    ArmorRegen
+    Speed
+    Dodge
+    Unarmed
+    Pistol
+    Rifle
+    Cudgel
+    Forage
+    Learning
+    Throwing
+}
+
+enum SkillType {
+    Barrage
+    Brawler
+    Rifles
+    Pistols
+}
+
+enum AbilityType {
+    Barrage
+}
+
+enum AbilityModeType {
+    Activated
+}
+
+class Entity
+
+class StatModifier {
+    + source: String
+    + stat: StatType
+    + mod: Int
+}
+
+class Stat {
+    + type: StatType
+    + attributes: Array<AttributeType>
+
+    + new(type: StatType, attributes: Array<AttributeType>)
+    + getModifiers(entity: Entity): Array<StatModifier>
+    + getModifierSum(entity: Entity): Int
+    + compute(entity: Entuty): Int
+    + getAttribute(entity: Entity): Null<AttributeType>
+}
+
+class Skill {
+    + type: SkillType
+    + name: String
+
+    + new(type: SkillType, name: String)
+    + getCost(): Int
+    + getStatModifiers(): Array<StatModifier>
+    + getAbilities(): Array<AbilityType>
+}
+
+class Ability {
+    + type: AbilityType
+    + mode: AbilityModeType
+    + name: String
+
+    + new(type: AbilityType, mode: AbilityModeType, name: String)
+    + getDescription(entity: Entity): String
+    + isRequirementsMet(entity: Entity): Bool
+    + initiate(entity: Entity)
+}
+
+Stat *--> StatType
+Stat --|> AttributeType
+Stat --> Entity
+Stat --> StatModifier
+
+StatModifier *--> StatType
+
+Skill *--> SkillType
+Skill --> AbilityType
+Skill --> StatModifier
+
+Ability *--> AbilityType
+Ability *--> AbilityModeType
+Ability --> Entity
+
+@enduml

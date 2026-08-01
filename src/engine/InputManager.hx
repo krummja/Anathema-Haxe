@@ -74,11 +74,7 @@ class InputManager {
 			case ERelease:
 				loop.scenes.current.onMouseUp(new Coordinate(event.relX, event.relY, SCREEN));
 			case EWheel:
-				if (event.wheelDelta > 0) {
-					loop.camera.zoomOut();
-				} else if (event.wheelDelta < 0) {
-					loop.camera.zoomIn();
-				}
+				loop.scenes.current.onMouseWheel(event.wheelDelta);
 			case _:
 		}
 	}

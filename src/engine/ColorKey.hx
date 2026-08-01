@@ -17,7 +17,7 @@ enum abstract ColorKey(String) to String from String {
 	var C_GREEN_4 = 'C_GREEN_4';
 	var C_GREEN_5 = 'C_GREEN_5';
 	var C_RESERVE_0 = 'C_RESERVE_0';
-	var C_RESERVE_1 = 'C_RESERVE_1';
+	var C_GREEN_HC = 'C_GREEN_HC';
 
 	var C_BLUE_0 = 'C_BLUE_0';
 	var C_BLUE_1 = 'C_BLUE_1';
@@ -26,7 +26,7 @@ enum abstract ColorKey(String) to String from String {
 	var C_BLUE_4 = 'C_BLUE_4';
 	var C_BLUE_5 = 'C_BLUE_5';
 	var C_RESERVE_2 = 'C_RESERVE_2';
-	var C_RESERVE_3 = 'C_RESERVE_3';
+	var C_BLUE_HC = 'C_BLUE_HC';
 
 	var C_PURPLE_0 = 'C_PURPLE_0';
 	var C_PURPLE_1 = 'C_PURPLE_1';
@@ -35,7 +35,7 @@ enum abstract ColorKey(String) to String from String {
 	var C_PURPLE_4 = 'C_PURPLE_4';
 	var C_PURPLE_5 = 'C_PURPLE_5';
 	var C_RESERVE_4 = 'C_RESERVE_4';
-	var C_RESERVE_5 = 'C_RESERVE_5';
+	var C_PURPLE_HC = 'C_PURPLE_HC';
 
 	var C_YELLOW_0 = 'C_YELLOW_0';
 	var C_YELLOW_1 = 'C_YELLOW_1';
@@ -44,7 +44,7 @@ enum abstract ColorKey(String) to String from String {
 	var C_YELLOW_4 = 'C_YELLOW_4';
 	var C_YELLOW_5 = 'C_YELLOW_5';
 	var C_RESERVE_6 = 'C_RESERVE_6';
-	var C_FIRE_LIGHT = 'C_FIRE_LIGHT';
+	var C_YELLOW_HC = 'C_YELLOW_HC';
 
 	var C_RED_0 = 'C_RED_0';
 	var C_RED_1 = 'C_RED_1';
@@ -53,7 +53,7 @@ enum abstract ColorKey(String) to String from String {
 	var C_RED_4 = 'C_RED_4';
 	var C_RED_5 = 'C_RED_5';
 	var C_RESERVE_7 = 'C_RESERVE_7';
-	var C_RESERVE_8 = 'C_RESERVE_8';
+	var C_RED_HC = 'C_RED_HC';
 
 	var C_RESERVE_9 = 'C_RESERVE_9';
 	var C_RESERVE_10 = 'C_RESERVE_10';

@@ -1,23 +1,18 @@
 package domain.systems;
 
-import domain.stats.Stats;
-import common.tools.Performance;
-import domain.events.ConsumeEnergyEvent;
 import data.EnergyActionType;
-import engine.Frame;
+import domain.components.*;
+import domain.events.ConsumeEnergyEvent;
+import domain.stats.Stats;
 import ecs.Entity;
 import ecs.Query;
 import ecs.System;
-import domain.components.*;
+import engine.Frame;
 
 class EnergySystem extends System {
 	public static function consumeEnergy(entity: Entity, type: EnergyActionType): Int {
 		var cost = getEnergyCost(entity, type);
 		entity.fireEvent(new ConsumeEnergyEvent(cost));
-
-		if (type != ACT_WAIT) {
-			trace([entity.get(Moniker).displayName, type, cost]);
-		}
 		return cost;
 	}
 

@@ -11,7 +11,7 @@
 .button {
   background-color: #303030;
   border: 1px solid #606060;
-  font-name: "fira-code-64.fnt";
+  font-name: "fnt/fira_code_64.fnt";
   font-size: 24px;
   padding: 12px;
   border-radius: 2px;
@@ -26,24 +26,29 @@
 }
 
 
-.label.small {
-  font-name: "fnt/fira_code_64.fnt";
+.slabel-small {
+  font-name: "fnt/fira_code_semibold.fnt";
   font-size: 16px;
 }
 
-.label.medium {
-  font-name: "fnt/fira_code_64.fnt";
+.slabel-medium {
+  font-name: "fnt/fira_code_semibold.fnt";
+  font-size: 18px;
+}
+
+.slabel-large {
+  font-name: "fnt/fira_code_semibold.fnt";
+  font-size: 20px;
+}
+
+.slabel-xlarge {
+  font-name: "fnt/fira_code_semibold.fnt";
+  font-size: 22px;
+}
+
+.slabel-huge {
+  font-name: "fnt/fira_code_semibold.fnt";
   font-size: 24px;
-}
-
-.label.large {
-  font-name: "fnt/fira_code_64.fnt";
-  font-size: 32px;
-}
-
-.label.huge {
-  font-name: "fnt/fira_code_64.fnt";
-  font-size: 64px;
 }
 
 .page-title {

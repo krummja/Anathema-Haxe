@@ -1,11 +1,10 @@
 package engine;
 
-import domain.events.MeleeEvent;
-import common.algorithm.Distance;
 import common.algorithm.AStar;
-import common.algorithm.AStar.AStarResult;
+import common.algorithm.Distance;
 import common.struct.Coordinate;
 import domain.components.*;
+import domain.events.MeleeEvent;
 import domain.systems.EnergySystem;
 import ecs.Entity;
 
@@ -48,14 +47,10 @@ class Behavior {
 		var entityName = entity.get(Moniker).displayName;
 
 		if (!path.success) {
-			trace('${entityName} (${entity.id}): Failed to resolve A* path');
 			return false;
 		}
 
-		trace('${entityName} (${entity.id}): Resolved A* path');
-
 		if (path.path.length <= dist) {
-			trace("Path length <= distance");
 			wait(entity);
 			return true;
 		}
@@ -63,14 +58,12 @@ class Behavior {
 		var next = path.path[1];
 
 		if (next == null) {
-			trace('No next path point found');
 			return false;
 		}
 
 		var entities = world.getEntitiesAt(next);
 
 		if (entities.exists((e) -> e.has(IsCreature))) {
-			trace("Cannot move - target space is occupied");
 			wait(entity);
 			return true;
 		}

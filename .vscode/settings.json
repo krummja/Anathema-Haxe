@@ -17,7 +17,11 @@
 			"strings": "off",
 			"other": "off"
 		},
-		"editor.defaultFormatter": "yzhang.markdown-all-in-one",
-		"editor.formatOnSave": true
+		"editor.defaultFormatter": "Jota0222.multi-formatter",
+		"editor.formatOnSave": true,
+		"multiFormatter.formatterList": [
+			"DavidAnson.vscode-markdownlint",
+			"yzhang.markdown-all-in-one",
+		]
 	}
 }

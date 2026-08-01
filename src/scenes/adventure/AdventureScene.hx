@@ -13,41 +13,19 @@ import domain.components.Sprite;
 import domain.events.ConsumeEnergyEvent;
 import domain.events.MeleeEvent;
 import domain.systems.EnergySystem;
-import emitter.Emitter;
 import engine.CommandManager.Command;
 import engine.Frame;
 import engine.KeyCode;
 import engine.Scene;
-import h2d.Object;
-import h2d.Text;
 import scenes.options.OptionsScene;
-
-typedef HudText = {
-	ob: Object,
-	fps: Text,
-	wpos: Text,
-	zpos: Text,
-	cpos: Text,
-	turn: Text,
-	clock: Text,
-}
-
-typedef SidePanel = {
-	ob: Object,
-}
 
 class AdventureScene extends Scene {
 	public var energySystem(get, never): EnergySystem;
 
 	private var cameraLocked: Bool = false;
-	private var sidePanel: SidePanel;
-	private var hudText: HudText;
-
 	private var overlay: AdventureView;
 
-	public function new() {
-		emitter = new Emitter();
-	}
+	public function new() {}
 
 	private override function onEnter(): Void {
 		world.systems.vision.computeVision();
@@ -104,9 +82,18 @@ class AdventureScene extends Scene {
 		}
 
 		var p = astar(pos);
+
 		if (p.success) {
 			world.player.entity.remove(Path);
 			world.player.entity.add(new Path(p.path));
+		}
+	}
+
+	private override function onMouseWheel(delta: Float): Void {
+		if (delta > 0) {
+			loop.camera.zoomOut();
+		} else if (delta < 0) {
+			loop.camera.zoomIn();
 		}
 	}
 
@@ -182,10 +169,6 @@ class AdventureScene extends Scene {
 		world.player.entity.fireEvent(new ConsumeEnergyEvent(cost));
 	}
 
-	private function get_energySystem(): EnergySystem {
-		return world.systems.energy;
-	}
-
 	private function astar(goal: Coordinate) {
 		return AStar.getPath({
 			start: world.player.pos.toWorld().toIntPoint(),
@@ -205,5 +188,9 @@ class AdventureScene extends Scene {
 				return Distance.Diagonal(a, b);
 			},
 		});
+	}
+
+	private function get_energySystem(): EnergySystem {
+		return world.systems.energy;
 	}
 }

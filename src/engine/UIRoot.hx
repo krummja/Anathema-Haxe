@@ -33,4 +33,9 @@ class UIRoot extends Box {
 	private function onSceneDestroy() {
 		this.remove();
 	}
+
+	@:allow(engine.SceneManager)
+	private function onResize() {
+		trace("Resized");
+	}
 }

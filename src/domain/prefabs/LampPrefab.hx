@@ -1,8 +1,8 @@
 package domain.prefabs;
 
 import common.struct.Coordinate;
-import ecs.Entity;
 import domain.components.*;
+import ecs.Entity;
 
 class LampPrefab extends Prefab {
 	public function create(options: Dynamic, pos: Coordinate): Entity {
@@ -10,7 +10,7 @@ class LampPrefab extends Prefab {
 		var entity = new Entity(pos);
 
 		entity.add(new Sprite(TK_TILES_01, C_BLUE_0, C_CLEAR, OBJECT));
-		entity.add(new LightSource(1.4, C_FIRE_LIGHT, 2, isLit));
+		entity.add(new LightSource(1.4, C_YELLOW_HC, 2, isLit));
 
 		return entity;
 	}

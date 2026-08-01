@@ -1,8 +1,8 @@
 package data;
 
-import common.util.BitUtil;
 import common.struct.Cardinal;
 import common.struct.DataRegistry;
+import common.util.BitUtil;
 import engine.TileKey;
 
 enum BitmaskStyle {
