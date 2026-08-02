@@ -1,7 +1,7 @@
 package shaders;
 
-import engine.MainLoop;
 import engine.ColorKey;
+import engine.MainLoop;
 
 class SpriteShader extends hxsl.Shader {
 	static var SRC = {

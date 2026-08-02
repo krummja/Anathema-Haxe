@@ -1,13 +1,13 @@
 package engine;
 
-import domain.components.Moniker;
-import data.save.SaveChunk;
-import shaders.SpriteShader;
-import h2d.Bitmap;
-import ecs.Entity;
-import common.struct.IntPoint;
 import common.struct.Grid;
 import common.struct.GridMap;
+import common.struct.IntPoint;
+import data.save.SaveChunk;
+import domain.components.Moniker;
+import ecs.Entity;
+import h2d.Bitmap;
+import shaders.SpriteShader;
 
 class Chunk {
 	public var entities(default, null): GridMap<String>;

@@ -9,7 +9,17 @@ class MainMenuScene extends Scene {
 	public function new() {}
 
 	public override function onEnter() {
+		mountView();
+	}
+
+	public override function onDestroy() {
+		this.ui.removeChildren();
+		this.ui.remove();
+	}
+
+	private function mountView(): Void {
 		var mainMenu = new MainMenuView(this);
+
 		mainMenu.onStartClick = function(e) {
 			okay();
 		}
@@ -19,12 +29,8 @@ class MainMenuScene extends Scene {
 		mainMenu.onQuitClick = function(e) {
 			quit();
 		}
-		this.ui.addComponent(mainMenu);
-	}
 
-	public override function onDestroy() {
-		this.ui.removeChildren();
-		this.ui.remove();
+		this.ui.addComponent(mainMenu);
 	}
 
 	private function okay() {

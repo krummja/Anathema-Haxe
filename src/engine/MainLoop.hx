@@ -93,18 +93,18 @@ class MainLoop {
 		var rows = Math.floor(height / this.UNIT_Y);
 		this.camera.zoom = zoom;
 
-		window.resize(columns * UNIT_X, rows * UNIT_Y);
+		// window.resize(columns * UNIT_X, rows * UNIT_Y);
 		window.vsync = SettingsManager.settings.graphics.vsyncEnabled;
-		window.displayMode = switch (SettingsManager.settings.display.fullScreen) {
-			case "Windowed":
-				Windowed;
-			case "Borderless":
-				Borderless;
-			case "Fullscreen":
-				Fullscreen;
-			case _:
-				Windowed;
-		}
+		// window.displayMode = switch (SettingsManager.settings.display.fullScreen) {
+		// 	case "Windowed":
+		// 		Windowed;
+		// 	case "Borderless":
+		// 		Borderless;
+		// 	case "Fullscreen":
+		// 		Fullscreen;
+		// 	case _:
+		// 		Windowed;
+		// }
 	}
 
 	public inline function render(layer: RenderLayerType, ob: h2d.Object): Void {
