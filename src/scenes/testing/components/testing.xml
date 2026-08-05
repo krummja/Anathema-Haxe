@@ -19,26 +19,11 @@
             height: 100%;
             padding: 8px;
         }
-
-        .testing-inner {
-            height: 100%;
-            horizontal-align: center;
-            padding: 8px;
-        }
-
-        .llabel {
-            vertical-align: center;
-            padding: 4px;
-        }
     </style>
 
     <absolute styleName="fps-wrapper">
         <slabel id="fps" styleName="fps" />
     </absolute>
 
-    <!-- <vbox styleName="testing-root debug"> -->
-        <!-- <hbox styleName="testing-inner debug"> -->
-            <!-- <llabel id="screenSize" styleName="debug" /> -->
-        <!-- </hbox> -->
-    <!-- </vbox> -->
+    <vbox id="root" styleName="testing-root debug"/>
 </box>

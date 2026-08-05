@@ -65,7 +65,7 @@ class Main extends hxd.App {
 
 		initUI();
 
-		this.loop.scenes.set(new TestingScene());
+		this.loop.scenes.set(new MainMenuScene());
 
 		trace("App initialized - launching");
 	}

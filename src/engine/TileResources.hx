@@ -32,6 +32,7 @@ class TileResources {
 		tiles.set(TK_CURSOR,			t[20][23]);
 		tiles.set(TK_LIST_DASH,			t[20][27]);
 		tiles.set(TK_DEBUG_CURSOR, 		t[14][25]);
+		tiles.set(TK_BONES_01,			t[15][0]);
 		// @formatter:on
 		trace("TileResources initialized");
 	}

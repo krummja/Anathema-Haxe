@@ -19,6 +19,7 @@ enum SpawnableType {
 	WOOD_WALL;
 	STICK;
 	FLOATING_TEXT;
+	CORPSE;
 
 	BLANK;
 	DEBUG;

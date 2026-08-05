@@ -16,6 +16,8 @@ class SystemManager {
 	public var floatingText(default, null): FloatingTextSystem;
 	public var expiring(default, null): ExpiringSystem;
 	public var destroy(default, null): DestroySystem;
+	public var health(default, null): HealthSystem;
+	public var death(default, null): DeathSystem;
 	public var debug(default, null): DebugSystem;
 
 	public function new() {}
@@ -33,11 +35,13 @@ class SystemManager {
 		floatingText = new FloatingTextSystem();
 		expiring = new ExpiringSystem();
 		destroy = new DestroySystem();
+		health = new HealthSystem();
+		death = new DeathSystem();
 		debug = new DebugSystem();
 	}
 
 	public function update(frame: Frame) {
-		// death
+		death.update(frame);
 		energy.update(frame);
 		// fuel
 		chunks.update(frame);
@@ -52,7 +56,7 @@ class SystemManager {
 		// projectiles
 		// hitBlink
 		attack.update(frame);
-		// health
+		health.update(frame);
 		// healthBar
 		floatingText.update(frame);
 		// storylines

@@ -1,8 +1,9 @@
 package domain.prefabs.decorators;
 
-import ecs.Entity;
 import data.BehaviorType;
+import data.SpawnableType;
 import domain.components.*;
+import ecs.Entity;
 
 typedef CharacterOptions = {
 	public var ?moniker: Null<String>;
@@ -10,6 +11,7 @@ typedef CharacterOptions = {
 	public var ?energy: Null<Int>;
 	public var ?dexterity: Null<Int>;
 	public var ?behavior: Null<BehaviorType>;
+	public var ?corpse: Null<SpawnableType>;
 }
 
 class BasicCharacterDecorator {
@@ -20,6 +22,9 @@ class BasicCharacterDecorator {
 		entity.add(new Attributes(0, options.dexterity ?? 0, 0, 0, 0, 0, 0, 0, 0));
 		entity.add(new IsCreature());
 		entity.add(new Energy(options.energy.or(-10)));
-		entity.add(new Health());
+
+		var health = new Health();
+		health.corpsePrefab = options.corpse;
+		entity.add(health);
 	}
 }

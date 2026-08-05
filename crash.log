@@ -1,12 +1,14 @@
-Can't cast haxe.ui.components.Image to h2d.Bitmap
+Null access .color
 BUILD: 
 EXCEPTION:
 
 CALL:
 
 Called from $Main.onCrash (Main.hx line 33)
-Called from scenes.testing.$TestingView.__constructor__ (scenes/testing/TestingView.hx line 32)
-Called from scenes.testing.TestingScene.onEnter (scenes/testing/TestingScene.hx line 12)
+Called from uilib.$LogLine.__constructor__ (uilib/LogPanel.hx line 86)
+Called from uilib.LogPanel.addLogline (uilib/LogPanel.hx line 134)
+Called from scenes.testing.$TestingView.__constructor__ (scenes/testing/TestingView.hx line 23)
+Called from scenes.testing.TestingScene.onEnter (scenes/testing/TestingScene.hx line 14)
 Called from engine.SceneManager.enter (engine/SceneManager.hx line 77)
 Called from engine.SceneManager.set (engine/SceneManager.hx line 36)
 Called from Main.init (Main.hx line 68)

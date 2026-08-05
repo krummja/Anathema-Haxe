@@ -29,6 +29,7 @@ enum TileKey {
 	TK_DEAD_TREE_01;
 	TK_PALM_01;
 	TK_BAT_01;
+	TK_BONES_01;
 
 	TK_DIRT_01;
 	TK_DIRT_02;

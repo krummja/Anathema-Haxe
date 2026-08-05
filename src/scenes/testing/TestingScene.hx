@@ -1,7 +1,9 @@
 package scenes.testing;
 
 import engine.Frame;
+import engine.KeyCode;
 import engine.Scene;
+import h2d.HtmlText;
 
 class TestingScene extends Scene {
 	private var view: TestingView;
@@ -17,5 +19,12 @@ class TestingScene extends Scene {
 
 	public override function update(frame: Frame): Void {
 		view.update(frame);
+	}
+
+	private override function onKeyDown(key: KeyCode) {
+		switch (key) {
+			case KEY_NUM_1:
+			case _:
+		}
 	}
 }

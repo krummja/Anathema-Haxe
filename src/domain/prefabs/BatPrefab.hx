@@ -1,9 +1,9 @@
 package domain.prefabs;
 
-import domain.prefabs.decorators.BasicCharacterDecorator;
-import ecs.Entity;
 import common.struct.Coordinate;
 import domain.components.*;
+import domain.prefabs.decorators.BasicCharacterDecorator;
+import ecs.Entity;
 
 class BatPrefab extends Prefab {
 	public function create(options: Dynamic, pos: Coordinate): Entity {
@@ -16,6 +16,7 @@ class BatPrefab extends Prefab {
 			moniker: "Bat",
 			behavior: Zombie,
 			dexterity: 5,
+			corpse: CORPSE,
 		});
 
 		entity.add(new EquipmentSlot("head", "face", Hand, true));

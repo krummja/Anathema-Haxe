@@ -2,8 +2,6 @@ package domain.prefabs;
 
 import common.struct.Coordinate;
 import data.SpawnableType;
-import domain.components.IsCreature;
-import domain.components.Moniker;
 import domain.events.EntitySpawnedEvent;
 import engine.MainLoop;
 
@@ -22,6 +20,7 @@ class Spawner {
 		prefabs.set(WALL, new WallPrefab());
 		prefabs.set(STICK, new StickPrefab());
 		prefabs.set(FLOATING_TEXT, new FloatingTextPrefab());
+		prefabs.set(CORPSE, new CorpsePrefab());
 	}
 
 	public function spawnEntity(type: SpawnableType, ?pos: Coordinate, ?options: Dynamic, ?isDetachable: Bool) {
