@@ -22,6 +22,7 @@ class BasicCharacterDecorator {
 		entity.add(new Attributes(0, options.dexterity ?? 0, 0, 0, 0, 0, 0, 0, 0));
 		entity.add(new IsCreature());
 		entity.add(new Energy(options.energy.or(-10)));
+		entity.add(new Level(options.level.or(1)));
 
 		var health = new Health();
 		health.corpsePrefab = options.corpse;

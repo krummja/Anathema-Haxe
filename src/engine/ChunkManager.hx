@@ -1,8 +1,8 @@
 package engine;
 
-import common.struct.Set;
-import common.struct.IntPoint;
 import common.struct.Grid;
+import common.struct.IntPoint;
+import common.struct.Set;
 
 class ChunkManager {
 	public var chunkGen(default, null): ChunkGen;
@@ -96,13 +96,13 @@ class ChunkManager {
 	public function update() {
 		var toLoad = chunksToLoad.pop();
 
-		if (toLoad != null) {
-			var t = loop.frame.getTimeSinceLastFrame();
-			if (t > 0.0005) {
-				trace("Warning: delaying loading chunk for frame delay");
-				return;
-			}
-		}
+		// if (toLoad != null) {
+		// 	var t = loop.frame.getTimeSinceLastFrame();
+		// 	if (t > 0.0005) {
+		// 		trace("Warning: delaying loading chunk for frame delay");
+		// 		return;
+		// 	}
+		// }
 
 		if (toLoad != null) {
 			loadChunk(toLoad);

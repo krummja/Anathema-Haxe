@@ -23,36 +23,45 @@ class TileResources {
 		var sheet = hxd.Res.tiles.kenny2_transparent;
 		var t = divideBySize(sheet.toTile(), 49, 22);
 
+		initCursors();
 		initPeopleAndCreatures();
 		initTerrainBasic();
 
 		// @formatter:off
-		tiles.set(TK_RECT, 				t[14][39]);
-		tiles.set(TK_BLANK, 			t[5][8]);
-		tiles.set(TK_CURSOR,			t[20][23]);
-		tiles.set(TK_LIST_DASH,			t[20][27]);
-		tiles.set(TK_DEBUG_CURSOR, 		t[14][25]);
-		tiles.set(TK_BONES_01,			t[15][0]);
+		// 								  	 y   	 x
+		tiles.set(TK_RECT, 				t	[14]	[39]);
+		tiles.set(TK_BLANK, 			t	[5]		[8]);
+		tiles.set(TK_CURSOR,			t	[20]	[23]);
+		tiles.set(TK_LIST_DASH,			t	[20]	[27]);
+		tiles.set(TK_DEBUG_CURSOR, 		t	[14]	[25]);
+		tiles.set(TK_BONES_01,			t	[15]	[0]);
 		// @formatter:on
 		trace("TileResources initialized");
 	}
 
-	/**
-	 * Sheet size: 8x10
-	 */
+	private static function initCursors() {
+		var sheet = hxd.Res.tiles.cursors;
+		var t = divideByTiles(sheet.toTile(), 16, 16);
+
+		// @formatter:off
+		// 								  	 y  	 x
+		tiles.set(TK_LOOK_CURSOR,		t	[0]		[0]);
+		tiles.set(TK_DOT,				t	[0]		[1]);
+		tiles.set(TK_POINTER,			t	[0]		[2]);
+		// @formatter:on
+	}
+
 	private static function initPeopleAndCreatures() {
 		var sheet = hxd.Res.tiles.people_and_creatures;
 		var t = divideByTiles(sheet.toTile(), 16, 16);
 
 		// @formatter:off
+		// 								  y  x
 		tiles.set(TK_PLAYER_01, 		t[0][1]);
 		tiles.set(TK_BAT_01, 			t[8][2]);
 		// @formatter:on
 	}
 
-	/**
-	 * 13x3
-	 */
 	private static function initTerrainBasic() {
 		var sheet = hxd.Res.tiles.basic_terrain;
 		var t = divideByTiles(sheet.toTile(), 16, 16);

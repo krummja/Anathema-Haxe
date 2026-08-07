@@ -62,7 +62,9 @@ class InputManager {
 
 		switch (event.kind) {
 			case EMove:
+				var previous = mouse;
 				mouse = new Coordinate(event.relX, event.relY, SCREEN);
+				loop.scenes.current.onMouseMove(mouse, previous);
 			case EKeyUp:
 				this.setModKeys(event.keyCode, KEY_UP);
 			case EKeyDown:

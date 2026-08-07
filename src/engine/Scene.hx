@@ -1,6 +1,8 @@
 package engine;
 
 import common.struct.Coordinate;
+import domain.PlayerManager;
+import domain.World;
 import emitter.Emitter;
 
 abstract class Scene {
@@ -8,7 +10,8 @@ abstract class Scene {
 
 	public var loop(get, null): MainLoop;
 	public var camera(get, null): Camera;
-	public var world(get, null): domain.World;
+	public var world(get, null): World;
+	public var player(get, null): PlayerManager;
 
 	@:allow(engine.SceneManager)
 	private var ui: UIRoot;
@@ -50,18 +53,17 @@ abstract class Scene {
 	private function onKeyUp(key: KeyCode): Void {}
 
 	@:allow(engine.SceneManager)
-	private function handleInput(): Void {
-		// var cmd = MainLoop.getInstance().commands.next();
-		// if (cmd != null) {
-		// 	trace(cmd);
-		// }
+	private function handleInput(): Void {}
+
+	private function get_player(): PlayerManager {
+		return MainLoop.getInstance().world.player;
 	}
 
 	private function get_loop(): MainLoop {
 		return MainLoop.getInstance();
 	}
 
-	private function get_world(): domain.World {
+	private function get_world(): World {
 		return MainLoop.getInstance().world;
 	}
 

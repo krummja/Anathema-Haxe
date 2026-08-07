@@ -1,15 +1,15 @@
 package domain;
 
-import domain.prefabs.Spawner;
-import ecs.EntityRef;
-import ecs.Entity;
-import domain.World;
 import common.struct.Coordinate;
+import domain.World;
+import domain.prefabs.Spawner;
+import ecs.Entity;
+import ecs.EntityRef;
 
 class PlayerManager {
 	public var entityRef: EntityRef;
-
 	public var entity(get, null): Entity;
+
 	public var x(get, null): Float;
 	public var y(get, null): Float;
 	public var pos(get, null): Coordinate;

@@ -10,6 +10,7 @@ import domain.components.IsCreature;
 import domain.components.Move;
 import domain.components.Path;
 import domain.components.Sprite;
+import domain.components.Targeting;
 import domain.events.ConsumeEnergyEvent;
 import domain.events.MeleeEvent;
 import domain.systems.EnergySystem;
@@ -17,6 +18,7 @@ import engine.CommandManager.Command;
 import engine.Frame;
 import engine.KeyCode;
 import engine.Scene;
+import scenes.cursor.LookScene;
 import scenes.options.OptionsScene;
 
 class AdventureScene extends Scene {
@@ -25,7 +27,9 @@ class AdventureScene extends Scene {
 	private var cameraLocked: Bool = false;
 	private var overlay: AdventureView;
 
-	public function new() {}
+	public function new() {
+		inputDomain = INPUT_DOMAIN_GAME;
+	}
 
 	private override function onEnter(): Void {
 		world.systems.vision.computeVision();
@@ -122,6 +126,8 @@ class AdventureScene extends Scene {
 					loop.scenes.push(new Console());
 				case CMD_WAIT:
 					EnergySystem.consumeEnergy(world.player.entity, ACT_WAIT);
+				case CMD_LOOK:
+					loop.scenes.push(new LookScene());
 				case _:
 			}
 		}
@@ -149,21 +155,28 @@ class AdventureScene extends Scene {
 
 		var other = entities.find((e) -> e.has(IsCreature));
 
-		// Attacker
+		// Target cell has another entity in it
 		if (other != null) {
+			// Check their disposition towards the player
 			var isHostile = world.factions.areEntitiesHostile(other, world.player.entity);
 
 			if (isHostile) {
+				// If hostile, attack them
 				world.player.entity.fireEvent(new MeleeEvent(other, world.player.entity));
 				world.player.entity.add(new Attacker(dir));
+				world.player.entity.add(new Targeting(other));
+
+				// Return here so that we don't actually execute a move to the cell
 				return;
 			} else {
+				// Otherwise, swap places with them to prevent entities from stacking
 				other.add(new Move(world.player.pos, 0.1, EASE_INSTANT));
 				var eMove = EnergySystem.getEnergyCost(other, ACT_SWAPPED);
 				other.fireEvent(new ConsumeEnergyEvent(eMove));
 			}
 		}
 
+		// If we didn't return early (attacking) then move into the target space
 		world.player.entity.add(new Move(target.asWorld(), 0.1, EASE_INSTANT));
 		var cost = EnergySystem.getEnergyCost(world.player.entity, ACT_MOVE);
 		world.player.entity.fireEvent(new ConsumeEnergyEvent(cost));

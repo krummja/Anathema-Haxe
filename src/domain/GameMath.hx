@@ -12,6 +12,10 @@ class GameMath {
 	public static var XP_SPREAD = 8;
 	public static var XP_POWER = 3;
 
+	public static function getMaxHealth(level: Int, fortitudeStat: Int): Int {
+		return 10 + level * 10 + fortitudeStat * 10;
+	}
+
 	public static function getAttributePointTotal(level: Int): Int {
 		return 7 + level;
 	}

@@ -1,8 +1,8 @@
 package domain.prefabs;
 
+import common.struct.Coordinate;
 import domain.components.*;
 import ecs.Entity;
-import common.struct.Coordinate;
 
 class PlayerPrefab extends Prefab {
 	public function create(options: Dynamic, pos: Coordinate) {
@@ -10,6 +10,7 @@ class PlayerPrefab extends Prefab {
 
 		entity.add(new Sprite(TK_PLAYER_01, C_WHITE, C_BLUE_1, PLAYER));
 		entity.add(new IsPlayer());
+		entity.add(new Level(20));
 		entity.add(new Energy(10));
 		entity.add(new Vision(40));
 		entity.add(new Moniker("Player"));

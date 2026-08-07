@@ -44,11 +44,17 @@
             <hbox id="bottomWrapper" styleName="bottom-wrapper"></hbox>
         </hbox>
         <vbox id="sideContainer" styleName="side-container">
-            <vbox id="playerInfo" styleName="side-wrapper"></vbox>
+            <vbox id="playerInfo" styleName="side-wrapper">
+                <slabel id="hp"/>
+                <slabel id="lvl"/>
+                <slabel id="xp"/>
+                <slabel id="tgtname"/>
+                <slabel id="tgthp"/>
+            </vbox>
             <vbox id="sideWrapper" styleName="side-wrapper">
                 <slabel id="zoom"/>
-                <llabel id="camx"/>
-                <xllabel id="posx"/>
+                <slabel id="camx"/>
+                <slabel id="posx"/>
             </vbox>
         </vbox>
     </box>

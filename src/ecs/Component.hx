@@ -1,8 +1,8 @@
 package ecs;
 
-import haxe.rtti.Meta;
 import data.save.ComponentFields;
 import engine.MainLoop;
+import haxe.rtti.Meta;
 
 abstract class Component {
 	public var bit(get, null): Int = 0;

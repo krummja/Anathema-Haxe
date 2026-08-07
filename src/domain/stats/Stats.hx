@@ -20,6 +20,7 @@ class Stats {
 		stats.register(Armor, new StatArmor());
 		stats.register(ArmorRegen, new StatArmorRegen());
 		stats.register(Dodge, new StatDodge());
+		stats.register(Fortitude, new StatFortitude());
 	}
 
 	public static function get(type: StatType): Stat {

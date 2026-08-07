@@ -3,7 +3,7 @@ package scenes.mainmenu;
 import engine.Scene;
 import haxe.ui.components.Label;
 import haxe.ui.containers.Box;
-import scenes.ui.Events;
+import scenes.Events;
 
 @:build(haxe.ui.macros.ComponentMacros.build("./components/main_menu.xml"))
 class MainMenuView extends Box {

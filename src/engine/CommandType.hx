@@ -16,4 +16,5 @@ enum abstract CommandType(String) to String {
 	var CMD_MOVE_SW = "move_sw";
 	var CMD_MOVE_W = "move_w";
 	var CMD_MOVE_NW = "move_nw";
+	var CMD_LOOK = "look";
 }

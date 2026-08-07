@@ -14,6 +14,7 @@ class BatPrefab extends Prefab {
 
 		BasicCharacterDecorator.decorate(entity, {
 			moniker: "Bat",
+			level: 1,
 			behavior: Zombie,
 			dexterity: 5,
 			corpse: CORPSE,

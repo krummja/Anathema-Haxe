@@ -9,4 +9,5 @@ enum StatType {
 	Blades;
 	Bows;
 	Cudgel;
+	Fortitude;
 }

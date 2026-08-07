@@ -1,9 +1,9 @@
 package engine;
 
 import engine.CommandManager;
-import engine.KeyCode;
 import engine.CommandType;
 import engine.InputDomainType;
+import engine.KeyCode;
 
 class Commands {
 	public static var values: Array<Command>;
@@ -31,6 +31,8 @@ class Commands {
         cmd(INPUT_DOMAIN_DEFAULT,   CMD_MOVE_W,                 KEY_A,      false,  false,  false);
         cmd(INPUT_DOMAIN_DEFAULT,   CMD_MOVE_NW,                KEY_Q,      false,  false,  false);
         cmd(INPUT_DOMAIN_DEFAULT,   CMD_WAIT,                   KEY_S,      false,  false,  false);
+
+        cmd(INPUT_DOMAIN_GAME,      CMD_LOOK,                   KEY_L,      false,  false,  false);
         // @formatter:on
 		trace("Commands initialized");
 	}

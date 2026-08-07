@@ -14,7 +14,6 @@ import haxe.CallStack;
 import haxe.EnumFlags;
 import haxe.ui.Toolkit;
 import scenes.mainmenu.MainMenuScene;
-import scenes.testing.TestingScene;
 
 class Main extends hxd.App {
 	public static function main(): Void {

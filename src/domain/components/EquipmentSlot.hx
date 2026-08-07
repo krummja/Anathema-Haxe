@@ -1,15 +1,15 @@
 package domain.components;
 
-import domain.events.UnequippedEvent;
+import data.EquipmentSlotType;
+import data.WeaponFamilyType;
+import domain.events.MeleeEvent;
+import domain.events.MovedEvent;
 import domain.events.QueryEquippedEvent.QueryEquippedEvent;
 import domain.events.QueryStatModEquippedEvent;
 import domain.events.QueryStatModEvent;
-import domain.events.MeleeEvent;
-import domain.events.MovedEvent;
-import ecs.Entity;
-import data.WeaponFamilyType;
-import data.EquipmentSlotType;
+import domain.events.UnequippedEvent;
 import ecs.Component;
+import ecs.Entity;
 
 class EquipmentSlot extends Component {
 	private static var allowMultiple = true;
@@ -27,7 +27,13 @@ class EquipmentSlot extends Component {
 	public var displayName(get, never): String;
 	public var contentDisplay(get, never): String;
 
-	public function new(name: String, slotKey: String, slotType: EquipmentSlotType, isPrimary: Bool = false, ?defaultWeapon: WeaponFamilyType) {
+	public function new(
+		name: String,
+		slotKey: String,
+		slotType: EquipmentSlotType,
+		isPrimary: Bool = false,
+		?defaultWeapon: WeaponFamilyType
+	) {
 		this.name = name;
 		this.slotKey = slotKey;
 		this.slotType = slotType;

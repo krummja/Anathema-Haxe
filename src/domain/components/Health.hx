@@ -158,9 +158,10 @@ class Health extends Component {
 	}
 
 	private function get_max(): Int {
-		// TODO Calculation based on relevant resilience
-		// var stat = Stats.getValue()
-		return 100;
+		var stat = Stats.getValue(Fortitude, entity);
+		var lvlComp = entity.get(Level);
+		var level = lvlComp == null ? 0 : lvlComp.level;
+		return GameMath.getMaxHealth(level, stat);
 	}
 
 	private function set_armor(value: Int): Int {

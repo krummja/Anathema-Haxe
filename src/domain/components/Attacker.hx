@@ -1,8 +1,8 @@
 package domain.components;
 
+import common.struct.Cardinal;
 import common.struct.Coordinate;
 import common.util.Easing.EasingType;
-import common.struct.Cardinal;
 import ecs.Component;
 
 class Attacker extends Component {

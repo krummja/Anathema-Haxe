@@ -1,19 +1,19 @@
 package ecs;
 
-import domain.components.Moniker;
+import bits.Bits;
+import common.struct.Cardinal;
+import common.struct.Coordinate;
 import common.struct.FloatPoint;
 import common.struct.IntPoint;
-import common.struct.Cardinal;
-import domain.components.Sprite;
-import domain.events.EntityLoadedEvent;
+import common.util.UniqueId;
 import data.save.EntitySaveData;
 import domain.components.IsDetached;
-import common.util.UniqueId;
-import common.struct.Coordinate;
+import domain.components.Moniker;
+import domain.components.Sprite;
+import domain.events.EntityLoadedEvent;
+import domain.events.MovedEvent;
 import engine.Chunk;
 import engine.MainLoop;
-import bits.Bits;
-import domain.events.MovedEvent;
 
 class Entity {
 	public static function load(data: EntitySaveData, tickDelta: Int = 0): Entity {
@@ -51,8 +51,8 @@ class Entity {
 		return entity;
 	}
 
-	public var flags(default, null): Bits;
 	public var id(default, null): String;
+	public var flags(default, null): Bits;
 	public var pos(get, set): Coordinate;
 	public var x(get, set): Float;
 	public var y(get, set): Float;
@@ -135,7 +135,7 @@ class Entity {
 		}
 	}
 
-	public inline function has<T: Component>(type: Class<Component>): Bool {
+	public inline function has(type: Class<Component>): Bool {
 		return flags.isSet(registry.getBit(type));
 	}
 
