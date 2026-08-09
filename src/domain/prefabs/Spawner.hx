@@ -16,6 +16,7 @@ class Spawner {
 		prefabs.set(TALL_GRASS, new PlantPrefab());
 		prefabs.set(BAT, new BatPrefab());
 		prefabs.set(BLANK, new BlankPrefab());
+		prefabs.set(FLOOR, new BlankPrefab());
 		prefabs.set(DEBUG, new DebugPrefab());
 		prefabs.set(WALL, new WallPrefab());
 		prefabs.set(STICK, new StickPrefab());

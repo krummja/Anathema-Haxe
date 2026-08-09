@@ -1,0 +1,13 @@
+-cp src
+-lib heaps
+-lib domkit
+-lib hldx
+-lib bits
+-lib hlopenal
+-lib json2object
+-lib haxeui-core
+-lib haxeui-heaps
+-lib utest
+-lib test-adapter
+-hl build/hl/tests.hl
+-main TestMain

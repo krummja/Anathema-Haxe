@@ -48,23 +48,27 @@ class Chunk {
 		this.tiles = new h2d.Object();
 
 		if (save == null) {
+			// Default exploration to all false
 			exploration.fill(false);
+
+			// Pass this chunk to the generator to populate cells
 			MainLoop.getInstance().world.chunks.chunkGen.generate(this);
-			buildTiles();
 		} else {
 			var tickDelta = MainLoop.getInstance().world.clock.tick - save.tick;
+
 			width = save.width;
 			height = save.height;
 
+			// Load cells
 			cells.load(save.cells, (c) -> c);
-			buildTiles();
 
+			// Load exploration data
 			exploration.load(save.explored, (v) -> v);
-
 			for (e in exploration) {
 				setExplore(e.pos, e.value, false);
 			}
 
+			// Load entities
 			entities.load(save.entities, (edata) -> {
 				return edata.map((data) -> {
 					Entity.load(data, tickDelta);
@@ -72,6 +76,9 @@ class Chunk {
 				});
 			});
 		}
+
+		// Build tiles from cell data
+		buildTiles();
 
 		for (detachedId in MainLoop.getInstance().registry.getDetachedEntities()) {
 			var e = MainLoop.getInstance().registry.getEntity(detachedId);

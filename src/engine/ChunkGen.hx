@@ -1,9 +1,9 @@
 package engine;
 
 import common.struct.Coordinate;
+import common.struct.IntPoint;
 import domain.prefabs.Spawner;
 import domain.terrain.Biomes;
-import engine.BiomeType;
 import hxd.Rand;
 
 class ChunkGen {
@@ -14,24 +14,49 @@ class ChunkGen {
 
 	public function generate(chunk: Chunk) {
 		var r = new Rand(seed + chunk.chunkId);
+
 		chunk.cells.fillFn((idx) -> generateCell(r, chunk, idx));
 
-		for (cell in chunk.cells) {
-			var worldPos = chunk.worldPos.add(cell.pos);
+		for (gridItem in chunk.cells) {
+			var worldPos = chunk.worldPos.add(gridItem.pos);
 
-			if (cell.value.terrain != TERRAIN_WATER && r.bool(0.01)) {
-				if (r.bool(0.2)) {
-					var biome = Biomes.get(cell.value.biomeKey);
-					var e = biome.creatures.pick(r);
-					if (e != null) {
-						Spawner.spawn(e, worldPos.asWorld());
-					}
+			// if (gridItem.value.terrain != TERRAIN_WATER && r.bool(0.01)) {
+			// 	if (r.bool(0.2)) {
+			// 		var biome = Biomes.get(gridItem.value.biomeKey);
+			// 		var e = biome.creatures.pick(r);
+			// 		if (e != null) {
+			// 			Spawner.spawn(e, worldPos.asWorld());
+			// 		}
+			// 	}
+			// }
+
+			var b = Biomes.get(gridItem.value.biomeKey);
+			var cell = gridItem.value;
+			b.spawnEntity(worldPos, cell);
+		}
+
+		var testTemplate = TemplateResources.get(Test);
+		var templatePos = new Coordinate(30, 30, WORLD);
+
+		var entities = [];
+		for (x in templatePos.x.floor()...templatePos.x.floor() + testTemplate.width) {
+			for (y in templatePos.y.floor()...templatePos.y.floor() + testTemplate.height) {
+				for (entity in world.getEntitiesAt(new IntPoint(x, y))) {
+					entities.push(entity);
 				}
 			}
-
-			var b = Biomes.get(cell.value.biomeKey);
-			b.spawnEntity(worldPos, cell.value);
 		}
+
+		for (entity in entities) {
+			entity.destroy();
+		}
+
+		testTemplate.paint([
+			0xffffff.toHxdColor().toString() => FLOOR,
+			0xff00ff.toHxdColor().toString() => WALL,
+		]);
+
+		testTemplate.materialize(templatePos);
 	}
 
 	public function generateCell(r: Rand, chunk: Chunk, idx: Int) {

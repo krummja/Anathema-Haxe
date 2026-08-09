@@ -1,9 +1,9 @@
 package engine;
 
-import data.SpawnableType;
-import common.struct.WeightedTable;
 import common.rand.Perlin;
 import common.struct.IntPoint;
+import common.struct.WeightedTable;
+import data.SpawnableType;
 import hxd.Rand;
 
 class Biome {

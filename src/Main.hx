@@ -8,6 +8,7 @@ import engine.Commands;
 import engine.Factions;
 import engine.MainLoop;
 import engine.SettingsManager;
+import engine.TemplateResources;
 import engine.TextResources;
 import engine.TileResources;
 import haxe.CallStack;
@@ -64,6 +65,9 @@ class Main extends hxd.App {
 
 		initUI();
 
+		@:privateAccess
+		haxe.MainLoop.add(() -> {});
+
 		this.loop.scenes.set(new MainMenuScene());
 
 		trace("App initialized - launching");
@@ -111,6 +115,7 @@ class Main extends hxd.App {
 	private function initAssets(): Void {
 		TextResources.init();
 		TileResources.init();
+		TemplateResources.init();
 		ColorPaletteResources.init();
 		Bitmasks.init();
 		Commands.init();

@@ -1,11 +1,11 @@
 package domain.terrain;
 
-import domain.prefabs.Spawner;
-import engine.TileKey;
-import engine.Cell;
 import common.struct.IntPoint;
+import domain.prefabs.Spawner;
 import engine.Biome;
+import engine.Cell;
 import engine.ColorKey;
+import engine.TileKey;
 
 class PrairieBiome extends Biome {
 	public function new(seed: Int) {

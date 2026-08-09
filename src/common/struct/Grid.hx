@@ -51,7 +51,7 @@ class Grid<T> {
 		return this.data[idx];
 	}
 
-	public function get(x: Int, y: Int): T {
+	public function get(x: Int, y: Int): Null<T> {
 		if (this.isOutOfBounds(x, y)) return null;
 		var idx = this.idx(x, y);
 		return this.data[idx];

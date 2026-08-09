@@ -10,10 +10,14 @@
             "type": "hl",
             "profileSamples": 0,
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": {
-                "type": "haxe",
-                "args": "active configuration"
-            }
+            "program": "${workspaceFolder}/build/hl/anathema.hl"
+        },
+        {
+            "name": "HashLink (test)",
+            "request": "launch",
+            "type": "hl",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/build/hl/tests.hl"
         }
     ]
 }

@@ -1,0 +1,42 @@
+@startuml Test
+hide empty description
+skinparam stateDiagramEdgeLabelStyle node
+skinparam ranksep 20
+
+    state SaveChunk
+
+    state Chunk {
+        state load {
+            state save <<inputPin>>
+
+            state c1 <<choice>>
+
+            state IsNotNull
+        }
+    }
+
+    state ChunkGen {
+        state generate
+    }
+
+    [*] -> SaveChunk
+    SaveChunk -> Chunk.load.save
+    Chunk.load.save -down-> c1
+
+    c1 -> ChunkGen.generate : Is not loaded
+    c1 -> IsNotNull : Is loaded
+
+    ' state s0
+
+    ' state "This is State 1" as s1 {
+    '     s1: State description
+    '     state s2
+    '     state s3: some description
+    '     state s4
+    ' }
+
+    ' [*] -> s0
+    ' s0 -> s2
+    ' s2 -> s3
+    ' s3 -> s4
+@enduml

@@ -85,8 +85,6 @@ class World {
 		// Load the player chunk
 		chunks.loadChunk(pos.toChunkId());
 
-		// Spawner.spawn(BAT, new Coordinate((zoneWidth / 2).floor() + 8, (zoneHeight / 2).floor(), WORLD));
-
 		// Initialize the player
 		this.player.create(pos);
 

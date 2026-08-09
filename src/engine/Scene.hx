@@ -3,11 +3,8 @@ package engine;
 import common.struct.Coordinate;
 import domain.PlayerManager;
 import domain.World;
-import emitter.Emitter;
 
 abstract class Scene {
-	public var emitter: Emitter;
-
 	public var loop(get, null): MainLoop;
 	public var camera(get, null): Camera;
 	public var world(get, null): World;
@@ -73,7 +70,5 @@ abstract class Scene {
 }
 
 class EmptyScene extends Scene {
-	public function new() {
-		this.emitter = new Emitter();
-	}
+	public function new() {}
 }

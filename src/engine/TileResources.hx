@@ -67,6 +67,7 @@ class TileResources {
 		var t = divideByTiles(sheet.toTile(), 16, 16);
 
 		// @formatter:off
+		// 								  y  x
 		tiles.set(TK_FOLIAGE_01, 		t[0][1]);
 		tiles.set(TK_TILES_01, 			t[0][2]);
 		tiles.set(TK_TILES_02, 			t[0][3]);

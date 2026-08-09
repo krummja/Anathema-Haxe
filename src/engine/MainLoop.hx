@@ -70,6 +70,7 @@ class MainLoop {
 		// Register lifecycle callbacks
 		window.onClose = onClose;
 
+		// Register window event callbacks
 		window.addResizeEvent(scenes.onResize);
 	}
 
