@@ -3,10 +3,9 @@ package domain.systems;
 import engine.Projection;
 import engine.Frame;
 import ecs.Query;
-import ecs.System;
 import domain.components.*;
 
-class SpriteSystem extends System {
+class SpriteSystem extends DomainSystem {
 	var sprites: Query;
 
 	public function new() {

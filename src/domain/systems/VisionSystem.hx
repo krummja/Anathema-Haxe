@@ -8,10 +8,9 @@ import common.struct.Coordinate;
 import engine.Frame;
 import ecs.Query;
 import ecs.Entity;
-import ecs.System;
 import domain.components.*;
 
-class VisionSystem extends System {
+class VisionSystem extends DomainSystem {
 	var visibles: Query;
 
 	public var flagRecompute: Bool;

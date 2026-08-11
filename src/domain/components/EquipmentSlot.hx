@@ -3,13 +3,13 @@ package domain.components;
 import data.EquipmentSlotType;
 import data.WeaponFamilyType;
 import domain.events.MeleeEvent;
-import domain.events.MovedEvent;
 import domain.events.QueryEquippedEvent.QueryEquippedEvent;
 import domain.events.QueryStatModEquippedEvent;
 import domain.events.QueryStatModEvent;
 import domain.events.UnequippedEvent;
 import ecs.Component;
 import ecs.Entity;
+import ecs.MovedEvent;
 
 class EquipmentSlot extends Component {
 	private static var allowMultiple = true;

@@ -63,7 +63,7 @@
     </style>
     <vbox styleName="options-wrapper">
         <vbox styleName="page-wrapper">
-            <section-header text="Settings" styleName="page-title"/>
+            <section-header text="Settings" styleName="page-title" />
             <vbox styleName="page-body">
                 <accordion id="ac1" width="100%" height="100%" styleName="settings-page">
                     <vbox id="general" text="General" styleName="setting-group"></vbox>
@@ -76,8 +76,8 @@
         </vbox>
         <box styleName="button-controls">
             <hbox styleName="button-wrapper">
-                <button id="btnBack" text="Back"/>
-                <button id="btnSave" text="Save"/>
+                <button id="btnBack" text="Back" />
+                <button id="btnSave" text="Save" />
             </hbox>
         </box>
     </vbox>

@@ -4,10 +4,9 @@ import domain.components.Health;
 import domain.components.IsDestroyed;
 import ecs.Entity;
 import ecs.Query;
-import ecs.System;
 import engine.Frame;
 
-class HealthSystem extends System {
+class HealthSystem extends DomainSystem {
 	private var query: Query;
 
 	public function new() {

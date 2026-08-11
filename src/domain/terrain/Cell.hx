@@ -1,7 +1,7 @@
-package engine;
+package domain.terrain;
 
-import engine.BiomeType;
 import engine.ColorKey;
+import engine.TileKey;
 
 typedef Cell = {
 	idx: Int,

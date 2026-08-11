@@ -4,9 +4,8 @@ import common.struct.FloatPoint;
 import engine.Frame;
 import domain.components.*;
 import ecs.Query;
-import ecs.System;
 
-class AttackSystem extends System {
+class AttackSystem extends DomainSystem {
 	private var query: Query;
 
 	public function new() {
@@ -35,11 +34,12 @@ class AttackSystem extends System {
 			var target = new FloatPoint(offset.x * 0.3, offset.y * 0.3);
 			var goal = entity.pos.add(target.asWorld());
 			var newPos = entity.pos.easeZig(goal, progress, attacker.ease);
+			var sprite = entity.get(Sprite);
 
-			entity.offset = newPos;
+			sprite.offsetTo(newPos);
 
 			if (progress >= 1) {
-				entity.offset = attacker.startPos;
+				sprite.offsetTo(attacker.startPos);
 				entity.remove(Attacker);
 			}
 		}

@@ -19,7 +19,7 @@ import engine.Frame;
 import engine.KeyCode;
 import engine.Scene;
 import scenes.cursor.LookScene;
-import scenes.options.OptionsScene;
+import scenes.pause.PauseScene;
 
 class AdventureScene extends Scene {
 	public var energySystem(get, never): EnergySystem;
@@ -44,18 +44,22 @@ class AdventureScene extends Scene {
 
 		if (energySystem.isPlayersTurn) {
 			var cmd = loop.commands.peek();
+
 			if (cmd != null) {
-				if (world.player.entity.has(Move)) {
+				if (world.player.entity.has(Path)) {
+					// If the player is actively pathing, stop at next step
+					cancelPathing();
+				} else if (world.player.entity.has(Move)) {
+					// If moving, hurry up and finish the frame
 					world.systems.movement.finishMoveFast(world.player.entity);
 				} else {
+					// Handle command as normal
 					handle(loop.commands.next());
 				}
 			}
 		}
 
-		if (!cameraLocked) {
-			updateCamera(frame);
-		}
+		updateCamera(frame);
 
 		this.overlay.update(frame);
 	}
@@ -63,7 +67,9 @@ class AdventureScene extends Scene {
 	private function updateCamera(frame: Frame): Void {
 		var cfocus = loop.camera.focus.toWorld().toFloatPoint();
 		var playerSprite = loop.world.player.entity.get(Sprite);
-		var visualPos = playerSprite != null && playerSprite.renderPos != null ? playerSprite.renderPos : loop.world.player.pos;
+		var visualPos =
+			playerSprite != null &&
+			playerSprite.renderPos != null ? playerSprite.renderPos : loop.world.player.pos;
 		var ctarget = visualPos.toFloatPoint();
 		loop.camera.focus = ctarget.asWorld();
 	}
@@ -81,7 +87,10 @@ class AdventureScene extends Scene {
 	private override function onMouseDown(pos: Coordinate) {
 		var screenPos = pos.toScreen();
 
-		if (screenPos.x > camera.viewportWidth || screenPos.y > camera.viewportHeight) {
+		if (
+			screenPos.x > camera.viewportWidth ||
+			screenPos.y > camera.viewportHeight
+		) {
 			return;
 		}
 
@@ -101,11 +110,17 @@ class AdventureScene extends Scene {
 		}
 	}
 
+	private function cancelPathing() {
+		if (world.player.entity.has(Path)) {
+			var path = world.player.entity.get(Path);
+			path.dropRemaining();
+		}
+	}
+
 	private function handle(cmd: Command): Void {
 		if (cmd != null) {
 			switch cmd.type {
-				case CMD_CANCEL:
-					pause();
+				// Movement
 				case CMD_MOVE_N:
 					move(NORTH);
 				case CMD_MOVE_NE:
@@ -122,19 +137,27 @@ class AdventureScene extends Scene {
 					move(WEST);
 				case CMD_MOVE_NW:
 					move(NORTH_WEST);
-				case CMD_CONSOLE:
-					loop.scenes.push(new Console());
+
+				// Game actions
 				case CMD_WAIT:
 					EnergySystem.consumeEnergy(world.player.entity, ACT_WAIT);
 				case CMD_LOOK:
 					loop.scenes.push(new LookScene());
+
+				// App actions
+				case CMD_CANCEL:
+					pause();
+				case CMD_CONSOLE:
+					loop.scenes.push(new Console());
+
+				// Etc.
 				case _:
 			}
 		}
 	}
 
 	private function pause() {
-		loop.scenes.push(new OptionsScene());
+		loop.scenes.push(new PauseScene());
 	}
 
 	private function move(dir: Cardinal) {

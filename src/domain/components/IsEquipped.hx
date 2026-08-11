@@ -1,8 +1,8 @@
 package domain.components;
 
-import domain.events.MovedEvent;
 import ecs.Entity;
 import ecs.Component;
+import ecs.MovedEvent;
 
 class IsEquipped extends Component {
 	@save public var slotKey(default, null): String;

@@ -1,4 +1,4 @@
-package engine;
+package domain.terrain;
 
 enum TerrainType {
 	TERRAIN_WATER;

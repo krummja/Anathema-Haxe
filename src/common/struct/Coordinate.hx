@@ -4,7 +4,6 @@ enum CoordinateSpace {
 	SCREEN;
 	PIXEL;
 	WORLD;
-	CHUNK;
 	ZONE;
 }
 

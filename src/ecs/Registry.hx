@@ -3,6 +3,8 @@ package ecs;
 import common.struct.Set;
 
 class Registry {
+	public static var instance(default, null): Registry;
+
 	private var cbit: Int;
 	private var bits: Map<String, Int>;
 	private var queries: Array<Query>;
@@ -13,6 +15,7 @@ class Registry {
 	public var entities(get, never): Array<Entity>;
 
 	public function new() {
+		instance = this;
 		cbit = 0;
 		size = 0;
 		bits = new Map();

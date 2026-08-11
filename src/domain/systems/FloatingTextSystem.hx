@@ -3,7 +3,6 @@ package domain.systems;
 import common.struct.Coordinate;
 import domain.components.FloatingText;
 import ecs.Query;
-import ecs.System;
 import engine.Frame;
 import engine.TextResources;
 import h2d.Object;
@@ -15,7 +14,7 @@ typedef FloatingTextOb = {
 	var start: Coordinate;
 }
 
-class FloatingTextSystem extends System {
+class FloatingTextSystem extends DomainSystem {
 	private var query: Query;
 	private var floaters: Map<String, FloatingTextOb>;
 

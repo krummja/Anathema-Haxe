@@ -11,7 +11,6 @@ import domain.prefabs.Spawner;
 import domain.stats.Stats;
 import ecs.Component;
 import engine.ColorKey;
-import engine.MainLoop;
 import hxd.Rand;
 
 class Health extends Component {
@@ -61,7 +60,7 @@ class Health extends Component {
 	private function onAttacked(evt: AttackedEvent) {
 		var r = Rand.create();
 		var dodge = Stats.getValue(Dodge, entity);
-		var ac = r.roll(MainLoop.getInstance().DIE_SIZE, dodge);
+		var ac = r.roll(GameMath.DIE_SIZE, dodge);
 		var isPlayer = entity.has(IsPlayer);
 
 		var offset = new Coordinate(16, 0, PIXEL);

@@ -3,9 +3,8 @@ package domain.systems;
 import engine.Frame;
 import domain.components.IsDestroyed;
 import ecs.Query;
-import ecs.System;
 
-class DestroySystem extends System {
+class DestroySystem extends DomainSystem {
 	var query: Query;
 
 	public function new() {

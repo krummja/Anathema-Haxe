@@ -3,10 +3,9 @@ package domain.systems;
 import data.Bitmasks;
 import ecs.Entity;
 import ecs.Query;
-import ecs.System;
 import domain.components.*;
 
-class BitmaskSystem extends System {
+class BitmaskSystem extends DomainSystem {
 	var query: Query;
 
 	public function new() {

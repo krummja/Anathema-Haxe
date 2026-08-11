@@ -1,7 +1,5 @@
-package domain.events;
+package ecs;
 
-import ecs.Entity;
-import ecs.EntityEvent;
 import common.struct.Coordinate;
 
 class MovedEvent extends EntityEvent {

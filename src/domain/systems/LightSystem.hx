@@ -1,14 +1,12 @@
 package domain.systems;
 
 import engine.Frame;
-import engine.MainLoop;
 import common.util.Colors;
 import common.struct.IntPoint;
 import common.algorithm.Shadowcast;
 import shaders.SpriteShader;
 import domain.components.*;
 import ecs.Query;
-import ecs.System;
 
 typedef LightFragment = {
 	pos: IntPoint,
@@ -24,7 +22,7 @@ typedef TileLightData = {
 	color: Int,
 }
 
-class LightSystem extends System {
+class LightSystem extends DomainSystem {
 	public var query: Query;
 
 	public var lightFragments: Map<Int, Array<LightFragment>> = [];
@@ -153,8 +151,6 @@ class LightSystem extends System {
 	}
 
 	private function applyLights() {
-		var world = MainLoop.getInstance().world;
-
 		var walls: Map<Int, Array<LightFragment>> = new Map();
 		var floors: Map<Int, Array<LightFragment>> = new Map();
 
@@ -239,20 +235,14 @@ class LightSystem extends System {
 
 	private function getShader(pos: IntPoint): SpriteShader {
 		var w = pos.asWorld();
-		var chunkIdx = w.toChunkId();
-		var chunk = world.chunks.getChunkById(chunkIdx);
+		var zoneIdx = w.toZoneId();
+		var zone = world.zones.getZoneById(zoneIdx);
 
-		if (chunk == null || !chunk.isLoaded) {
+		if (zone == null || !zone.isLoaded) {
 			return null;
 		}
 
-		var chunkLocal = w.toChunkLocal().toIntPoint();
-		var bm = chunk.bitmaps.get(chunkLocal.x, chunkLocal.y);
-
-		if (bm == null) {
-			return null;
-		}
-
-		return bm.getShader(SpriteShader);
+		var zoneLocal = w.toZoneLocal().toIntPoint();
+		return zone.getTileShader(zoneLocal);
 	}
 }

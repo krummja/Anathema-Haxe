@@ -1,4 +1,4 @@
-package engine;
+package domain.terrain;
 
 enum BiomeType {
 	PRAIRIE;

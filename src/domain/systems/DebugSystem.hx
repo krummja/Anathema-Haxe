@@ -4,9 +4,8 @@ import domain.components.Moniker;
 import engine.Frame;
 import domain.components.Sprite;
 import ecs.Query;
-import ecs.System;
 
-class DebugSystem extends System {
+class DebugSystem extends DomainSystem {
 	var query: Query;
 
 	public function new() {

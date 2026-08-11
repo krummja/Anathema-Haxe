@@ -7,10 +7,9 @@ import domain.components.IsDestroyed;
 import domain.components.MoveComplete;
 import domain.components.Move;
 import domain.components.Sprite;
-import ecs.System;
 import ecs.Query;
 
-class MovementSystem extends System {
+class MovementSystem extends DomainSystem {
 	var movers: Query;
 	var moved: Query;
 	var completed: Query;

@@ -1,8 +1,8 @@
 package domain.components;
 
-import domain.events.MovedEvent;
 import ecs.Component;
 import ecs.Entity;
+import ecs.MovedEvent;
 
 class IsInventoried extends Component {
 	@save private var holderId: String;

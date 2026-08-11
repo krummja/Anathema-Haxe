@@ -9,7 +9,6 @@ import h2d.Console;
 class MainLoop {
 	public var UNIT_X: Int = 16;
 	public var UNIT_Y: Int = 16;
-	public var DIE_SIZE: Int = 12;
 	public var CLEAR_COLOR: ColorKey = C_CLEAR;
 	public var PALETTE_KEY: ColorPaletteKey = PALETTE_ANATHEMA;
 

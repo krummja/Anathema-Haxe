@@ -1,7 +1,6 @@
 package ecs;
 
 import data.save.ComponentFields;
-import engine.MainLoop;
 import haxe.rtti.Meta;
 
 abstract class Component {
@@ -94,7 +93,7 @@ abstract class Component {
 			return bit;
 		}
 
-		bit = MainLoop.getInstance().registry.register(Type.getClass(this));
+		bit = Registry.instance.register(Type.getClass(this));
 
 		return bit;
 	}

@@ -4,7 +4,7 @@ import sys.FileSystem;
 import common.util.FS;
 import data.save.SaveWorld;
 import hxd.Save;
-import data.save.SaveChunk;
+import data.save.SaveZone.ZoneSaveData;
 
 class FileManager {
 	private var saveName: String;
@@ -14,20 +14,20 @@ class FileManager {
 
 	public function setSaveName(name: String) {
 		saveName = name;
-		FileSystem.createDirectory(filePath(['chunks']));
+		FileSystem.createDirectory(filePath(['zones']));
 	}
 
-	public function saveChunk(data: SaveChunk): Bool {
-		var isSaved = Save.save(data, filePath(['chunks', 'chunk-${data.idx}']));
+	public function saveZone(data: ZoneSaveData): Bool {
+		var isSaved = Save.save(data, filePath(['zones', 'zone-${data.idx}']));
 		if (!isSaved) {
-			trace('Chunk not saved!', data.idx);
+			trace('Zone not saved!', data.idx);
 		}
 
 		return isSaved;
 	}
 
-	public function tryReadChunk(idx: Int): Null<SaveChunk> {
-		var name = filePath(['chunks', 'chunk-$idx']);
+	public function tryReadZone(idx: Int): Null<ZoneSaveData> {
+		var name = filePath(['zones', 'zone-$idx']);
 		return Save.load(null, name);
 	}
 

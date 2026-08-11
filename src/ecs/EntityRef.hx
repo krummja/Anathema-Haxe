@@ -1,7 +1,5 @@
 package ecs;
 
-import engine.MainLoop;
-
 class EntityRef {
 	var entityId: String;
 
@@ -12,7 +10,7 @@ class EntityRef {
 	}
 
 	private function get_entity(): Null<Entity> {
-		return MainLoop.getInstance().registry.getEntity(entityId);
+		return Registry.instance.getEntity(entityId);
 	}
 
 	private function set_entity(value: Entity): Null<Entity> {

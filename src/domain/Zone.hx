@@ -1,40 +1,39 @@
-package engine;
+package domain;
 
 import common.struct.Grid;
 import common.struct.GridMap;
 import common.struct.IntPoint;
-import data.save.SaveChunk;
-import domain.components.Moniker;
+import data.save.SaveZone.ZoneSaveData;
+import domain.terrain.Cell;
 import ecs.Entity;
-import h2d.Bitmap;
+import ecs.Registry;
+import engine.ZoneView;
 import shaders.SpriteShader;
 
-class Chunk {
+class Zone {
 	public var entities(default, null): GridMap<String>;
 	public var exploration(default, null): Grid<Null<Bool>>;
-	public var bitmaps(default, null): Grid<Bitmap>;
 	public var isLoaded(default, null): Bool;
 	public var cells(default, null): Grid<Cell>;
 
 	public var width(default, null): Int;
 	public var height(default, null): Int;
-	public var chunkId(default, null): Int;
-	public var zoneId(get, never): Int;
-	public var zone(get, never): Zone;
+	public var zoneId(default, null): Int;
 
-	public var chunkPos(get, never): IntPoint;
+	public var zonePos(get, never): IntPoint;
 	public var worldPos(get, never): IntPoint;
 
-	private var tiles: h2d.Object;
+	private var view: ZoneView;
 
-	public function new(chunkId: Int, width: Int, height: Int) {
-		this.chunkId = chunkId;
+	public function new(zoneId: Int, width: Int, height: Int) {
+		this.zoneId = zoneId;
 		this.width = width;
 		this.height = height;
 		this.cells = new Grid(width, height);
+		this.view = new ZoneView(width, height);
 	}
 
-	public function load(?save: SaveChunk) {
+	public function load(?save: ZoneSaveData) {
 		if (isLoaded) {
 			return;
 		}
@@ -42,19 +41,18 @@ class Chunk {
 		isLoaded = true;
 
 		this.entities = new GridMap(width, height);
-		this.bitmaps = new Grid(width, height);
 		this.exploration = new Grid(width, height);
 		this.cells = new Grid(width, height);
-		this.tiles = new h2d.Object();
+		view.load();
 
 		if (save == null) {
 			// Default exploration to all false
 			exploration.fill(false);
 
-			// Pass this chunk to the generator to populate cells
-			MainLoop.getInstance().world.chunks.chunkGen.generate(this);
+			// Pass this zone to the generator to populate cells
+			World.instance.zones.zoneGen.generate(this);
 		} else {
-			var tickDelta = MainLoop.getInstance().world.clock.tick - save.tick;
+			var tickDelta = World.instance.clock.tick - save.tick;
 
 			width = save.width;
 			height = save.height;
@@ -80,36 +78,34 @@ class Chunk {
 		// Build tiles from cell data
 		buildTiles();
 
-		for (detachedId in MainLoop.getInstance().registry.getDetachedEntities()) {
-			var e = MainLoop.getInstance().registry.getEntity(detachedId);
-			if (e.chunkIdx == chunkId) {
+		for (detachedId in Registry.instance.getDetachedEntities()) {
+			var e = Registry.instance.getEntity(detachedId);
+			if (e.zoneIdx == zoneId) {
 				e.reattach();
 				setEntityPosition(e);
 			}
 		}
 
-		MainLoop.getInstance().render(BACKGROUND, tiles);
 		var pix = worldPos.asWorld().toPixel();
-		tiles.x = pix.x;
-		tiles.y = pix.y;
+		view.place(pix.x, pix.y);
 	}
 
-	public function save(): SaveChunk {
+	public function save(): ZoneSaveData {
 		if (!isLoaded) {
-			trace('Cannot save an unloaded chunk');
+			trace('Cannot save an unloaded zone');
 			return null;
 		}
 
 		return {
-			idx: chunkId,
+			idx: zoneId,
 			width: width,
 			height: height,
-			tick: MainLoop.getInstance().world.clock.tick,
+			tick: World.instance.clock.tick,
 			explored: exploration.save((v) -> v),
 			cells: cells.save((v) -> v),
 			entities: entities.save((v) -> {
 				return v.filterMap((id) -> {
-					var e = MainLoop.getInstance().registry.getEntity(id);
+					var e = Registry.instance.getEntity(id);
 					if (e != null && !e.isDetachable) {
 						return {
 							value: e.save(),
@@ -128,31 +124,21 @@ class Chunk {
 
 	public function unload() {
 		if (!isLoaded) {
-			trace('Cannot unload an already unloaded chunk');
+			trace('Cannot unload an already unloaded zone');
 			return;
 		}
 
-		tiles.remove();
-		tiles.removeChildren();
-		bitmaps.clear();
+		view.unload();
 
 		exploration = null;
 		entities = null;
-		bitmaps = null;
-		tiles = null;
 		cells = null;
 
 		isLoaded = false;
 	}
 
 	public function buildTiles(): Void {
-		for (t in bitmaps) {
-			var bm = getGroundBitmap(t.pos);
-			bm.x = t.x * MainLoop.getInstance().UNIT_X;
-			bm.y = t.y * MainLoop.getInstance().UNIT_Y;
-			tiles.addChildAt(bm, t.idx);
-			bitmaps.set(t.x, t.y, bm);
-		}
+		view.build(cells);
 	}
 
 	public function getEntityIdsAt(x: Int, y: Int): Array<String> {
@@ -173,8 +159,8 @@ class Chunk {
 
 	public function setExplore(pos: IntPoint, isExplored: Bool, isVisible: Bool) {
 		if (!isLoaded) {
-			trace('Warning: Loading chunk on demand');
-			MainLoop.getInstance().world.chunks.loadChunk(chunkId);
+			trace('Warning: Loading zone on demand');
+			World.instance.zones.loadZone(zoneId);
 			return;
 		}
 
@@ -184,38 +170,20 @@ class Chunk {
 		}
 
 		exploration.setIdx(idx, isExplored);
+		view.setExplore(pos, isExplored, isVisible);
+	}
 
-		var bm = bitmaps.get(pos.x, pos.y);
-
-		if (bm == null) {
-			return;
-		}
-
-		var shader = bm.getShader(SpriteShader);
-
-		if (isExplored) {
-			bm.visible = true;
-			if (!isVisible) {
-				shader.setShrouded(true);
-			} else {
-				shader.setShrouded(false);
-			}
-		} else {
-			shader.setShrouded(true);
-			bm.visible = false;
-		}
+	public function getTileShader(pos: IntPoint): SpriteShader {
+		return view.getShader(pos);
 	}
 
 	public function setEntityPosition(entity: Entity): Void {
 		if (!isLoaded) {
-			if (entity.has(Moniker)) {
-				var name = entity.get(Moniker).displayName;
-				trace('Attempted to set entity in unloaded chunk $chunkId: ${name}');
-			}
+			trace('Attempted to set entity in unloaded zone $zoneId: ${entity.id}');
 			return;
 		}
 
-		var local = entity.pos.toChunkLocal().toWorld();
+		var local = entity.pos.toZoneLocal().toWorld();
 		entities.set(local.x.floor(), local.y.floor(), entity.id);
 	}
 
@@ -238,40 +206,11 @@ class Chunk {
 		return cells.coord(idx);
 	}
 
-	private function getGroundBitmap(pos: IntPoint): Bitmap {
-		var cell = getCell(pos.x, pos.y);
-
-		var tileKey = cell.tileKey;
-		var primary = cell.primary;
-		var secondary = cell.secondary;
-
-		var bm = new h2d.Bitmap();
-		var shader = new SpriteShader(primary, secondary);
-
-		if (tileKey != null) {
-			bm.tile = TileResources.get(tileKey);
-		}
-
-		bm.addShader(shader);
-		bm.visible = false;
-
-		return bm;
-	}
-
-	private function get_zoneId(): Int {
-		var pos = chunkPos.divide(MainLoop.getInstance().world.chunkSubdivision).floor();
-		return MainLoop.getInstance().world.zones.getZoneId(pos);
-	}
-
-	private function get_zone(): Zone {
-		return MainLoop.getInstance().world.zones.getZoneById(zoneId);
-	}
-
-	private function get_chunkPos(): IntPoint {
-		return MainLoop.getInstance().world.chunks.getChunkPos(chunkId);
+	private function get_zonePos(): IntPoint {
+		return World.instance.zones.getZonePos(zoneId);
 	}
 
 	private function get_worldPos(): IntPoint {
-		return chunkPos.multiply(width, height);
+		return zonePos.multiply(width, height);
 	}
 }

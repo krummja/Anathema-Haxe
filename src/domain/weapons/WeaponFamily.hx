@@ -8,7 +8,6 @@ import domain.events.AttackedEvent;
 import domain.events.ConsumeEnergyEvent;
 import domain.stats.Stats;
 import ecs.Entity;
-import engine.MainLoop;
 import hxd.Rand;
 
 class WeaponFamily {
@@ -17,11 +16,11 @@ class WeaponFamily {
 
 	public function getMeleeAttacks(attacker: Entity, weapon: Weapon): Array<Attack> {
 		var r = Rand.create();
-		var roll = r.roll(MainLoop.getInstance().DIE_SIZE);
+		var roll = r.roll(GameMath.DIE_SIZE);
 		var toHit = roll + GameMath.getMeleeAttackToHit(attacker, weapon);
 		var stat = Stats.getValue(stat, attacker);
 		var damage = r.roll(weapon.die, weapon.modifier) + stat;
-		var isCritical = roll == MainLoop.getInstance().DIE_SIZE;
+		var isCritical = roll == GameMath.DIE_SIZE;
 
 		return [
 			{

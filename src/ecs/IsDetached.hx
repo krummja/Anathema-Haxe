@@ -1,6 +1,4 @@
-package domain.components;
-
-import ecs.Component;
+package ecs;
 
 class IsDetached extends Component {
 	public function new() {}

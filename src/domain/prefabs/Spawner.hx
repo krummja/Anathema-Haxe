@@ -3,7 +3,6 @@ package domain.prefabs;
 import common.struct.Coordinate;
 import data.SpawnableType;
 import domain.events.EntitySpawnedEvent;
-import engine.MainLoop;
 
 class Spawner {
 	private var prefabs: Map<SpawnableType, Prefab> = new Map();
@@ -37,6 +36,6 @@ class Spawner {
 	}
 
 	public static function spawn(type: SpawnableType, ?pos: Coordinate, ?options: Dynamic, ?isDetachable: Bool) {
-		return MainLoop.getInstance().world.spawner.spawnEntity(type, pos, options, isDetachable);
+		return World.instance.spawner.spawnEntity(type, pos, options, isDetachable);
 	}
 }

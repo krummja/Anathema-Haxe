@@ -5,11 +5,11 @@ import domain.components.*;
 import domain.events.ConsumeEnergyEvent;
 import domain.stats.Stats;
 import ecs.Entity;
+import ecs.IsDetached;
 import ecs.Query;
-import ecs.System;
 import engine.Frame;
 
-class EnergySystem extends System {
+class EnergySystem extends DomainSystem {
 	public static function consumeEnergy(entity: Entity, type: EnergyActionType): Int {
 		var cost = getEnergyCost(entity, type);
 		entity.fireEvent(new ConsumeEnergyEvent(cost));

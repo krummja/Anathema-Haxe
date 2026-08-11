@@ -29,6 +29,10 @@
     },
     "indentation": {},
     "wrapping": {
+        "maxLineLength": 90,
+        "opBoolChain": {
+            "defaultWrap": "onePerLine"
+        },
         "arrayWrap": {
             "defaultWrap": "keep"
         },

@@ -10,14 +10,17 @@ import domain.components.*;
 import domain.prefabs.*;
 import domain.terrain.MapData;
 import ecs.Entity;
-import engine.*;
+import engine.BehaviorManager;
+import engine.Clock;
+import engine.MainLoop;
 import hxd.Rand;
 
 class World {
+	public static var instance(default, null): World;
+
 	public var loop(get, null): MainLoop;
 	public var player(default, null): PlayerManager;
 	public var behavior(default, null): BehaviorManager;
-	public var chunks(default, null): ChunkManager;
 	public var factions(default, null): FactionManager;
 	public var zones(default, null): ZoneManager;
 
@@ -25,12 +28,6 @@ class World {
 	public var zoneCountY(default, null): Int = 1;
 	public var zoneWidth(default, null): Int = 120;
 	public var zoneHeight(default, null): Int = 80;
-
-	public var chunkSubdivision(default, never): Int = 1;
-	public var chunkWidth(get, never): Int;
-	public var chunkHeight(get, never): Int;
-	public var chunkCountX(get, never): Int;
-	public var chunkCountY(get, never): Int;
 
 	public var worldWidth(get, null): Int;
 	public var worldHeight(get, null): Int;
@@ -49,14 +46,16 @@ class World {
 	private var visible: Array<Coordinate>;
 
 	public function new() {
+		instance = this;
 		this.systems = new SystemManager();
 		this.clock = new Clock();
 		this.player = new PlayerManager(this);
 		this.behavior = new BehaviorManager();
-		this.chunks = new ChunkManager();
 		this.factions = new FactionManager();
 		this.zones = new ZoneManager();
 		this.spawner = new Spawner();
+
+		ecs.Entity.zoneTracker = this.zones;
 
 		this.map = new MapData();
 	}
@@ -68,7 +67,6 @@ class World {
 		this.factions.initialize();
 		this.spawner.initialize();
 		this.zones.initialize();
-		this.chunks.initialize();
 		this.map.initialize();
 		this.player.initialize();
 		this.systems.initialize();
@@ -79,11 +77,9 @@ class World {
 
 		var pos = new Coordinate((worldWidth / 2).floor(), (worldHeight / 2).floor(), WORLD);
 
-		// Load chunks around the player position
-		chunks.loadChunks(pos.toChunkId());
-
-		// Load the player chunk
-		chunks.loadChunk(pos.toChunkId());
+		// Load the zone the player starts in. Zones aren't streamed - only one
+		// is ever loaded at a time.
+		zones.travelTo(pos.toZoneId());
 
 		// Initialize the player
 		this.player.create(pos);
@@ -97,16 +93,16 @@ class World {
 	}
 
 	public overload extern inline function getEntitiesAt(pos: IntPoint): Array<Entity> {
-		var chunkIdx = chunks.getChunkIdxByWorld(pos.x, pos.y);
-		var chunk = chunks.getChunkById(chunkIdx);
+		var zoneIdx = zones.getZoneIdxByWorld(pos.x, pos.y);
+		var zone = zones.getZoneById(zoneIdx);
 
-		if (chunk == null) {
+		if (zone == null) {
 			return new Array<Entity>();
 		}
 
-		var localX = pos.x % chunkWidth;
-		var localY = pos.y % chunkHeight;
-		var ids = chunk.getEntityIdsAt(localX, localY);
+		var localX = pos.x % zoneWidth;
+		var localY = pos.y % zoneHeight;
+		var ids = zone.getEntityIdsAt(localX, localY);
 
 		return ids.map((id: String) -> loop.registry.getEntity(id));
 	}
@@ -175,16 +171,16 @@ class World {
 
 	public function clearVisible() {
 		for (value in visible) {
-			var c = value.toChunk();
-			var chunk = chunks.getChunk(c.x, c.y);
+			var c = value.toZone();
+			var zone = zones.getZone(c.x, c.y);
 
-			if (chunk == null || !chunk.isLoaded) {
+			if (zone == null || !zone.isLoaded) {
 				continue;
 			}
 
-			var local = value.toChunkLocal().toIntPoint();
+			var local = value.toZoneLocal().toIntPoint();
 
-			chunk.setExplore(local, true, false);
+			zone.setExplore(local, true, false);
 
 			for (entity in getEntitiesAt(value.toWorld().toIntPoint())) {
 				if (entity.has(Visible)) {
@@ -197,20 +193,20 @@ class World {
 	}
 
 	public function setVisible(pos: Coordinate) {
-		var c = pos.toChunk();
+		var c = pos.toZone();
 
-		var chunk = chunks.getChunk(c.x, c.y);
+		var zone = zones.getZone(c.x, c.y);
 
-		if (chunk != null) {
-			var local = pos.toChunkLocal().toIntPoint();
+		if (zone != null) {
+			var local = pos.toZoneLocal().toIntPoint();
 
-			// Set explored tiles in chunk
-			chunk.setExplore(local, true, true);
+			// Set explored tiles in zone
+			zone.setExplore(local, true, true);
 
 			// Get tile light data
 			var light = systems.lights.getTileLight(pos.toIntPoint());
 
-			// Apply visibility and exploration states to entities in the chunk
+			// Apply visibility and exploration states to entities in the zone
 			for (entity in getEntitiesAt(pos.toWorld().toIntPoint())) {
 				if (!entity.has(Visible)) {
 					entity.add(new Visible());
@@ -233,14 +229,14 @@ class World {
 	}
 
 	public function isExplored(coord: Coordinate): Bool {
-		var c = coord.toChunk();
-		var chunk = chunks.getChunk(c.x, c.y);
-		if (chunk == null || !chunk.isLoaded) {
+		var c = coord.toZone();
+		var zone = zones.getZone(c.x, c.y);
+		if (zone == null || !zone.isLoaded) {
 			return false;
 		}
 
-		var local = coord.toChunkLocal().toIntPoint();
-		return chunk.isExplored(local);
+		var local = coord.toZoneLocal().toIntPoint();
+		return zone.isExplored(local);
 	}
 
 	public function isVisible(coord: Coordinate): Bool {
@@ -256,27 +252,11 @@ class World {
 	}
 
 	private function get_worldWidth(): Int {
-		return this.chunkCountX * this.chunkWidth;
+		return this.zoneCountX * this.zoneWidth;
 	}
 
 	private function get_worldHeight(): Int {
-		return this.chunkCountY * this.chunkHeight;
-	}
-
-	private function get_chunkCountX(): Int {
-		return this.zoneCountX * this.chunkSubdivision;
-	}
-
-	private function get_chunkCountY(): Int {
-		return this.zoneCountY * this.chunkSubdivision;
-	}
-
-	private function get_chunkWidth(): Int {
-		return Math.ceil(this.zoneWidth / this.chunkSubdivision);
-	}
-
-	private function get_chunkHeight(): Int {
-		return Math.ceil(this.zoneHeight / this.chunkSubdivision);
+		return this.zoneCountY * this.zoneHeight;
 	}
 
 	private function get_started(): Bool {

@@ -5,7 +5,6 @@ import engine.Frame;
 
 class SystemManager {
 	public var energy(default, null): EnergySystem;
-	public var chunks(default, null): ChunkSystem;
 	public var movement(default, null): MovementSystem;
 	public var path(default, null): PathFollowSystem;
 	public var lights(default, null): LightSystem;
@@ -24,7 +23,6 @@ class SystemManager {
 
 	public function initialize() {
 		energy = new EnergySystem();
-		chunks = new ChunkSystem();
 		movement = new MovementSystem();
 		path = new PathFollowSystem();
 		lights = new LightSystem();
@@ -44,7 +42,6 @@ class SystemManager {
 		death.update(frame);
 		energy.update(frame);
 		// fuel
-		chunks.update(frame);
 		movement.update(frame);
 		path.update(frame);
 		// crush

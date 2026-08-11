@@ -1,34 +1,24 @@
-package engine;
+package domain.terrain;
 
 import common.struct.Coordinate;
 import common.struct.IntPoint;
-import domain.prefabs.Spawner;
-import domain.terrain.Biomes;
+import domain.Zone;
+import engine.TemplateResources;
 import hxd.Rand;
 
-class ChunkGen {
+class ZoneGen {
 	private var seed(get, null): Int;
-	private var world(get, null): domain.World;
+	private var world(get, null): World;
 
 	public function new() {}
 
-	public function generate(chunk: Chunk) {
-		var r = new Rand(seed + chunk.chunkId);
+	public function generate(zone: Zone) {
+		var r = new Rand(seed + zone.zoneId);
 
-		chunk.cells.fillFn((idx) -> generateCell(r, chunk, idx));
+		zone.cells.fillFn((idx) -> generateCell(r, zone, idx));
 
-		for (gridItem in chunk.cells) {
-			var worldPos = chunk.worldPos.add(gridItem.pos);
-
-			// if (gridItem.value.terrain != TERRAIN_WATER && r.bool(0.01)) {
-			// 	if (r.bool(0.2)) {
-			// 		var biome = Biomes.get(gridItem.value.biomeKey);
-			// 		var e = biome.creatures.pick(r);
-			// 		if (e != null) {
-			// 			Spawner.spawn(e, worldPos.asWorld());
-			// 		}
-			// 	}
-			// }
+		for (gridItem in zone.cells) {
+			var worldPos = zone.worldPos.add(gridItem.pos);
 
 			var b = Biomes.get(gridItem.value.biomeKey);
 			var cell = gridItem.value;
@@ -59,8 +49,8 @@ class ChunkGen {
 		testTemplate.materialize(templatePos);
 	}
 
-	public function generateCell(r: Rand, chunk: Chunk, idx: Int) {
-		var pos = chunk.getCellCoord(idx);
+	public function generateCell(r: Rand, zone: Zone, idx: Int) {
+		var pos = zone.getCellCoord(idx);
 		var biome = Biomes.get(PRAIRIE);
 
 		var cell: Cell = {
@@ -73,7 +63,7 @@ class ChunkGen {
 			background: C_BLACK,
 		};
 
-		var worldPos = pos.add(chunk.worldPos);
+		var worldPos = pos.add(zone.worldPos);
 
 		biome.setCellData(worldPos, cell);
 
@@ -81,10 +71,10 @@ class ChunkGen {
 	}
 
 	private function get_seed(): Int {
-		return engine.MainLoop.getInstance().world.seed;
+		return World.instance.seed;
 	}
 
-	private function get_world(): domain.World {
-		return engine.MainLoop.getInstance().world;
+	private function get_world(): World {
+		return World.instance;
 	}
 }

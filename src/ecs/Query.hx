@@ -1,7 +1,6 @@
 package ecs;
 
 import bits.Bits;
-import engine.MainLoop;
 
 typedef QueryFilter = {
 	var ?all: Array<Class<Component>>;
@@ -134,7 +133,7 @@ class Query {
 	}
 
 	private inline function get_registry(): Registry {
-		return MainLoop.getInstance().registry;
+		return Registry.instance;
 	}
 }
 

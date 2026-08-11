@@ -1,8 +1,8 @@
 package domain.components;
 
 import domain.events.AttackedEvent;
-import engine.Factions;
-import engine.Faction;
+import domain.Factions;
+import domain.Faction;
 import data.FactionType;
 import ecs.Component;
 

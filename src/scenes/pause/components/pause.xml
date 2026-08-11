@@ -1,0 +1,37 @@
+<box width="100%" height="100%" style="padding: 8px;">
+    <style>
+        .root {
+            width: 100%;
+            height: 100%;
+        }
+
+        .menu-wrapper {
+            vertical-align: center;
+            horizontal-align: center;
+            width: 400px;
+            padding: 8px;
+            background-color: #212121;
+            border: 1px solid #666666;
+        }
+
+        .menu-body {
+            horizontal-align: center;
+            width: 100%;
+            padding: 8px;
+        }
+
+        .menu-body .button {
+            horizontal-align: center;
+            width: 200px;
+        }
+    </style>
+    <box styleName="root">
+        <box styleName="menu-wrapper">
+            <vbox styleName="menu-body">
+                <button id="btnResume" text="Resume" />
+                <button id="btnOptions" text="Options" />
+                <button id="btnQuit" text="Quit" />
+            </vbox>
+        </box>
+    </box>
+</box>

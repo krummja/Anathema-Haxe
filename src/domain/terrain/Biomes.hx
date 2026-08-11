@@ -1,8 +1,5 @@
 package domain.terrain;
 
-import engine.BiomeType;
-import engine.Biome;
-
 class Biomes {
 	public static var biomes: Array<Biome>;
 	public static var BIOME_PRAIRIE: Biome;

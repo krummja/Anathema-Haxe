@@ -1,4 +1,4 @@
-package engine;
+package domain.terrain;
 
 import common.rand.Perlin;
 import common.struct.IntPoint;

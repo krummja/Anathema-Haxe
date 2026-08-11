@@ -25,6 +25,10 @@ class Path extends Component {
 		return remaining > 0;
 	}
 
+	public function dropRemaining() {
+		instructions = instructions.slice(0, curIdx);
+	}
+
 	private inline function get_length(): Int {
 		return instructions.length;
 	}

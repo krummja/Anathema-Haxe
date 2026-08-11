@@ -4,9 +4,8 @@ import engine.Frame;
 import domain.components.IsDestroyed;
 import domain.components.Expiring;
 import ecs.Query;
-import ecs.System;
 
-class ExpiringSystem extends System {
+class ExpiringSystem extends DomainSystem {
 	var query: Query;
 
 	public function new() {

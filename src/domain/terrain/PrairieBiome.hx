@@ -2,8 +2,6 @@ package domain.terrain;
 
 import common.struct.IntPoint;
 import domain.prefabs.Spawner;
-import engine.Biome;
-import engine.Cell;
 import engine.ColorKey;
 import engine.TileKey;
 

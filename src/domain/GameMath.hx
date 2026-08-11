@@ -6,6 +6,8 @@ import domain.weapons.Weapons;
 import ecs.Entity;
 
 class GameMath {
+	public static var DIE_SIZE = 12;
+
 	public static var XP_REQ_CAP = 4000;
 	public static var XP_LVL_INTENSITY = 10;
 	public static var XP_BASE_GAIN = 120;

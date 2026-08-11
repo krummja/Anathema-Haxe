@@ -15,7 +15,6 @@ class CoordinateExtensions {
 			case SCREEN: Projection.pixelToScreen(px.x, px.y);
 			case PIXEL: px;
 			case WORLD: Projection.pixelToWorld(px.x, px.y);
-			case CHUNK: Projection.pixelToChunk(px.x, px.y);
 			case ZONE: Projection.pixelToZone(px.x, px.y);
 		}
 	}
@@ -25,7 +24,6 @@ class CoordinateExtensions {
 			case SCREEN: c;
 			case PIXEL: Projection.pixelToScreen(c.x, c.y);
 			case WORLD: Projection.worldToScreen(c.x, c.y);
-			case CHUNK: Projection.chunkToScreen(c.x, c.y);
 			case ZONE: Projection.zoneToScreen(c.x, c.y);
 		}
 	}
@@ -35,7 +33,6 @@ class CoordinateExtensions {
 			case SCREEN: Projection.screenToPixel(c.x, c.y);
 			case PIXEL: c;
 			case WORLD: Projection.worldToPixel(c.x, c.y);
-			case CHUNK: Projection.chunkToPixel(c.x, c.y);
 			case ZONE: Projection.zoneToPixel(c.x, c.y);
 		}
 	}
@@ -45,18 +42,7 @@ class CoordinateExtensions {
 			case SCREEN: Projection.screenToWorld(c.x, c.y);
 			case PIXEL: Projection.pixelToWorld(c.x, c.y);
 			case WORLD: c;
-			case CHUNK: Projection.chunkToWorld(c.x, c.y);
 			case ZONE: Projection.zoneToWorld(c.x, c.y);
-		}
-	}
-
-	public static inline function toChunk(c: Coordinate): Coordinate {
-		return switch c.space {
-			case SCREEN: Projection.screenToChunk(c.x, c.y);
-			case PIXEL: Projection.pixelToChunk(c.x, c.y);
-			case WORLD: Projection.worldToChunk(c.x, c.y);
-			case CHUNK: c;
-			case ZONE: Projection.zoneToChunk(c.x, c.y);
 		}
 	}
 
@@ -65,19 +51,13 @@ class CoordinateExtensions {
 			case SCREEN: Projection.screenToZone(c.x, c.y);
 			case PIXEL: Projection.pixelToZone(c.x, c.y);
 			case WORLD: Projection.worldToZone(c.x, c.y);
-			case CHUNK: Projection.chunkToZone(c.x, c.y);
 			case ZONE: c;
 		}
 	}
 
-	public static inline function toChunkLocal(a: Coordinate): Coordinate {
-		var chunk = a.toChunk().floor();
-		return a.sub(chunk);
-	}
-
-	public static inline function toChunkId(a: Coordinate): Int {
-		var c = a.toChunk();
-		return MainLoop.getInstance().world.chunks.getChunkIdx(c.x, c.y);
+	public static inline function toZoneLocal(a: Coordinate): Coordinate {
+		var zone = a.toZone().floor();
+		return a.sub(zone);
 	}
 
 	public static inline function toZoneId(a: Coordinate): Int {

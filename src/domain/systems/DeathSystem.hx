@@ -7,10 +7,9 @@ import domain.components.IsInventoried;
 import domain.prefabs.Spawner;
 import ecs.Entity;
 import ecs.Query;
-import ecs.System;
 import engine.Frame;
 
-class DeathSystem extends System {
+class DeathSystem extends DomainSystem {
 	private var query: Query;
 
 	public function new() {

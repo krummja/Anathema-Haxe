@@ -1,10 +1,10 @@
 package domain.components;
 
-import ecs.Component;
-import shaders.SpriteShader;
-import engine.RenderLayerManager;
-import engine.ColorKey;
 import common.struct.Coordinate;
+import ecs.Component;
+import engine.ColorKey;
+import engine.RenderLayerManager;
+import engine.SpriteView;
 
 abstract class Drawable extends Component {
 	@save public var primary(default, set): ColorKey;
@@ -28,7 +28,11 @@ abstract class Drawable extends Component {
 	public var primaryColor(default, never): ColorKey;
 	public var secondaryColor(get, never): ColorKey;
 	public var drawable(get, never): h2d.Drawable;
-	public var shader(default, null): SpriteShader;
+	public var shader(get, never): shaders.SpriteShader;
+
+	// Owns the actual Heaps rendering objects; subclasses attach a tile to it
+	// once they know one (see engine.SpriteView).
+	public var view(default, null): SpriteView;
 
 	public function new(
 		primary: ColorKey = C_WHITE,
@@ -36,7 +40,7 @@ abstract class Drawable extends Component {
 		background: ColorKey = C_SHROUD,
 		layer: RenderLayerType = OBJECT,
 	) {
-		this.shader = new SpriteShader();
+		this.view = new SpriteView();
 		this.layer = layer;
 		this.primary = primary;
 		this.background = background;
@@ -48,31 +52,29 @@ abstract class Drawable extends Component {
 		this.drawable.y = py;
 	}
 
-	private abstract function getDrawable(): h2d.Drawable;
-
 	private function set_primary(value: ColorKey): ColorKey {
 		this.primary = value;
-		this.shader.primary = value.toHxdColor().toVector();
+		this.view.shader.primary = value.toHxdColor().toVector();
 		return value;
 	}
 
 	private function set_secondary(value: ColorKey): ColorKey {
 		this.secondary = value;
-		this.shader.secondary = value.toHxdColor().toVector();
+		this.view.shader.secondary = value.toHxdColor().toVector();
 		return value;
 	}
 
 	private function set_outline(value: ColorKey): ColorKey {
 		this.outline = value;
-		this.shader.outline = value.toHxdColor().toVector();
+		this.view.shader.outline = value.toHxdColor().toVector();
 		return value;
 	}
 
 	private function set_background(value: Null<ColorKey>): Null<ColorKey> {
 		this.background = value;
 		var clear = value != null;
-		if (clear) this.shader.background = value.toHxdColor().toVector();
-		this.shader.clearBackground = clear ? 1 : 0;
+		if (clear) this.view.shader.background = value.toHxdColor().toVector();
+		this.view.shader.clearBackground = clear ? 1 : 0;
 		return value;
 	}
 
@@ -99,7 +101,11 @@ abstract class Drawable extends Component {
 	}
 
 	private function get_drawable(): h2d.Drawable {
-		return this.getDrawable();
+		return this.view.drawable;
+	}
+
+	private function get_shader(): shaders.SpriteShader {
+		return this.view.shader;
 	}
 
 	private function set_visible(value: Bool): Bool {
@@ -109,7 +115,7 @@ abstract class Drawable extends Component {
 
 	private function set_isShrouded(value: Bool): Bool {
 		isShrouded = value;
-		shader.setShrouded(value);
+		view.shader.setShrouded(value);
 		return value;
 	}
 

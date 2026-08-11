@@ -7,13 +7,6 @@ import common.struct.FloatPoint;
 import common.struct.IntPoint;
 import common.util.UniqueId;
 import data.save.EntitySaveData;
-import domain.components.IsDetached;
-import domain.components.Moniker;
-import domain.components.Sprite;
-import domain.events.EntityLoadedEvent;
-import domain.events.MovedEvent;
-import engine.Chunk;
-import engine.MainLoop;
 
 class Entity {
 	public static function load(data: EntitySaveData, tickDelta: Int = 0): Entity {
@@ -51,19 +44,23 @@ class Entity {
 		return entity;
 	}
 
+	/**
+	 * Set once by whatever owns zone loading (e.g. domain.ZoneManager) so
+	 * position/destroy updates can keep zone membership in sync without this
+	 * generic class depending on any concrete zone/world implementation.
+	 */
+	public static var zoneTracker: EntityZoneTracker;
+
 	public var id(default, null): String;
 	public var flags(default, null): Bits;
 	public var pos(get, set): Coordinate;
 	public var x(get, set): Float;
 	public var y(get, set): Float;
-	public var offset(default, set): Null<Coordinate>;
-	public var chunk(get, never): Chunk;
-	public var chunkIdx(get, never): Int;
+	public var zoneIdx(get, never): Int;
 	public var isDestroyed(default, null): Bool;
 	public var isDetached(default, null): Bool;
 	public var isDetachable: Bool;
 
-	public var loop(get, null): MainLoop;
 	public var registry(get, null): Registry;
 
 	private var components: Map<String, Array<Component>>;
@@ -107,7 +104,9 @@ class Entity {
 		isCandidacyEnabled = true;
 		isDestroyed = true;
 
-		chunk.removeEntity(this);
+		if (zoneTracker != null) {
+			zoneTracker.onEntityDestroyed(this, zoneIdx);
+		}
 		registry.unregisterEntity(this);
 	}
 
@@ -239,55 +238,26 @@ class Entity {
 		}
 	}
 
-	private function get_loop(): MainLoop {
-		return MainLoop.getInstance();
-	}
-
 	private function get_registry(): Registry {
-		return MainLoop.getInstance().registry;
+		return Registry.instance;
 	}
 
 	private function set_pos(value: Coordinate): Coordinate {
-		var prevChunkIdx = chunkIdx;
+		var prevZoneIdx = zoneIdx;
 		var p = value.toPixel();
 		var w = value.toWorld();
 
 		_x = w.x;
 		_y = w.y;
 
-		var nextChunkIdx = chunkIdx;
+		var nextZoneIdx = zoneIdx;
 
-		if (prevChunkIdx != nextChunkIdx) {
-			var prevChunk = MainLoop.getInstance().world.chunks.getChunkById(prevChunkIdx);
-			if (prevChunk != null) {
-				prevChunk.removeEntity(this);
-			}
-		}
-
-		var nextChunk = MainLoop.getInstance().world.chunks.getChunkById(nextChunkIdx);
-		if (nextChunk != null) {
-			nextChunk.setEntityPosition(this);
+		if (zoneTracker != null) {
+			zoneTracker.onEntityMoved(this, prevZoneIdx, nextZoneIdx);
 		}
 
 		fireEvent(new MovedEvent(this, w));
 		return w;
-	}
-
-	private function set_offset(value: Null<Coordinate>): Null<Coordinate> {
-		var sprite = get(Sprite);
-
-		var _delta = new Coordinate(0, 0, WORLD);
-
-		if (sprite != null) {
-			if (value != null) {
-				_delta = value.sub(pos).toPixel();
-			}
-
-			var startPos = sprite.getPosition();
-			sprite.setPosition(startPos.x + _delta.x, startPos.y + _delta.y);
-		}
-
-		return value;
 	}
 
 	private function get_pos(): Coordinate {
@@ -312,11 +282,7 @@ class Entity {
 		return _y;
 	}
 
-	private function get_chunk(): Chunk {
-		return MainLoop.getInstance().world.chunks.getChunkById(chunkIdx);
-	}
-
-	private function get_chunkIdx(): Int {
-		return pos.toChunkId();
+	private function get_zoneIdx(): Int {
+		return pos.toZoneId();
 	}
 }

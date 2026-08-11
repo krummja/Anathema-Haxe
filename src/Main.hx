@@ -1,11 +1,11 @@
 import data.Bitmasks;
+import domain.Factions;
 import domain.abilities.Abilities;
 import domain.stats.Stats;
 import domain.weapons.Weapons;
 import engine.BehaviorManager.Behaviors;
 import engine.ColorPaletteResources;
 import engine.Commands;
-import engine.Factions;
 import engine.MainLoop;
 import engine.SettingsManager;
 import engine.TemplateResources;

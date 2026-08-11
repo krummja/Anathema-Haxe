@@ -1,6 +1,4 @@
-package domain.events;
-
-import ecs.EntityEvent;
+package ecs;
 
 class EntityLoadedEvent extends EntityEvent {
 	public var tickDelta: Int;

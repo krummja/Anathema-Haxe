@@ -8,9 +8,8 @@ import domain.components.MoveComplete;
 import engine.Frame;
 import domain.components.Path;
 import ecs.Query;
-import ecs.System;
 
-class PathFollowSystem extends System {
+class PathFollowSystem extends DomainSystem {
 	private var query: Query;
 
 	public function new() {
