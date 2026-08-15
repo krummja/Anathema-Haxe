@@ -17,7 +17,6 @@ class AttackSystem extends DomainSystem {
 		query.onEntityAdded((e) -> {
 			var attacker = e.get(Attacker);
 			attacker.startTime = loop.frame.elapsed;
-			attacker.startPos = e.pos;
 		});
 	}
 
@@ -36,10 +35,12 @@ class AttackSystem extends DomainSystem {
 			var newPos = entity.pos.easeZig(goal, progress, attacker.ease);
 			var sprite = entity.get(Sprite);
 
-			sprite.offsetTo(newPos);
+			// A cosmetic lunge nudge, not real movement - renderOffset instead of
+			// renderPos so it doesn't drag the camera along (see Drawable.renderOffset).
+			sprite.renderOffset = newPos.sub(entity.pos).toPixel().toFloatPoint();
 
 			if (progress >= 1) {
-				sprite.offsetTo(attacker.startPos);
+				sprite.renderOffset = null;
 				entity.remove(Attacker);
 			}
 		}

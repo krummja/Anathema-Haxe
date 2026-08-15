@@ -1,6 +1,9 @@
 package common.graphgen;
 
 import common.graphgen.Node.NodeData;
+import common.util.FS;
+import haxe.extern.EitherType;
+import sys.io.File;
 import utest.Assert;
 import utest.Test;
 
@@ -22,6 +25,93 @@ class Graph<T: NodeData> {
 		this.neighbors = new Map();
 	}
 
+	public function join(graph: Graph<T>, targetUid: String): Graph<T> {
+		var mergedGraph = new Graph<T>();
+
+		var seenNames = new Map<String, Int>();
+		var keyTrack = new Map<String, String>();
+		var edgeTrack = new Map<String, Array<Node<T>>>();
+
+		for (node in nodes) {
+			var label = node.label;
+
+			if (seenNames.exists(label)) {
+				var count = seenNames.get(label);
+				seenNames.set(label, count + 1);
+			} else {
+				seenNames.set(label, 0);
+			}
+		}
+
+		for (node in graph.nodes) {
+			var label = node.label;
+
+			if (seenNames.exists(label)) {
+				var count = seenNames.get(label);
+				seenNames.set(label, count + 1);
+				keyTrack.set(node.uid, '${label}_${count + 1}');
+			} else {
+				seenNames.set(label, 0);
+				keyTrack.set(node.uid, node.uid);
+			}
+		}
+
+		for (node in nodes) {
+			mergedGraph.addNode(node);
+		}
+
+		for (node in graph.nodes) {
+			var newUid = keyTrack.get(node.uid);
+			var newNumber = Std.parseInt(newUid.split("_")[1]);
+
+			var newNode = new Node(
+				newUid,
+				node.data,
+				node.label,
+				newNumber,
+			);
+
+			mergedGraph.addNode(newNode);
+		}
+
+		for (key => edgeNodes in edges) {
+			var n = mergedGraph.nodes.get(key);
+
+			for (node in edgeNodes) {
+				var m = mergedGraph.nodes.get(node.uid);
+
+				if (n.uid == m.uid) {
+					continue;
+				}
+
+				mergedGraph.addEdge(n, m);
+			}
+		}
+
+		for (key => edgeNodes in graph.edges) {
+			var n = mergedGraph.nodes.get(keyTrack.get(key));
+
+			if (StringTools.contains(n.uid, "root")) {
+				var targetNode = mergedGraph.nodes.get(targetUid);
+				mergedGraph.addEdge(targetNode, n);
+			}
+
+			for (node in edgeNodes) {
+				var m = mergedGraph.nodes.get(keyTrack.get(node.uid));
+
+				if (
+					n != null &&
+					m != null &&
+					n.uid != m.uid
+				) {
+					mergedGraph.addEdge(n, m);
+				}
+			}
+		}
+
+		return mergedGraph;
+	}
+
 	public function addNode(node: Node<T>): Node<T> {
 		if (!nodes.exists(node.uid)) {
 			nodes.set(node.uid, node);
@@ -32,7 +122,7 @@ class Graph<T: NodeData> {
 		return node;
 	}
 
-	public function addEdge(n: Node<T>, m: Node<T>) {
+	public inline overload extern function addEdge(n: Node<T>, m: Node<T>) {
 		if (!nodes.exists(n.uid)) {
 			addNode(n);
 		}
@@ -71,7 +161,10 @@ class Graph<T: NodeData> {
 	}
 
 	public function removeEdge(startUid: String, endUid: String): Bool {
-		if (!nodes.exists(startUid) || !nodes.exists(endUid)) {
+		if (
+			!nodes.exists(startUid) ||
+			!nodes.exists(endUid)
+		) {
 			return false;
 		}
 
@@ -93,12 +186,37 @@ class Graph<T: NodeData> {
 	}
 
 	public function hasAdjacentNodes(startUid: String, endUid: String): Bool {
-		if (!nodes.exists(startUid) || !nodes.exists(endUid)) {
+		if (
+			!nodes.exists(startUid) ||
+			!nodes.exists(endUid)
+		) {
 			return false;
 		}
 
 		var endNode = nodes[endUid];
 		return edges[startUid].contains(endNode);
+	}
+
+	public function toPlantUML(fileName: String): Void {
+		var puml = '@startuml\n\n';
+		puml += 'hide empty members\n';
+		for (node in nodes) {
+			puml += node.toPlantUML() + '\n';
+		}
+
+		for (node => edgeList in edges) {
+			for (item in edgeList) {
+				if (node == item.uid) {
+					continue;
+				}
+
+				puml += '${node} -- ${item.uid}\n';
+			}
+		}
+
+		puml += '\n@enduml';
+
+		File.saveContent(FS.filePath(["graphs", fileName + ".puml"]), puml);
 	}
 
 	private function get_nodeCount(): Int {

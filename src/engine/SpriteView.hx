@@ -1,14 +1,13 @@
 package engine;
 
-import common.struct.FloatPoint;
 import shaders.SpriteShader;
 
 /**
- * Owns the actual Heaps rendering objects (Bitmap + shader) behind a
- * domain.components.Drawable/Sprite. Constructed in two phases to match the
- * base/subclass split in Drawable/Sprite: the shader exists immediately (so
- * Drawable's color setters have somewhere to push to), the Bitmap is attached
- * once a concrete tile is known.
+ * Owns the actual Heaps rendering objects (Bitmap + shader) for a
+ * domain.components.Sprite. Constructed by domain.systems.SpriteSystem in
+ * response to Sprite components being added/removed, and kept in sync with
+ * the component's data every frame via `sync`/`setPosition` - the shader and
+ * h2d types never need to be visible outside this class and SpriteSystem.
  */
 class SpriteView {
 	public var shader(default, null): SpriteShader;
@@ -31,12 +30,41 @@ class SpriteView {
 		}
 	}
 
-	public function getPosition(): FloatPoint {
-		return new FloatPoint(this.ob.x, this.ob.y);
-	}
-
 	public function setPosition(x: Float, y: Float): Void {
 		this.ob.setPosition(x, y);
+	}
+
+	/**
+	 * Pushes a Sprite's plain data fields into the shader/Bitmap. Colors are
+	 * passed as ColorKey/Int and converted to Heaps color vectors internally.
+	 */
+	public function sync(
+		primary: ColorKey,
+		secondary: ColorKey,
+		outline: ColorKey,
+		background: Null<ColorKey>,
+		isShrouded: Bool,
+		isLit: Bool,
+		lightColor: Int,
+		lightIntensity: Float,
+		visible: Bool
+	): Void {
+		shader.primary = primary.toHxdColor().toVector();
+		shader.secondary = secondary.toHxdColor().toVector();
+		shader.outline = outline.toHxdColor().toVector();
+
+		var hasBackground = background != null;
+		if (hasBackground) {
+			shader.background = background.toHxdColor().toVector();
+		}
+		shader.clearBackground = hasBackground ? 1 : 0;
+
+		shader.setShrouded(isShrouded);
+		shader.isLit = isLit ? 1 : 0;
+		shader.lightColor = lightColor.toHxdColor().toVector();
+		shader.lightIntensity = lightIntensity;
+
+		ob.visible = visible;
 	}
 
 	private function get_drawable(): h2d.Drawable {

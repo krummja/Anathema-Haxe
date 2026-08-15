@@ -218,9 +218,9 @@ class World {
 
 				if (light.intensity > 0 && entity.has(Sprite) && entity.has(Explored)) {
 					var sprite = entity.get(Sprite);
-					sprite.shader.isLit = 1;
-					sprite.shader.lightColor = light.color.toHxdColor().toVector();
-					sprite.shader.lightIntensity = light.intensity;
+					sprite.isLit = true;
+					sprite.lightColor = light.color;
+					sprite.lightIntensity = light.intensity;
 				}
 			}
 		}

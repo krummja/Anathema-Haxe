@@ -1,0 +1,36 @@
+@startuml
+
+hide empty members
+object "tree 5" as tree_5
+object "tree 6" as tree_6
+object "forest 0" as forest_0
+object "tree 7" as tree_7
+object "tree 0" as tree_0
+object "cave 0" as cave_0
+object "forest 1" as forest_1
+object "tree 8" as tree_8
+object "forest 2" as forest_2
+object "tree 1" as tree_1
+object "tree 2" as tree_2
+object "root 0" as root_0
+object "tree 3" as tree_3
+object "root 1" as root_1
+object "root 2" as root_2
+object "tree 4" as tree_4
+forest_0 -- tree_0
+forest_0 -- tree_1
+forest_0 -- tree_2
+cave_0 -- forest_0
+cave_0 -- root_1
+forest_1 -- tree_3
+forest_1 -- tree_4
+forest_1 -- tree_5
+forest_1 -- root_2
+forest_2 -- tree_6
+forest_2 -- tree_7
+forest_2 -- tree_8
+root_0 -- cave_0
+root_1 -- forest_1
+root_2 -- forest_2
+
+@enduml

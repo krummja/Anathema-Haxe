@@ -2,8 +2,8 @@ package engine;
 
 import common.util.FS;
 import haxe.Json;
-import sys.io.File;
 import sys.FileSystem;
+import sys.io.File;
 
 typedef ApplicationSettings = {
 	var title: String;

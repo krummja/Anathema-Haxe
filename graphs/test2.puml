@@ -1,0 +1,14 @@
+@startuml
+
+hide empty members
+object "forest 0" as forest_0
+object "tree 0" as tree_0
+object "tree 1" as tree_1
+object "tree 2" as tree_2
+object "root 0" as root_0
+forest_0 -- tree_0
+forest_0 -- tree_1
+forest_0 -- tree_2
+root_0 -- forest_0
+
+@enduml

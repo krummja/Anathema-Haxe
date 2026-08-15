@@ -1,0 +1,39 @@
+@startuml Graph
+hide empty members
+left to right direction
+
+object Root
+object "Continent" as c1
+object "Region" as r1
+object "Region" as r2
+object "Prairie" as p1
+object "Lake" as l1
+object "River" as rv1
+object "Town" as t1
+object "Building" as b1
+object "Building" as b2
+object "Field" as fl1
+object "Tree" as tr1
+object "Tree" as tr2
+object "Temple" as tp1
+object "Mountain" as m1
+object "Fortress" as f1
+
+Root -- c1
+c1 -- r1
+r1 -- p1
+r1 -- rv1
+p1 -- l1
+p1 -- t1
+t1 -- b1
+t1 -- b2
+t1 -- tp1
+t1 -- fl1
+fl1 -- tr1
+fl1 -- tr2
+
+c1 -- r2
+r2 -- m1
+m1 -- f1
+
+@enduml

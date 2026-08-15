@@ -43,7 +43,10 @@ class GraphQuery<T: NodeData> {
 	}
 
 	public function findCandidates(queryGraph: Graph<T>): Bool {
-		if (dataGraph.nodeCount == 0 || queryGraph.nodeCount == 0) {
+		if (
+			dataGraph.nodeCount == 0 ||
+			queryGraph.nodeCount == 0
+		) {
 			return false;
 		}
 
@@ -63,7 +66,8 @@ class GraphQuery<T: NodeData> {
 		return true;
 	}
 
-	public function findMatchedNeighbors(queryNode: Node<T>, matches: Map<String, Node<T>>): Map<String, Node<T>> {
+	public function findMatchedNeighbors(queryNode: Node<T>, matches: Map<String,
+		Node<T>>): Map<String, Node<T>> {
 		var result = new Map();
 
 		if (Lambda.count(matches) == 0) {
@@ -79,7 +83,8 @@ class GraphQuery<T: NodeData> {
 		return result;
 	}
 
-	public function isMatchable(queryNode: Node<T>, dataNode: Node<T>, queryGraph: Graph<T>, matches: Map<String, Node<T>>): Bool {
+	public function isMatchable(queryNode: Node<T>, dataNode: Node<T>, queryGraph: Graph<T>, matches: Map<String,
+		Node<T>>): Bool {
 		if (Lambda.count(matches) == 0) {
 			return true;
 		}
@@ -90,9 +95,15 @@ class GraphQuery<T: NodeData> {
 			var match = matches[n.uid];
 			var m = dataGraph.nodes[match.uid];
 
-			if (queryGraph.hasAdjacentNodes(queryNode.uid, n.uid) && queryGraph.hasAdjacentNodes(dataNode.uid, m.uid)) {
+			if (
+				queryGraph.hasAdjacentNodes(queryNode.uid, n.uid) &&
+				queryGraph.hasAdjacentNodes(dataNode.uid, m.uid)
+			) {
 				return true;
-			} else if (queryGraph.hasAdjacentNodes(n.uid, queryNode.uid) && queryGraph.hasAdjacentNodes(m.uid, dataNode.uid)) {
+			} else if (
+				queryGraph.hasAdjacentNodes(n.uid, queryNode.uid) &&
+				queryGraph.hasAdjacentNodes(m.uid, dataNode.uid)
+			) {
 				return true;
 			}
 		}
@@ -110,11 +121,15 @@ class GraphQuery<T: NodeData> {
 		return null;
 	}
 
-	public function refineCandidates(candidates: Array<Node<T>>, queryNode: Node<T>, matches: Map<String, Node<T>>): Array<Node<T>> {
+	public function refineCandidates(candidates: Array<Node<T>>, queryNode: Node<T>, matches: Map<String,
+		Node<T>>): Array<Node<T>> {
 		var newCandidates = [];
 
 		for (candidate in candidates) {
-			if (candidate.degree >= queryNode.degree && !matches.exists(candidate.uid)) {
+			if (
+				candidate.degree >= queryNode.degree &&
+				!matches.exists(candidate.uid)
+			) {
 				newCandidates.push(candidate);
 			}
 		}
@@ -122,7 +137,8 @@ class GraphQuery<T: NodeData> {
 		return newCandidates;
 	}
 
-	private function subgraphSearch(matches: Map<String, Node<T>>, queryGraph: Graph<T>): Void {
+	private function subgraphSearch(matches: Map<String,
+		Node<T>>, queryGraph: Graph<T>): Void {
 		// If all nodes have been matched, we're done. Store the solution and return.
 		if (Lambda.count(matches) == queryGraph.nodeCount) {
 			solutions.push(matches);
@@ -170,7 +186,11 @@ class GraphQuery<T: NodeData> {
 		return matchHistory.pop();
 	}
 
-	private function updateState(queryNode: Node<T>, dataNode: Node<T>, matches: Map<String, Node<T>>): Void {
+	private function updateState(
+		queryNode: Node<T>,
+		dataNode: Node<T>,
+		matches: Map<String, Node<T>>
+	): Void {
 		matches[queryNode.uid] = dataNode;
 		matchHistory.push(matches);
 	}

@@ -7,6 +7,7 @@ using common.extensions.FloatExtensions;
 using common.extensions.FloatPointExtensions;
 using common.extensions.IntExtensions;
 using common.extensions.IterableExtensions;
+using common.extensions.IteratorExtensions;
 using common.extensions.MapExtensions;
 using common.extensions.NullExtensions;
 using common.extensions.StringExtensions;

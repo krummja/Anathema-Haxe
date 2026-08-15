@@ -39,16 +39,45 @@ class Health extends Component {
 	}
 
 	public function onTickDelta(tickDelta: Int) {
+		var isPlayer = entity.has(IsPlayer);
+		var offset = new Coordinate(16, 0, PIXEL);
+		var playerText = entity.pos.sub(offset);
+		var enemyText = entity.pos.add(offset);
+
+		var textPos = isPlayer ? playerText : enemyText;
+
 		regenDelayTicks -= tickDelta;
 
-		if (armor < armorMax && regenDelayTicks <= 0) {
+		if (
+			armor < armorMax &&
+			regenDelayTicks <= 0
+		) {
 			regenDelayTicks = 0;
-
 			var regenStat = Stats.getValue(ArmorRegen, entity);
 			var rate = GameMath.getArmorRegenRatePerTurn(regenStat) / 100;
 			armor += (rate * tickDelta).round().clampLower(1);
 		} else if (armor > armorMax) {
 			armor = armorMax;
+		}
+
+		if (
+			value < max &&
+			regenDelayTicks <= 0
+		) {
+			regenDelayTicks = 0;
+			var healStat = Stats.getValue(HealthRegen, entity);
+			var rate = GameMath.getHealthRegenRatePerTurn(healStat) / 100;
+			var amount = (rate * tickDelta).round().clampLower(1).clampUpper(max - value);
+
+			value += amount;
+
+			Spawner.spawn(FLOATING_TEXT, textPos, {
+				text: '+${amount}',
+				color: ColorKey.C_GREEN_HC,
+				duration: 80
+			});
+		} else if (value > max) {
+			value = max;
 		}
 	}
 
@@ -68,6 +97,7 @@ class Health extends Component {
 		var enemyText = entity.pos.add(offset);
 
 		var textPos = isPlayer ? playerText : enemyText;
+		var critPos = textPos.add(0, -1);
 
 		// If critical, effective AC is 0
 		if (evt.attack.isCritical) {
@@ -89,18 +119,18 @@ class Health extends Component {
 			entity.fireEvent(new DamagedEvent());
 
 			if (evt.attack.isCritical) {
-				Spawner.spawn(FLOATING_TEXT, textPos, {
-					text: 'crit! -' + evt.attack.damage.toString(),
+				Spawner.spawn(FLOATING_TEXT, critPos, {
+					text: '*critical*',
 					color: ColorKey.C_YELLOW_HC,
-					duration: 120
-				});
-			} else {
-				Spawner.spawn(FLOATING_TEXT, textPos, {
-					text: '-' + evt.attack.damage.toString(),
-					color: ColorKey.C_RED_HC,
-					duration: 100
+					duration: 80
 				});
 			}
+
+			Spawner.spawn(FLOATING_TEXT, textPos, {
+				text: '-' + evt.attack.damage.toString(),
+				color: ColorKey.C_RED_HC,
+				duration: 100
+			});
 
 			var actor = entity.get(Actor);
 			if (actor != null) {

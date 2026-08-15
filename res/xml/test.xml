@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Template>
+    <Structures>
+        <Structure
+            name="Tree"
+            width="2"
+            height="2"
+            margin="2"
+            material="forest"
+        />
+        <Structure
+            name="Forest"
+            margin="1"
+            material="grass"
+        />
+        <Structure
+            name="Cave"
+            margin="1"
+            material="rock"
+        />
+    </Structures>
+    <Root>
+        <Cave name="Cave Containing Forest">
+            <Forest name="Small Forest">
+                <Tree />
+                <Tree />
+                <Tree />
+            </Forest>
+        </Cave>
+    </Root>
+</Template>

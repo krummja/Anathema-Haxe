@@ -10,14 +10,14 @@ class Node<T: NodeData> {
 
 	public var name(get, never): String;
 
+	public var data(default, null): T;
+
 	@:allow(common.graphgen.Graph)
 	@:allow(common.graphgen.GraphQuery)
 	private var degree: Int;
 
 	@:allow(common.graphgen.GraphQuery)
 	private var candidates: Array<Node<T>>;
-
-	private var data: T;
 
 	public function new(uid: String, ?data: T, ?label: Null<String>, ?number: Null<Int>) {
 		this.uid = uid;
@@ -27,6 +27,10 @@ class Node<T: NodeData> {
 		this.data = data;
 		this.degree = 0;
 		this.candidates = [];
+	}
+
+	public function toPlantUML(): String {
+		return 'object "${label} ${this.number}" as ${uid}';
 	}
 
 	public function toString(): String {
@@ -39,7 +43,10 @@ class Node<T: NodeData> {
 	}
 
 	private function makeName(?label: String, ?number: Int): String {
-		if (label == null && number == null) {
+		if (
+			label == null &&
+			number == null
+		) {
 			return "";
 		} else if (number == null) {
 			return label;

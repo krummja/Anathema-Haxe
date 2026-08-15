@@ -19,6 +19,7 @@ class Stats {
 		stats.register(Cudgel, new StatCudgel());
 		stats.register(Armor, new StatArmor());
 		stats.register(ArmorRegen, new StatArmorRegen());
+		stats.register(HealthRegen, new StatHealthRegen());
 		stats.register(Dodge, new StatDodge());
 		stats.register(Fortitude, new StatFortitude());
 	}

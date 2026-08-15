@@ -35,12 +35,12 @@ class VisionSystem extends DomainSystem {
 
 				// If light intensity is non-zero, apply light color to fragment
 				if (light.intensity > 0) {
-					sprite.shader.isLit = 1;
-					sprite.shader.lightColor = light.color.toHxdColor().toVector();
-					sprite.shader.lightIntensity = light.intensity;
+					sprite.isLit = true;
+					sprite.lightColor = light.color;
+					sprite.lightIntensity = light.intensity;
 				} else {
 					// Unlit tiles appear darker
-					sprite.shader.isLit = 0;
+					sprite.isLit = false;
 				}
 			}
 
@@ -52,7 +52,7 @@ class VisionSystem extends DomainSystem {
 				var sprite = entity.get(Sprite);
 
 				sprite.visible = false;
-				sprite.shader.isLit = 0;
+				sprite.isLit = false;
 			}
 
 			flagRecompute = true;
@@ -68,7 +68,7 @@ class VisionSystem extends DomainSystem {
 				var sprite = entity.get(Sprite);
 
 				sprite.isShrouded = true;
-				sprite.shader.isLit = 0;
+				sprite.isLit = false;
 
 				if (entity.has(Energy)) {
 					sprite.visible = false;

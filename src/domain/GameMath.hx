@@ -34,6 +34,10 @@ class GameMath {
 		return 800;
 	}
 
+	public static function getHealthRegenRatePerTurn(healthRegenStat: Int): Int {
+		return 4 + healthRegenStat;
+	}
+
 	public static function getMeleeAttackToHit(attacker: Entity, weapon: Weapon) {
 		var weaponFamily = Weapons.get(weapon.family);
 
