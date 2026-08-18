@@ -18,6 +18,7 @@ import haxe.EnumFlags;
 import haxe.ui.Toolkit;
 import hxd.BitmapData;
 import scenes.mainmenu.MainMenuScene;
+import scenes.testing.TestingScene;
 
 class Main extends hxd.App {
 	public static function main(): Void {
@@ -68,10 +69,7 @@ class Main extends hxd.App {
 
 		initUI();
 
-		@:privateAccess
-		haxe.MainLoop.add(() -> {});
-
-		this.loop.scenes.set(new MainMenuScene());
+		this.loop.scenes.set(new TestingScene());
 
 		trace("App initialized - launching");
 	}
@@ -80,7 +78,7 @@ class Main extends hxd.App {
 		engine.backgroundColor = 0xff << 24 | 0x111133;
 
 		#if (hl)
-		engine.fullScreen = true;
+		engine.fullScreen = false;
 		// hl.UI.closeConsole();
 		hl.Api.setErrorHandler(onCrash);
 		hxd.Res.initLocal();
@@ -106,9 +104,8 @@ class Main extends hxd.App {
 
 	private function initWindow(): Void {
 		var window = hxd.Window.getInstance();
-		s2d.renderer.globals.set("screenH", window.height);
-
 		window.title = SettingsManager.settings.application.title;
+		s2d.renderer.globals.set("screenH", window.height);
 		window.addResizeEvent(() -> {
 			s2d.renderer.globals.set("screenW", window.width);
 			s2d.renderer.globals.set("screenH", window.height);

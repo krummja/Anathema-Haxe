@@ -1,23 +1,71 @@
 package scenes.testing;
 
+import common.graphgen.Graph;
+import common.struct.Grid;
 import engine.Frame;
 import engine.Scene;
 import haxe.ui.containers.Box;
+import haxe.ui.containers.HBox;
 import haxe.ui.containers.VBox;
-import uilib.LogPanel;
-import uilib.SLabel;
+
+typedef UINode = {
+	var id: String;
+	var active: Bool;
+	var contents: String;
+}
 
 @:build(haxe.ui.macros.ComponentMacros.build("./components/testing.xml"))
 class TestingView extends Box {
 	private var scene: Scene;
+	private var slotGrid: Grid<UINode>;
 
 	public function new(scene: Scene) {
 		super();
 		this.scene = scene;
 		this.scene.loop.render(HUD, this);
+
+		slotGrid = new Grid(4, 3);
+
+		slotGrid.fillFn((idx) -> {
+			return {
+				id: '${idx}',
+				active: true,
+				contents: "",
+			};
+		});
+
+		for (y in 0...slotGrid.height) {
+			var row = addRow(y);
+			gridRoot.addComponent(row);
+
+			for (x in 0...slotGrid.width) {
+				var slot = addSlot(x, y);
+				row.addComponent(slot);
+			}
+		}
+	}
+
+	private function addRow(y: Int): HBox {
+		var row = new HBox();
+		row.id = 'row-${y}';
+		row.styleNames = "grid-row";
+		return row;
+	}
+
+	private function addSlot(x: Int, y: Int): Box {
+		var box = new Box();
+		box.id = 'box-${x}-${y}';
+		box.styleNames = "grid-box";
+
+		var slot = new Box();
+		slot.id = 'slot-${x}-${y}';
+		slot.styleNames = "slot";
+
+		box.addComponent(slot);
+		return box;
 	}
 
 	public function update(frame: Frame) {
-		fps.text = '${frame.smoothFps.floor()}';
+		// fps.text = '${frame.smoothFps.floor()}';
 	}
 }

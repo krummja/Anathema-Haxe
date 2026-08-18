@@ -19,11 +19,68 @@
             height: 100%;
             padding: 8px;
         }
+
+        .grid-root {
+            width: 100%;
+            height: 100%;
+        }
+
+        .grid-row {
+            horizontal-spacing: 50px;
+            padding: 20px;
+        }
+
+        .grid-box {
+            width: 50px;
+            height: 50px;
+        }
+
+        .slot {
+            width: 100%;
+            height: 100%;
+            border: 1px solid red;
+        }
     </style>
 
-    <absolute styleName="fps-wrapper">
+    <!-- <absolute styleName="fps-wrapper">
         <slabel id="fps" styleName="fps" />
-    </absolute>
+    </absolute> -->
 
-    <vbox id="root" styleName="testing-root debug"/>
+    <vbox id="root" styleName="testing-root debug">
+        <vbox id="gridRoot" styleName="grid-root">
+            <!-- <hbox styleName="grid-row">
+                <box id="box1" styleName="grid-box">
+                    <box id="slot1" styleName="slot" />
+                </box>
+                <box id="box2" styleName="grid-box">
+                    <box id="slot2" styleName="slot" />
+                </box>
+                <box id="box3" styleName="grid-box">
+                    <box id="slot3" styleName="slot" />
+                </box>
+            </hbox>
+            <hbox styleName="grid-row">
+                <box id="box4" styleName="grid-box">
+                    <box id="slot4" styleName="slot" />
+                </box>
+                <box id="box5" styleName="grid-box">
+                    <box id="slot5" styleName="slot" />
+                </box>
+                <box id="box6" styleName="grid-box">
+                    <box id="slot6" styleName="slot" />
+                </box>
+            </hbox>
+            <hbox styleName="grid-row">
+                <box id="box7" styleName="grid-box">
+                    <box id="slot7" styleName="slot" />
+                </box>
+                <box id="box8" styleName="grid-box">
+                    <box id="slot8" styleName="slot" />
+                </box>
+                <box id="box9" styleName="grid-box">
+                    <box id="slot9" styleName="slot" />
+                </box>
+            </hbox> -->
+        </vbox>
+    </vbox>
 </box>

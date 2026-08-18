@@ -1,9 +1,9 @@
 package engine;
 
-typedef XMLData = {}
+typedef XmlData = {}
 
 @:generic
-class XMLLoader<T: XMLData> {
+class XmlLoader<T: XmlData> {
 	private var xmlPath: String;
 	private var xmlData: Map<String, Xml>;
 

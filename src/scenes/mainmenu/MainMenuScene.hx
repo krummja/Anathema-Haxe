@@ -2,6 +2,8 @@ package scenes.mainmenu;
 
 import domain.World;
 import engine.Scene;
+import engine.TextResources;
+import h2d.Text;
 import scenes.adventure.AdventureScene;
 import scenes.options.OptionsScene;
 

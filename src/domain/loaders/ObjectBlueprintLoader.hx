@@ -1,6 +1,6 @@
 package domain.loaders;
 
-import engine.XMLLoader;
+import engine.XmlLoader;
 import haxe.xml.Access;
 
 typedef Part = {
@@ -65,7 +65,7 @@ typedef Mixin = {
 }
 
 typedef ObjectBlueprint = {
-	> XMLData,
+	> XmlData,
 	var name: String;
 	var inherits: String;
 	var parts: Array<Part>;
@@ -80,7 +80,7 @@ typedef ObjectBlueprint = {
 	var mixins: Array<Mixin>;
 }
 
-class ObjectBlueprintLoader extends XMLLoader<ObjectBlueprint> {
+class ObjectBlueprintLoader extends XmlLoader<ObjectBlueprint> {
 	public var objectBlueprints(default, null): Map<String, ObjectBlueprint>;
 
 	public function new() {
