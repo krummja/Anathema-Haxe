@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../Schemas/Anathema.xsd"
+>
+
+  <object name="Object">
+    <part name="Physics"
+      isReal="true"
+      solid="false"
+      weight="0"
+    />
+  </object>
+
+  <object name="CosmeticObject" inherits="Object">
+    <part name="Sprite"
+      renderLayer="OBJECT"
+      primary="C_WHITE"
+      secondary="C_BLACK"
+      background="C_SHROUD"
+      tileKey="TK_UNKNOWN"
+    />
+    <part name="Moniker"
+      baseName="[Object]"
+    />
+    <part name="Physics"
+      isReal="true"
+      weight="-1"
+    />
+    <part name="NoDamage" />
+
+    <tag name="NoEffects" />
+    <tag name="Cosmetic" />
+    <tag name="Gender" value="neuter" />
+    <tag name="BaseObject" value="*noinherit" />
+    <tag name="Immutable" />
+
+    <!-- Extends/overrides a Grammar part on the entity. -->
+    <xtag part="Grammar" proper="true" />
+  </object>
+
+</objects>

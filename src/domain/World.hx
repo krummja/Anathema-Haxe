@@ -7,6 +7,7 @@ import common.struct.IntPoint;
 import domain.PlayerManager;
 import domain.SystemManager;
 import domain.components.*;
+import domain.loaders.ObjectBlueprintLoader;
 import domain.prefabs.*;
 import domain.terrain.MapData;
 import ecs.Entity;
@@ -70,12 +71,18 @@ class World {
 		this.map.initialize();
 		this.player.initialize();
 		this.systems.initialize();
+
+		var blueprintLoader = new ObjectBlueprintLoader();
 	}
 
 	public function start(seed: Int): Void {
 		this.seed = seed;
 
-		var pos = new Coordinate((worldWidth / 2).floor(), (worldHeight / 2).floor(), WORLD);
+		var pos = new Coordinate(
+			(worldWidth / 2).floor(),
+			(worldHeight / 2).floor(),
+			WORLD
+		);
 
 		// Load the zone the player starts in. Zones aren't streamed - only one
 		// is ever loaded at a time.
@@ -174,7 +181,10 @@ class World {
 			var c = value.toZone();
 			var zone = zones.getZone(c.x, c.y);
 
-			if (zone == null || !zone.isLoaded) {
+			if (
+				zone == null ||
+				!zone.isLoaded
+			) {
 				continue;
 			}
 
@@ -216,7 +226,11 @@ class World {
 					entity.add(new Explored());
 				}
 
-				if (light.intensity > 0 && entity.has(Sprite) && entity.has(Explored)) {
+				if (
+					light.intensity > 0 &&
+					entity.has(Sprite) &&
+					entity.has(Explored)
+				) {
 					var sprite = entity.get(Sprite);
 					sprite.isLit = true;
 					sprite.lightColor = light.color;
@@ -231,7 +245,10 @@ class World {
 	public function isExplored(coord: Coordinate): Bool {
 		var c = coord.toZone();
 		var zone = zones.getZone(c.x, c.y);
-		if (zone == null || !zone.isLoaded) {
+		if (
+			zone == null ||
+			!zone.isLoaded
+		) {
 			return false;
 		}
 
@@ -244,7 +261,11 @@ class World {
 	}
 
 	public inline function isOutOfBounds(pos: IntPoint): Bool {
-		return pos.x < 0 || pos.y < 0 || pos.x > worldWidth - 1 || pos.y > worldHeight - 1;
+		return
+			pos.x < 0 ||
+			pos.y < 0 ||
+			pos.x > worldWidth - 1 ||
+			pos.y > worldHeight - 1;
 	}
 
 	private function get_loop(): MainLoop {

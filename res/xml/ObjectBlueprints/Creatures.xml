@@ -1,0 +1,5 @@
+<objects>
+    <object Name="Creature" Inherits="PhysicalObject">
+        <part Name="Render" />
+    </object>
+</objects>

@@ -12,9 +12,11 @@ import engine.TemplateResources;
 import engine.TextResources;
 import engine.TileResources;
 import engine.XmlResources;
+import h2d.Bitmap;
 import haxe.CallStack;
 import haxe.EnumFlags;
 import haxe.ui.Toolkit;
+import hxd.BitmapData;
 import scenes.mainmenu.MainMenuScene;
 
 class Main extends hxd.App {
@@ -126,24 +128,6 @@ class Main extends hxd.App {
 		Weapons.init();
 		Behaviors.init();
 		Factions.init();
-
-		var g1 = XmlResources.get(Test);
-		var g2 = XmlResources.get(Test2);
-
-		var graph1 = g1.graph;
-		var graph2 = g2.graph;
-		var graph3 = g2.graph;
-
-		graph1.toPlantUML("test1");
-		graph2.toPlantUML("test2");
-
-		var graph4 = graph1.join(graph2, "cave_0");
-
-		graph3.toPlantUML("test3");
-
-		var graph5 = graph4.join(graph3, "forest_1");
-
-		graph5.toPlantUML("test4");
 	}
 
 	private function initUI(): Void {

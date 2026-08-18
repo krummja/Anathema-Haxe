@@ -1,15 +1,13 @@
-Null access .bytes
+Invalid pixels size
 BUILD: 
 EXCEPTION:
 
 CALL:
 
-Called from $Main.onCrash (Main.hx line 34)
-Called from haxe.ds.StringMap.set (C:\Users\crumj\AppData\Roaming/haxe/versions/4.3.7/std/hl/_std/haxe/ds/StringMap.hx line 55)
-Called from common.graphgen.Graph_engine_ModelNode.addNode (common/graphgen/Graph.hx line 97)
-Called from common.graphgen.Graph_engine_ModelNode.join (common/graphgen/Graph.hx line 66)
-Called from Main.initAssets (Main.hx line 136)
-Called from Main.init (Main.hx line 63)
+Called from $Main.onCrash (Main.hx line 36)
+Called from hxd.BitmapData.setPixels (hxd/BitmapData.hx line 489)
+Called from Main.initUI (Main.hx line 157)
+Called from Main.init (Main.hx line 69)
 Called from hxd.App.~setup.2 (hxd/App.hx line 153)
 Called from hxd.App.loadAssets (hxd/App.hx line 181)
 Called from hxd.App.setup (hxd/App.hx line 151)

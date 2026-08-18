@@ -1,27 +1,28 @@
 {
-    "python.analysis.typeCheckingMode": "off",
-    "[haxe]": {
-		"editor.formatOnSave": true,
-		"editor.formatOnPaste": true,
-		"editor.codeActionsOnSave": {
-			"source.sortImports": "explicit"
-		}
-	},
-	"[markdown]": {
-		"editor.unicodeHighlight.ambiguousCharacters": false,
-		"editor.unicodeHighlight.invisibleCharacters": false,
-		"diffEditor.ignoreTrimWhitespace": false,
-		"editor.wordWrap": "on",
-		"editor.quickSuggestions": {
-			"comments": "off",
-			"strings": "off",
-			"other": "off"
-		},
-		"editor.defaultFormatter": "Jota0222.multi-formatter",
-		"editor.formatOnSave": true,
-		"multiFormatter.formatterList": [
-			"DavidAnson.vscode-markdownlint",
-			"yzhang.markdown-all-in-one"
-		]
-	}
+  "[haxe]": {
+    "editor.codeActionsOnSave": {
+      "source.sortImports": "explicit"
+    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.defaultFormatter": "Jota0222.multi-formatter",
+    "editor.formatOnSave": true,
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "other": "off",
+      "strings": "off"
+    },
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "editor.wordWrap": "on",
+    "multiFormatter.formatterList": [
+      "DavidAnson.vscode-markdownlint",
+      "yzhang.markdown-all-in-one"
+    ]
+  },
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python.analysis.typeCheckingMode": "off"
 }

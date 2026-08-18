@@ -1,0 +1,133 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="part">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="displayName" type="xs:string" use="optional" />
+      <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="builder">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="tiles" type="xs:string" use="optional" />
+      <xs:attribute name="forceName" type="xs:string" use="optional" />
+      <xs:attribute name="chanceOneIn" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="removebuilder">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="skill">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="inventoryobject">
+    <xs:complexType>
+      <xs:attribute name="blueprint" type="xs:string" use="required" />
+      <xs:attribute name="number" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="stat">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="property">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="intproperty">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:int" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="xtag">
+    <xs:complexType>
+      <xs:attribute name="part" type="xs:string" use="required" />
+      <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="tag">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="stag">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="mixin">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="exclude" type="xs:string" use="optional" />
+      <xs:attribute name="load" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <!--
+        Object
+
+        May contain:
+            - part
+            - builder
+            - skill
+            - inventoryobject
+            - stat
+            - property
+            - intproperty
+            - xtag
+            - tag
+            - stag
+            - mixin
+    -->
+  <xs:element name="object">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="part" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="builder" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="skill" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="inventoryobject" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="property" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="intproperty" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="tag" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="xtag" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="stag" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="mixin" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="inherits" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Root objects -->
+  <xs:element name="objects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="object" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
