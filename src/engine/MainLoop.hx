@@ -39,6 +39,7 @@ class MainLoop {
 	public var registry(default, null): Registry;
 	public var files(default, null): FileManager;
 	public var palette(get, null): ColorPalette;
+	public var events(default, null): EventBus<Events>;
 
 	private function new(app: hxd.App) {
 		instance = this;
@@ -55,6 +56,7 @@ class MainLoop {
 		this.registry = new Registry();
 		this.scenes = new SceneManager(this);
 		this.timeout = new TimeoutManager();
+		this.events = new EventBus();
 
 		// Set up console
 		this.console = new Console(TextResources.BIZCAT);

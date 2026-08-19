@@ -6,6 +6,7 @@ import domain.weapons.Weapons;
 import engine.BehaviorManager.Behaviors;
 import engine.ColorPaletteResources;
 import engine.Commands;
+import engine.EventBus;
 import engine.MainLoop;
 import engine.SettingsManager;
 import engine.TemplateResources;

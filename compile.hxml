@@ -1,14 +1,14 @@
 -cp src
--lib heaps
--lib domkit
--lib hldx
--lib bits
--lib hlopenal
--lib json2object
--lib haxeui-core
--lib haxeui-heaps
--lib emitter
--lib utest
+-L heaps
+-L domkit
+-L hldx
+-L bits
+-L emitter
+-L hlopenal
+-L json2object
+-L haxeui-core
+-L haxeui-heaps
+-L utest
 -hl build/hl/anathema.hl
--D hl-profile
+# -D hl-profile
 -main Main
