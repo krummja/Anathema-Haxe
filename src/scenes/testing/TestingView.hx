@@ -7,6 +7,8 @@ import engine.Scene;
 import haxe.ui.containers.Box;
 import haxe.ui.containers.HBox;
 import haxe.ui.containers.VBox;
+import haxe.ui.core.Component;
+import scenes.Events.MouseEnterEvent;
 
 typedef UINode = {
 	var id: String;
@@ -43,6 +45,19 @@ class TestingView extends Box {
 				row.addComponent(slot);
 			}
 		}
+
+		slotGrid.get(0, 1).active = false;
+		slotGrid.get(2, 1).active = false;
+
+		var inactive: Array<Component> = gridRoot.childComponents.filter(
+			(comp) -> ["box-0-1", "box-2-1"].contains(comp.id)
+		);
+
+		inactive.each((comp: Component) -> comp.getChildAt(0).visible = false);
+	}
+
+	public function update(frame: Frame) {
+		// fps.text = '${frame.smoothFps.floor()}';
 	}
 
 	private function addRow(y: Int): HBox {
@@ -61,11 +76,37 @@ class TestingView extends Box {
 		slot.id = 'slot-${x}-${y}';
 		slot.styleNames = "slot";
 
+		slot.onMouseOver = function(event) {
+			var addr = event.target.id.split("-");
+			var responder = slotGrid.get(Std.parseInt(addr[1]), Std.parseInt(addr[2]));
+
+			if (!responder.active) {
+				return;
+			} else {
+				slot.customStyle = {
+					backgroundColor: 0xff0000,
+					opacity: 0.3,
+				};
+				// Resolve slot's actual data from the parent scene
+			}
+		}
+
+		slot.onMouseOut = function(event) {
+			var addr = event.target.id.split("-");
+			var responder = slotGrid.get(Std.parseInt(addr[1]), Std.parseInt(addr[2]));
+
+			if (!responder.active) {
+				return;
+			} else {
+				slot.customStyle = {
+					backgroundColor: null,
+					opacity: 1.0,
+				};
+				// Resolve slot's actual data from the parent scene
+			}
+		}
+
 		box.addComponent(slot);
 		return box;
-	}
-
-	public function update(frame: Frame) {
-		// fps.text = '${frame.smoothFps.floor()}';
 	}
 }
