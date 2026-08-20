@@ -73,6 +73,7 @@ class World {
 		this.systems.initialize();
 
 		var blueprintLoader = new ObjectBlueprintLoader();
+		blueprintLoader.init();
 	}
 
 	public function start(seed: Int): Void {

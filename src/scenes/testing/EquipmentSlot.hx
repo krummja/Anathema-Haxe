@@ -1,10 +1,10 @@
 package scenes.testing;
 
+import engine.EventBus;
+import engine.Events;
+import engine.MainLoop;
+import engine.Scene;
 import haxe.ui.containers.Box;
-
-class EquipmentSlot {
-	public function new() {}
-}
 
 @:xml('
     <box>
@@ -16,6 +16,9 @@ class EquipmentSlot {
     </box>
 ')
 class EquipmentSlotView extends Box {
+	public var bus(get, never): EventBus<Events>;
+	public var isActive(default, set): Bool = true;
+
 	public function new() {
 		super();
 
@@ -32,5 +35,14 @@ class EquipmentSlotView extends Box {
 
 	public function setSlotText(value: String): Void {
 		slotText.text = value;
+	}
+
+	private function get_bus(): EventBus<Events> {
+		return MainLoop.getInstance().events;
+	}
+
+	private function set_isActive(value: Bool): Bool {
+		slot.visible = value;
+		return value;
 	}
 }

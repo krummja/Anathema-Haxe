@@ -13,6 +13,7 @@ class XmlLoader<T: XmlData> {
 	}
 
 	public function load(name: String) {
+		trace('Loading ${name}.xml');
 		var xmlRes = hxd.Res.loader.load('${xmlPath}/${name}.xml');
 		var xmlText = xmlRes.toText();
 		var xml = Xml.parse(xmlText);
@@ -23,7 +24,7 @@ class XmlLoader<T: XmlData> {
 		}
 	}
 
-	public function parse(name: String): Null<T> {
+	private function parse(name: String): Null<T> {
 		return null;
 	}
 }

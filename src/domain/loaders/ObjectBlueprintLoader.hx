@@ -85,19 +85,19 @@ class ObjectBlueprintLoader extends XmlLoader<ObjectBlueprint> {
 
 	public function new() {
 		super("xml/ObjectBlueprints");
-
 		objectBlueprints = new Map();
+	}
 
+	public function init() {
 		load("RootObjects");
 
 		for (name in xmlData.keys()) {
 			var bp = parse(name);
-
-			// objectBlueprints.set(name, parse(name));
+			objectBlueprints.set(name, bp);
 		}
 	}
 
-	public override function parse(name: String): Null<ObjectBlueprint> {
+	private override function parse(name: String): Null<ObjectBlueprint> {
 		var blueprint = xmlData.get(name);
 
 		var parts: Array<Part> = new Array();
