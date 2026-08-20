@@ -1,10 +1,16 @@
-package scenes.testing;
+package scenes.testing.components;
 
 import engine.EventBus;
 import engine.Events;
 import engine.MainLoop;
-import engine.Scene;
 import haxe.ui.containers.Box;
+import haxe.ui.events.MouseEvent;
+import uilib.NineSlicePanel;
+
+typedef EquipmentSlotEvent = {
+	var id: String;
+	var active: Bool;
+}
 
 @:xml('
     <box>
@@ -19,14 +25,21 @@ class EquipmentSlotView extends Box {
 	public var bus(get, never): EventBus<Events>;
 	public var isActive(default, set): Bool = true;
 
-	public function new() {
+	public function new(x: Int, y: Int) {
 		super();
 
 		slotGraphic.customStyle = {
-			borderStyle: "solid",
-			borderColor: 0xff0000,
-			borderSize: 1,
+			width: 50,
+			height: 50,
+			horizontalAlign: "center",
 		};
+
+		var panel = new NineSlicePanel("images/equipment-slot.png", 48, 48, 2);
+		slotGraphic.addComponent(panel);
+
+		slot.onMouseOver = _onMouseOver;
+
+		setId(x, y);
 	}
 
 	public function setId(x: Int, y: Int) {
@@ -35,6 +48,13 @@ class EquipmentSlotView extends Box {
 
 	public function setSlotText(value: String): Void {
 		slotText.text = value;
+	}
+
+	private function _onMouseOver(event: MouseEvent) {
+		bus.callEvent(TEST, {
+			id: this.id,
+			active: slot.visible,
+		});
 	}
 
 	private function get_bus(): EventBus<Events> {

@@ -11,7 +11,7 @@ class EventBus<EventType: String> {
 
 	@:generic
 	public function createEvent<V: Any>(name: EventType, ?event: EventBase<V>): Void {
-		event = event == null ? new Event() : event;
+		event = event == null ? new Event<V>() : event;
 		events.set(name, event);
 	}
 

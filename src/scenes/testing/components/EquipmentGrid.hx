@@ -1,4 +1,4 @@
-package scenes.testing;
+package scenes.testing.components;
 
 import common.struct.Grid;
 import haxe.ui.containers.Box;
