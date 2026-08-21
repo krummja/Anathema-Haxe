@@ -12,6 +12,10 @@ class TestingScene extends Scene {
 	public override function onEnter(): Void {
 		view = new TestingView(this);
 		this.ui.addComponent(view);
+
+		loop.events.addEventListener(MOUSE_OVER_EQUIPMENT_SLOT, (event) -> {
+			trace(event);
+		});
 	}
 
 	public override function onDestroy(): Void {}

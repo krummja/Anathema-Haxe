@@ -51,7 +51,7 @@ class EquipmentSlotView extends Box {
 	}
 
 	private function _onMouseOver(event: MouseEvent) {
-		bus.callEvent(TEST, {
+		bus.callEvent(MOUSE_OVER_EQUIPMENT_SLOT, {
 			id: this.id,
 			active: slot.visible,
 		});
