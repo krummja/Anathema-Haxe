@@ -3,7 +3,6 @@ package scenes.testing;
 import engine.Frame;
 import engine.KeyCode;
 import engine.Scene;
-import h2d.HtmlText;
 
 class TestingScene extends Scene {
 	private var view: TestingView;

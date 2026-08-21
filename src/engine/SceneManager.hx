@@ -22,6 +22,9 @@ class SceneManager {
 		this.current.update(frame);
 	}
 
+	/**
+	 * Completely clear the scene stack and set a new root scene.
+	 */
 	public function set(scene: Scene) {
 		while (this.scenes.length > 0) {
 			var popped = this.scenes.pop();
@@ -36,6 +39,17 @@ class SceneManager {
 		enter(scene);
 	}
 
+	/**
+	 * Pop the topmost scene and push a new scene.
+	 *
+	 * ```
+	 *  Scene B       Scene C
+	 *  (destroyed)   (active)
+	 *  ---------     ---------
+	 *           ↖   ↙
+	 *         ---------   Scene A (suspended)
+	 * ```
+	 */
 	public function replace(scene: Scene) {
 		var popped = this.scenes.pop();
 		popped.onClosedListener();
@@ -48,6 +62,15 @@ class SceneManager {
 		enter(scene);
 	}
 
+	/**
+	 * Push a scene on top of an existing scene.
+	 *
+	 * ```
+	 * 	---------   Scene B (active)
+	 * 		↓
+	 * 	---------   Scene A (suspended)
+	 * ```
+	 */
 	public function push(scene: Scene) {
 		current.onSuspend();
 		current.ui.onSceneSuspend();
@@ -58,6 +81,15 @@ class SceneManager {
 		enter(current);
 	}
 
+	/**
+	 * Pop the topmost scene from the scene stack.
+	 *
+	 * ```
+	 *  ---------   Scene B (destroyed)
+	 *      ↑
+	 *  ---------   Scene A (active)
+	 * ```
+	 */
 	public function pop() {
 		var popped = this.scenes.pop();
 		popped.onClosedListener();
@@ -67,10 +99,6 @@ class SceneManager {
 
 		current.ui.onSceneResume();
 		current.onResume();
-	}
-
-	public function onResize(): Void {
-		current.ui.onResize();
 	}
 
 	private function enter(scene: Scene) {
@@ -85,6 +113,11 @@ class SceneManager {
 			scene.ui.onSceneDestroy();
 		}
 		scene.onDestroy();
+	}
+
+	@:allow(engine.MainLoop)
+	private function onResize(): Void {
+		current.ui.onResize();
 	}
 
 	private function get_current(): Scene {
