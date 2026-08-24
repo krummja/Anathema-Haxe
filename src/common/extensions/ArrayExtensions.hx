@@ -10,4 +10,18 @@ class ArrayExtensions {
 		}
 		return false;
 	}
+
+	@:generic
+	public static function fillFn<T>(a: Array<T>, fn: (Int) -> T): Void {
+		for (idx in 0...a.length) {
+			a[idx] = fn(idx);
+		}
+	}
+
+	@:generic
+	public static function fill<T>(a: Array<T>, value: T): Void {
+		for (idx in 0...a.length) {
+			a[idx] = value;
+		}
+	}
 }

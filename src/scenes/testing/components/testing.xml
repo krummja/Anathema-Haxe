@@ -47,40 +47,6 @@
     </absolute> -->
 
     <vbox id="root" styleName="testing-root debug">
-        <vbox id="gridRoot" styleName="grid-root">
-            <!-- <hbox styleName="grid-row">
-                <box id="box1" styleName="grid-box">
-                    <box id="slot1" styleName="slot" />
-                </box>
-                <box id="box2" styleName="grid-box">
-                    <box id="slot2" styleName="slot" />
-                </box>
-                <box id="box3" styleName="grid-box">
-                    <box id="slot3" styleName="slot" />
-                </box>
-            </hbox>
-            <hbox styleName="grid-row">
-                <box id="box4" styleName="grid-box">
-                    <box id="slot4" styleName="slot" />
-                </box>
-                <box id="box5" styleName="grid-box">
-                    <box id="slot5" styleName="slot" />
-                </box>
-                <box id="box6" styleName="grid-box">
-                    <box id="slot6" styleName="slot" />
-                </box>
-            </hbox>
-            <hbox styleName="grid-row">
-                <box id="box7" styleName="grid-box">
-                    <box id="slot7" styleName="slot" />
-                </box>
-                <box id="box8" styleName="grid-box">
-                    <box id="slot8" styleName="slot" />
-                </box>
-                <box id="box9" styleName="grid-box">
-                    <box id="slot9" styleName="slot" />
-                </box>
-            </hbox> -->
-        </vbox>
+        <vbox id="gridRoot" styleName="grid-root" />
     </vbox>
 </box>

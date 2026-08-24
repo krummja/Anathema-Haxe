@@ -1,15 +1,16 @@
-Null access
+Null access .length
 BUILD: 
 EXCEPTION:
 
 CALL:
 
 Called from $Main.onCrash (Main.hx line 38)
-Called from engine.EventBus.addEventListener (engine/EventBus.hx line 23)
-Called from scenes.testing.$TestingView.__constructor__ (scenes/testing/TestingView.hx line 49)
-Called from scenes.testing.TestingScene.onEnter (scenes/testing/TestingScene.hx line 14)
-Called from engine.SceneManager.enter (engine/SceneManager.hx line 77)
-Called from engine.SceneManager.set (engine/SceneManager.hx line 36)
+Called from uilib.Meter.set_current (uilib/Meter.hx line 72)
+Called from uilib.$Meter.__constructor__ (uilib/Meter.hx line 56)
+Called from scenes.testing.$TestingView.__constructor__ (scenes/testing/TestingView.hx line 56)
+Called from scenes.testing.TestingScene.onEnter (scenes/testing/TestingScene.hx line 13)
+Called from engine.SceneManager.enter (engine/SceneManager.hx line 105)
+Called from engine.SceneManager.set (engine/SceneManager.hx line 39)
 Called from Main.init (Main.hx line 73)
 Called from hxd.App.~setup.2 (hxd/App.hx line 153)
 Called from hxd.App.loadAssets (hxd/App.hx line 181)

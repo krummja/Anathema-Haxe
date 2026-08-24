@@ -53,4 +53,10 @@ class FloatExtensions {
 	public static inline function toString(n: Float): String {
 		return Std.string(n);
 	}
+
+	public static function mapValueToIndex(value: Float, aMin: Float, aMax: Float, iMin: Float, iMax: Float) {
+		var normalized = (value - aMin) / (aMax - aMin);
+		var targetIndex = (normalized * (iMax - iMin)) + iMin;
+		return targetIndex.round();
+	}
 }

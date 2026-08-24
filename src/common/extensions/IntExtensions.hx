@@ -29,4 +29,10 @@ class IntExtensions {
 	public static inline function clampLower(n: Int, min: Int): Int {
 		return n < min ? min : n;
 	}
+
+	public static function mapValueToIndex(value: Int, aMin: Int, aMax: Int, iMax: Int) {
+		var clamped = Math.max(aMin, Math.min(aMax, value));
+		var index = ((clamped - aMin) * iMax) / (aMax - aMin);
+		return index.floor();
+	}
 }

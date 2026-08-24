@@ -7,6 +7,7 @@ import haxe.ui.containers.Box;
 import haxe.ui.containers.HBox;
 import haxe.ui.containers.VBox;
 import scenes.testing.components.EquipmentSlotView;
+import uilib.Meter;
 
 typedef UINode = {
 	var id: String;
@@ -44,10 +45,20 @@ class TestingView extends Box {
 			}
 		}
 
-		scene.loop.events.createEvent(TEST);
-		scene.loop.events.addEventListener(TEST, (event: EquipmentSlotEvent) -> {
-			trace(event);
-		});
+		scene.loop.events.createEvent(MOUSE_OVER_EQUIPMENT_SLOT);
+		scene.loop.events.addEventListener(
+			MOUSE_OVER_EQUIPMENT_SLOT,
+			(event: EquipmentSlotEvent) -> {
+				trace(event);
+			}
+		);
+
+		gridRoot.addComponent(new Meter("HP", 325, 400, [
+			0xaa0000,
+			0xff9900,
+			0x88aa00,
+			0x00aa00,
+		]));
 	}
 
 	public function update(frame: Frame) {
