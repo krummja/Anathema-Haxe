@@ -1,0 +1,26 @@
+Null access .parent
+BUILD: 
+EXCEPTION:
+
+CALL:
+
+Called from $Main.onCrash (Main.hx line 40)
+Called from h2d.Layers.add (h2d/Layers.hx line 41)
+Called from h2d.Layers.addChild (h2d/Layers.hx line 31)
+Called from engine.RenderLayerManager.render (engine/RenderLayerManager.hx line 118)
+Called from scenes.generator.$GeneratorScene.__constructor__ (scenes/generator/GeneratorScene.hx line 44)
+Called from Main.init (Main.hx line 78)
+Called from hxd.App.~setup.2 (hxd/App.hx line 153)
+Called from hxd.App.loadAssets (hxd/App.hx line 181)
+Called from hxd.App.setup (hxd/App.hx line 151)
+Called from h3d.Engine.onCreate (h3d/Engine.hx line 252)
+Called from h3d.impl.DirectXDriver.~init.1 (h3d/impl/DirectXDriver.hx line 276)
+Called from haxe.$Timer.~delay.0 (C:\Users\crumj\AppData\Roaming/haxe/versions/4.3.7/std/haxe/Timer.hx line 149)
+Called from haxe.$Timer.~__constructor__.0 (C:\Users\crumj\AppData\Roaming/haxe/versions/4.3.7/std/haxe/Timer.hx line 81)
+Called from sys.thread.EventLoop.progress (C:\Users\crumj\AppData\Roaming/haxe/versions/4.3.7/std/sys/thread/EventLoop.hx line 146)
+Called from hxd.$System.runMainLoop (hxd/System.hl.hx line 157)
+Called from hxd.$System.runMainLoop (hxd/System.hl.hx line 147)
+Called from haxe.$Timer.~delay.0 (C:\Users\crumj\AppData\Roaming/haxe/versions/4.3.7/std/haxe/Timer.hx line 149)
+Called from haxe.$Timer.~__constructor__.0 (C:\Users\crumj\AppData\Roaming/haxe/versions/4.3.7/std/haxe/Timer.hx line 81)
+Called from sys.thread.EventLoop.loop (C:\Users\crumj\AppData\Roaming/haxe/versions/4.3.7/std/sys/thread/EventLoop.hx line 183)
+Called from sys.thread._Thread.$Thread_Impl_.processEvents (C:\Users\crumj\AppData\Roaming/haxe/versions/4.3.7/std/hl/_std/sys/thread/Thread.hx line 83)

@@ -18,6 +18,8 @@ import haxe.CallStack;
 import haxe.EnumFlags;
 import haxe.ui.Toolkit;
 import hxd.BitmapData;
+import scenes.dev.DevScene;
+import scenes.generator.GeneratorScene;
 import scenes.mainmenu.MainMenuScene;
 import scenes.testing.TestingScene;
 
@@ -70,8 +72,10 @@ class Main extends hxd.App {
 
 		initUI();
 
-		// this.loop.scenes.set(new TestingScene());
-		loop.scenes.set(new MainMenuScene());
+		// loop.scenes.set(new TestingScene());
+		// loop.scenes.set(new MainMenuScene());
+		// loop.scenes.set(new DevScene());
+		loop.scenes.set(new GeneratorScene());
 
 		trace("App initialized - launching");
 	}
